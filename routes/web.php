@@ -192,7 +192,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:Admin'], 'name
         Route::delete('/level-pengguna/{level}', 'LevelSettingController@destroy')->name('admin.setting.level.destroy');
 
         // Department
-        /** DONE ACTION */
         Route::get('/bagian', 'DepartmentSettingController@index')->name('admin.setting.department.index');
         Route::get('/bagian/tambah', 'DepartmentSettingController@create')->name('admin.setting.department.create');
         Route::post('/bagian', 'DepartmentSettingController@store')->name('admin.setting.department.store');
@@ -214,3 +213,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:Admin'], 'name
 });
 
 require __DIR__ . '/auth.php';
+
+Route::get('/', function () {
+    return view('welcome');
+});
+Route::get('/dashboard', function (){
+    return view('dashboard.index');
+})->name('dashboard');

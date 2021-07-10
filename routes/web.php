@@ -20,12 +20,13 @@ Route::group(['prefix' => 'tu',  'middleware' => ['auth', 'role:TU'], 'namespace
     Route::get('/', 'DashboardController@index')->name('tu.dashboard.index');
 
     // User Account Setting
-    /** DONE ACTION */
-    Route::get('/pengaturan/akun', 'AccountController@edit')->name('tu.setting.account.edit');
-    Route::patch('/pengaturan/akun', 'AccountController@update')->name('tu.setting.account.update');
+    Route::get('/pengaturan/akun', 'AccountSettingController@edit')->name('tu.setting.account.edit');
+    Route::patch('/pengaturan/akun', 'AccountSettingController@update')->name('tu.setting.account.update');
 
     // Mail
     Route::group(['prefix' => 'surat'], function () {
+        // Mail Download
+        Route::get('/{id}/download', 'MailDownloadController@download')->name('tu.mail.download');
 
         // Mail In
         Route::get('/masuk', 'MailInController@index')->name('tu.mail.in.index');
@@ -69,13 +70,11 @@ Route::group(['prefix' => 'tu',  'middleware' => ['auth', 'role:TU'], 'namespace
         Route::get('/terarsip', 'ArchivedMailController@index')->name('tu.mail.archived.index');
 
         // Mail Master Action
-        /** DONE ACTION */
-        Route::get('/semua/{mail}', 'MailMasterController@show')->name('tu.mail.master.show');
-        Route::get('/semua/{mail}/ubah', 'MailMasterController@edit')->name('tu.mail.master.edit');
-        Route::patch('/semua/{mail}', 'MailMasterController@update')->name('tu.mail.master.update');
-        Route::delete('/semua/{mail}', 'MailMasterController@destroy')->name('tu.mail.master.destroy');
-        Route::post('/semua/{mail}/arsipkan', 'MailMasterController@archive')->name('tu.mail.master.archive');
-        Route::post('/semua/{mail}/download', 'MailMasterController@download')->name('tu.mail.master.download');
+        Route::get('/semua/{id}', 'MailMasterController@show')->name('tu.mail.master.show');
+        Route::get('/semua/{id}/ubah', 'MailMasterController@update')->name('tu.mail.master.update');
+        Route::patch('/semua/{id}', 'MailMasterController@edit')->name('tu.mail.master.edit');
+        Route::delete('/semua/{id}', 'MailMasterController@destroy')->name('tu.mail.master.destroy');
+        Route::post('/semua/{id}/arsipkan', 'MailMasterController@archive')->name('tu.mail.master.archive');
     });
 });
 
@@ -85,15 +84,13 @@ Route::group(['prefix' => 'pengguna', 'middleware' => ['auth', 'role:User'], 'na
     Route::get('/', 'DashboardController@index')->name('user.dashboard.index');
 
     // User Account Setting
-    /** DONE ACTION */
-    Route::get('/pengaturan/akun', 'AccountController@edit')->name('user.setting.account.edit');
-    Route::patch('/pengaturan/akun', 'AccountController@update')->name('user.setting.account.update');
+    Route::get('/pengaturan/akun', 'AccountSettingController@edit')->name('user.setting.account.edit');
+    Route::patch('/pengaturan/akun', 'AccountSettingController@update')->name('user.setting.account.update');
 
     // Mail
     Route::group(['prefix' => 'surat'], function () {
         // Mail Download
-        /** DONE ACTION */
-        Route::post('/{mail}/download', 'MailDownloadController@download')->name('user.mail.download');
+        Route::post('/{id}/download', 'MailDownloadController@download')->name('user.mail.download');
 
         // Mail In
         Route::get('/masuk', 'MailInController@index')->name('user.mail.in.index');
@@ -122,11 +119,9 @@ Route::group(['prefix' => 'pengguna', 'middleware' => ['auth', 'role:User'], 'na
         Route::delete('/keluar/{mail}', 'MailOutController@destroy')->name('user.mail.out.destroy');
 
         // Mail Out Custom Action
-        /** DONE ACTION */
-        Route::post('/keluar/{mail}/aksi/teruskan', 'MailOutActionController@forward')->name('user.mail.out.action.forward');
+        Route::post('/keluar/{id}/aksi/teruskan', 'MailOutActionController@forward')->name('user.mail.out.action.forward');
 
         // Mail Out Revision
-        /** DONE ACTION */
         Route::get('/keluar/{mail}/revisi/tambah', 'MailOutRevisionController@create')->name('user.mail.out.revision.create');
         Route::post('/keluar/{mail}/revisi', 'MailOutRevisionController@store')->name('user.mail.out.revision.store');
 
@@ -145,13 +140,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:Admin'], 'name
     Route::get('/', 'DashboardController@index')->name('admin.dashboard.index');
 
     // User Account Setting
-    /** DONE ACTION */
-    Route::get('/pengaturan/akun', 'AccountController@edit')->name('admin.setting.account.edit');
-    Route::patch('/pengaturan/akun', 'AccountController@update')->name('admin.setting.account.update');
+    Route::get('/pengaturan/akun', 'AccountSettingController@edit')->name('admin.setting.account.edit');
+    Route::patch('/pengaturan/akun', 'AccountSettingController@update')->name('admin.setting.account.update');
 
     // Mail
     Route::group(['prefix' => 'surat'], function () {
         // Mail Download
+        Route::post('/{id}/download', 'MailDownloadController@download')->name('admin.mail.download');
 
         // Mail Master Action
         /** DONE ACTION */
@@ -176,40 +171,40 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:Admin'], 'name
         Route::get('/pengguna', 'UserSettingController@index')->name('admin.setting.user.index');
         Route::get('/pengguna/tambah', 'UserSettingController@create')->name('admin.setting.user.create');
         Route::post('/pengguna', 'UserSettingController@store')->name('admin.setting.user.store');
-        Route::get('/pengguna/{user}', 'UserSettingController@show')->name('admin.setting.user.show');
-        Route::get('/pengguna/{user}/ubah', 'UserSettingController@edit')->name('admin.setting.user.edit');
-        Route::patch('/pengguna/{user}', 'UserSettingController@update')->name('admin.setting.user.update');
-        Route::delete('/pengguna/{user}', 'UserSettingController@destroy')->name('admin.setting.user.destroy');
+        Route::post('/pengguna/{id}', 'UserSettingController@show')->name('admin.setting.user.show');
+        Route::get('/pengguna/{id}/ubah', 'UserSettingController@edit')->name('admin.setting.user.edit');
+        Route::patch('/pengguna/{id}', 'UserSettingController@update')->name('admin.setting.user.update');
+        Route::delete('/pengguna/{id}', 'UserSettingController@destroy')->name('admin.setting.user.destroy');
 
         // Level
         /** DONE ACTION */
         Route::get('/level-pengguna', 'LevelSettingController@index')->name('admin.setting.level.index');
         Route::get('/level-pengguna/tambah', 'LevelSettingController@create')->name('admin.setting.level.create');
         Route::post('/level-pengguna', 'LevelSettingController@store')->name('admin.setting.level.store');
-        Route::get('/level-pengguna/{level}', 'LevelSettingController@show')->name('admin.setting.level.show');
-        Route::get('/level-pengguna/{level}/ubah', 'LevelSettingController@edit')->name('admin.setting.level.edit');
-        Route::patch('/level-pengguna/{level}', 'LevelSettingController@update')->name('admin.setting.level.update');
-        Route::delete('/level-pengguna/{level}', 'LevelSettingController@destroy')->name('admin.setting.level.destroy');
+        Route::post('/level-pengguna/{id}', 'LevelSettingController@show')->name('admin.setting.level.show');
+        Route::get('/level-pengguna/{id}/ubah', 'LevelSettingController@edit')->name('admin.setting.level.edit');
+        Route::patch('/level-pengguna/{id}', 'LevelSettingController@update')->name('admin.setting.level.update');
+        Route::delete('/level-pengguna/{id}', 'LevelSettingController@destroy')->name('admin.setting.level.destroy');
 
         // Department
         /** DONE ACTION */
         Route::get('/bagian', 'DepartmentSettingController@index')->name('admin.setting.department.index');
         Route::get('/bagian/tambah', 'DepartmentSettingController@create')->name('admin.setting.department.create');
         Route::post('/bagian', 'DepartmentSettingController@store')->name('admin.setting.department.store');
-        Route::get('/bagian/{department}', 'DepartmentSettingController@show')->name('admin.setting.department.show');
-        Route::get('/bagian/{department}/ubah', 'DepartmentSettingController@edit')->name('admin.setting.department.edit');
-        Route::patch('/bagian/{department}', 'DepartmentSettingController@update')->name('admin.setting.department.update');
-        Route::delete('/bagian/{department}', 'DepartmentSettingController@destroy')->name('admin.setting.department.destroy');
+        Route::post('/bagian/{id}', 'DepartmentSettingController@show')->name('admin.setting.department.show');
+        Route::get('/bagian/{id}/ubah', 'DepartmentSettingController@edit')->name('admin.setting.department.edit');
+        Route::patch('/bagian/{id}', 'DepartmentSettingController@update')->name('admin.setting.department.update');
+        Route::delete('/bagian/{id}', 'DepartmentSettingController@destroy')->name('admin.setting.department.destroy');
 
         // Mail Attribute
         /** DONE ACTION */
         Route::get('/atribut-surat', 'MailAtrributeSettingController@index')->name('admin.setting.mail.attribute.index');
         Route::get('/atribut-surat/tambah', 'MailAtrributeSettingController@create')->name('admin.setting.mail.attribute.create');
         Route::post('/atribut-surat', 'MailAtrributeSettingController@store')->name('admin.setting.mail.attribute.store');
-        Route::get('/atribut-surat/{mail_attribute}', 'MailAtrributeSettingController@show')->name('admin.setting.mail.attribute.show');
-        Route::get('/atribut-surat/{mail_attribute}/ubah', 'MailAtrributeSettingController@edit')->name('admin.setting.mail.attribute.edit');
-        Route::patch('/atribut-surat/{mail_attribute}', 'MailAtrributeSettingController@update')->name('admin.setting.mail.attribute.update');
-        Route::delete('/atribut-surat/{mail_attribute}', 'MailAtrributeSettingController@destroy')->name('admin.setting.mail.attribute.destroy');
+        Route::post('/atribut-surat/{id}', 'MailAtrributeSettingController@show')->name('admin.setting.mail.attribute.show');
+        Route::get('/atribut-surat/{id}/ubah', 'MailAtrributeSettingController@edit')->name('admin.setting.mail.attribute.edit');
+        Route::get('/atribut-surat/{id}', 'MailAtrributeSettingController@update')->name('admin.setting.mail.attribute.update');
+        Route::patch('/atribut-surat/{id}', 'MailAtrributeSettingController@destroy')->name('admin.setting.mail.attribute.destroy');
     });
 });
 

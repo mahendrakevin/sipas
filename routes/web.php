@@ -63,10 +63,10 @@ Route::group(['prefix' => 'tu',  'middleware' => ['auth', 'role:TU'], 'namespace
         Route::get('/keluar/{id}/kode-surat', 'MailOutCodeController@update')->name('tu.mail.out.code.update');
         Route::patch('/keluar/{id}/kode-surat', 'MailOutCodeController@edit')->name('tu.mail.out.code.edit');
 
-        // Mail Ongoing 
+        // Mail Ongoing
         Route::get('/dalam-proses', 'OngoingMailController@index')->name('tu.mail.ongoing.index');
 
-        // Mail Archived 
+        // Mail Archived
         Route::get('/terarsip', 'ArchivedMailController@index')->name('tu.mail.archived.index');
 
         // Mail Master Action
@@ -132,10 +132,10 @@ Route::group(['prefix' => 'pengguna', 'middleware' => ['auth', 'role:User'], 'na
         Route::post('/keluar/{mail}/revisi', 'MailOutRevisionController@store')->name('user.mail.out.revision.store');
 
         //!!! ONLY USER WITH ALL MAIL ACCESS !!!
-        // Mail Ongoing 
+        // Mail Ongoing
         Route::get('/dalam-proses', 'OngoingMailController@index')->name('user.mail.ongoing.index');
 
-        // Mail Archived 
+        // Mail Archived
         Route::get('/terarsip', 'ArchivedMailController@index')->name('user.mail.archived.index');
     });
 });
@@ -163,10 +163,10 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:Admin'], 'name
         Route::post('/semua-surat/{mail}/arsipkan', 'MailMasterController@archive')->name('admin.mail.master.archive');
         Route::post('/semua-surat/{mail}/download', 'MailMasterController@download')->name('admin.mail.master.download');
 
-        // Mail Ongoing 
+        // Mail Ongoing
         Route::get('/dalam-proses', 'OngoingMailController@index')->name('admin.mail.ongoing.index');
 
-        // Mail Archived 
+        // Mail Archived
         Route::get('/terarsip', 'ArchivedMailController@index')->name('admin.mail.archived.index');
     });
 

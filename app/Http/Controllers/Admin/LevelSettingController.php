@@ -48,7 +48,6 @@ class LevelSettingController extends Controller
      */
     public function show(Level $level)
     {
-        //
     }
 
     /**

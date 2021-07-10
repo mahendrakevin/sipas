@@ -48,7 +48,6 @@ class MailAtrributeSettingController extends Controller
      */
     public function show(MailAttribute $mail_attribute)
     {
-        //
     }
 
     /**

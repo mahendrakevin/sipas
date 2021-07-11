@@ -26,8 +26,6 @@ Route::group(['prefix' => 'tu',  'middleware' => ['auth', 'role:TU'], 'namespace
 
     // Mail
     Route::group(['prefix' => 'surat'], function () {
-        // Mail Download
-        Route::get('/{id}/download', 'MailDownloadController@download')->name('tu.mail.download');
 
         // Mail In
         Route::get('/masuk', 'MailInController@index')->name('tu.mail.in.index');
@@ -154,7 +152,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth', 'role:Admin'], 'name
     // Mail
     Route::group(['prefix' => 'surat'], function () {
         // Mail Download
-        Route::post('/{id}/download', 'MailDownloadController@download')->name('admin.mail.download');
 
         // Mail Master Action
         /** DONE ACTION */

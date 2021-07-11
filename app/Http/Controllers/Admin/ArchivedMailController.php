@@ -15,7 +15,10 @@ class ArchivedMailController extends Controller
      */
     public function index(Mail $mail)
     {
-        return view('mails.index');
+        $page = 'Terarsip';
+        $mails = $mail->latest()->whereNotNull('archived_at')->paginate(10);
+        return view('mails.index', compact('mails', 'page'))
+            ->with('i', (\request()->input('page', 1) - 1) * 10);
     }
 
     /**

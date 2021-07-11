@@ -15,6 +15,7 @@ class AccountController extends Controller
     public function edit()
     {
         $user = Auth::user();
+        return view('account.edit');
     }
 
     public function update(AccountSettingRequest $request)

@@ -14,9 +14,9 @@ class UserSettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(User $user)
     {
-        //
+        return view('settings.users.index');
     }
 
     /**
@@ -48,6 +48,7 @@ class UserSettingController extends Controller
      */
     public function show(User $user)
     {
+        //
     }
 
     /**

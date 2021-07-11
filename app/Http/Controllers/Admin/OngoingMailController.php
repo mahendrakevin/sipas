@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mail;
 use Illuminate\Http\Request;
 
 class OngoingMailController extends Controller
@@ -12,9 +13,9 @@ class OngoingMailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Mail $mail)
     {
-        //
+        return view('mails.index');
     }
 
     /**

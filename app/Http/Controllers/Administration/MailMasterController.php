@@ -18,7 +18,7 @@ class MailMasterController extends Controller
      */
     public function index()
     {
-        //
+        return view('mails.index');
     }
 
     /**

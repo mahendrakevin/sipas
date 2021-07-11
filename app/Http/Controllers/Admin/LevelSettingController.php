@@ -14,9 +14,9 @@ class LevelSettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Level $level)
     {
-        //
+        return view('settings.level.index');
     }
 
     /**
@@ -48,6 +48,7 @@ class LevelSettingController extends Controller
      */
     public function show(Level $level)
     {
+        //
     }
 
     /**

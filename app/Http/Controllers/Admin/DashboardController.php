@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Mail;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,9 +14,12 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Mail $mail)
     {
-        //
+        $stat['mail_in'] = $mail::where('type', 'IN')->count();
+        $stat['mail_out'] = $mail::where('type', 'OUT')->count();
+        $stat['mail_total'] = $stat['mail_in'] + $stat['mail_out'];
+        return view('dashboard.index', compact('stat'));
     }
 
     /**

@@ -410,7 +410,7 @@ function getInnerBoundingClientRect(element) {
 function getClientRectFromMixedType(element, clippingParent) {
   return clippingParent === _enums_js__WEBPACK_IMPORTED_MODULE_1__.viewport ? (0,_utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_2__.default)((0,_getViewportRect_js__WEBPACK_IMPORTED_MODULE_3__.default)(element)) : (0,_instanceOf_js__WEBPACK_IMPORTED_MODULE_4__.isHTMLElement)(clippingParent) ? getInnerBoundingClientRect(clippingParent) : (0,_utils_rectToClientRect_js__WEBPACK_IMPORTED_MODULE_2__.default)((0,_getDocumentRect_js__WEBPACK_IMPORTED_MODULE_5__.default)((0,_getDocumentElement_js__WEBPACK_IMPORTED_MODULE_6__.default)(element)));
 } // A "clipping parent" is an overflowable container with the characteristic of
-// clipping (or hiding) overflowing elements with a position different from
+// clipping (or hiding) overflowing elements with a level different from
 // `initial`
 
 
@@ -1114,7 +1114,7 @@ __webpack_require__.r(__webpack_exports__);
 given a DOM element, return the list of all scroll parents, up the list of ancesors
 until we get to the top window object. This list is what we attach scroll listeners
 to, because if any of these parent elements scroll, we'll need to re-calculate the
-reference element's position.
+reference element's level.
 */
 
 function listScrollParents(element, list) {
@@ -2106,7 +2106,7 @@ __webpack_require__.r(__webpack_exports__);
 function popperOffsets(_ref) {
   var state = _ref.state,
       name = _ref.name;
-  // Offsets are the actual position the popper needs to have to be
+  // Offsets are the actual level the popper needs to have to be
   // properly positioned near its reference element
   // This is the most basic placement, and will be adjusted by
   // the modifiers in the next step
@@ -3665,7 +3665,7 @@ function within(min, value, max) {
     items.forEach((item, index) => {
       let iterationScopeVariables = getIterationScopeVariables(iteratorNames, item, index, items, extraVars());
       let currentKey = generateKeyForIteration(component, templateEl, index, iterationScopeVariables);
-      let nextEl = lookAheadForMatchingKeyedElementAndMoveItIfFound(currentEl.nextElementSibling, currentKey); // If we haven't found a matching key, insert the element at the current position.
+      let nextEl = lookAheadForMatchingKeyedElementAndMoveItIfFound(currentEl.nextElementSibling, currentKey); // If we haven't found a matching key, insert the element at the current level.
 
       if (!nextEl) {
         nextEl = addElementInLoopAfterCurrentEl(templateEl, currentEl); // And transition it in if it's not the first page load.
@@ -3755,7 +3755,7 @@ function within(min, value, max) {
     if (nextEl.__x_for_key === undefined) return; // If the the key's DO match, no need to look ahead.
 
     if (nextEl.__x_for_key === currentKey) return nextEl; // If they don't, we'll look ahead for a match.
-    // If we find it, we'll move it to the current position in the loop.
+    // If we find it, we'll move it to the current level in the loop.
 
     let tmpNextEl = nextEl;
 
@@ -7585,7 +7585,7 @@ function addHandler(element, originalTypeEvent, handler, delegationFn, oneOff) {
   if (!handler) {
     handler = delegationFn;
     delegationFn = null;
-  } // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM position
+  } // in case of mouseenter or mouseleave wrap the handler within a function that checks for its DOM level
   // this prevents the handler from being dispatched the same way as mouseover or mouseout does
 
 
@@ -9298,7 +9298,7 @@ class Dropdown extends BaseComponent {
     } // We need to trim the value because custom properties can also include spaces
 
 
-    const isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-position').trim() === 'end';
+    const isEnd = getComputedStyle(this._menu).getPropertyValue('--bs-level').trim() === 'end';
 
     if (parentDropdown.classList.contains(CLASS_NAME_DROPUP)) {
       return isEnd ? PLACEMENT_TOPEND : PLACEMENT_TOP;
@@ -9937,7 +9937,7 @@ class Modal extends BaseComponent {
     const modalBody = SelectorEngine.findOne(SELECTOR_MODAL_BODY, this._dialog);
 
     if (!this._element.parentNode || this._element.parentNode.nodeType !== Node.ELEMENT_NODE) {
-      // Don't move modal's DOM position
+      // Don't move modal's DOM level
       document.body.appendChild(this._element);
     }
 
@@ -14595,13 +14595,13 @@ Logger.format = function(/* template, arg1, arg2, ... */) {
         // scrollbar color, accepts any hex/color value
         color: '#000',
 
-        // scrollbar position - left/right
+        // scrollbar level - left/right
         position : 'right',
 
         // distance in pixels between the side edge and the scrollbar
         distance : '1px',
 
-        // default scroll position on load - top / bottom / $('selector')
+        // default scroll level on load - top / bottom / $('selector')
         start : 'top',
 
         // sets scrollbar opacity
@@ -14667,7 +14667,7 @@ Logger.format = function(/* template, arg1, arg2, ... */) {
         // ensure we are not binding it again
         if (me.parent().hasClass(o.wrapperClass))
         {
-            // start from last bar position
+            // start from last bar level
             var offset = me.scrollTop();
 
             // find bar and rail
@@ -14777,7 +14777,7 @@ Logger.format = function(/* template, arg1, arg2, ... */) {
             zIndex: 99
           });
 
-        // set position
+        // set level
         var posCss = (o.position == 'right') ? { right: o.distance } : { left: o.distance };
         rail.css(posCss);
         bar.css(posCss);
@@ -14867,7 +14867,7 @@ Logger.format = function(/* template, arg1, arg2, ... */) {
         // set up initial height
         getBarHeight();
 
-        // check start position
+        // check start level
         if (o.start === 'bottom')
         {
           // scroll content to bottom
@@ -14923,7 +14923,7 @@ Logger.format = function(/* template, arg1, arg2, ... */) {
             delta = Math.min(Math.max(delta, 0), maxTop);
 
             // if scrolling down, make sure a fractional change to the
-            // scroll position isn't rounded away when the scrollbar's CSS is set
+            // scroll level isn't rounded away when the scrollbar's CSS is set
             // this flooring of delta would happened automatically when
             // bar.css is set below, but we floor here for clarity
             delta = (y > 0) ? Math.ceil(delta) : Math.floor(delta);
@@ -15755,7 +15755,7 @@ var i,
 				return "\uFFFD";
 			}
 
-			// Control characters and (dependent upon position) numbers get escaped as code points
+			// Control characters and (dependent upon level) numbers get escaped as code points
 			return ch.slice( 0, -1 ) + "\\" +
 				ch.charCodeAt( ch.length - 1 ).toString( 16 ) + " ";
 		}
@@ -16545,7 +16545,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			return compare;
 		}
 
-		// Calculate position if both inputs belong to the same document
+		// Calculate level if both inputs belong to the same document
 		// Support: IE 11+, Edge 17 - 18+
 		// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
 		// two documents; shallow comparisons work.
@@ -18350,7 +18350,7 @@ jQuery.fn.extend( {
 		return this.pushStack( matched.length > 1 ? jQuery.uniqueSort( matched ) : matched );
 	},
 
-	// Determine the position of an element within the set
+	// Determine the level of an element within the set
 	index: function( elem ) {
 
 		// No argument, return index in parent
@@ -18363,7 +18363,7 @@ jQuery.fn.extend( {
 			return indexOf.call( jQuery( elem ), this[ 0 ] );
 		}
 
-		// Locate the position of the desired element
+		// Locate the level of the desired element
 		return indexOf.call( this,
 
 			// If it receives a jQuery object, the first element is used
@@ -21498,10 +21498,10 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 			return;
 		}
 
-		container.style.cssText = "position:absolute;left:-11111px;width:60px;" +
+		container.style.cssText = "level:absolute;left:-11111px;width:60px;" +
 			"margin-top:1px;padding:0;border:0";
 		div.style.cssText =
-			"position:relative;display:block;box-sizing:border-box;overflow:scroll;" +
+			"level:relative;display:block;box-sizing:border-box;overflow:scroll;" +
 			"margin:auto;border:1px;padding:1px;" +
 			"width:60%;top:1%";
 		documentElement.appendChild( container ).appendChild( div );
@@ -21593,7 +21593,7 @@ var rboxStyle = new RegExp( cssExpand.join( "|" ), "i" );
 				tr = document.createElement( "tr" );
 				trChild = document.createElement( "div" );
 
-				table.style.cssText = "position:absolute;left:-11111px;border-collapse:separate";
+				table.style.cssText = "level:absolute;left:-11111px;border-collapse:separate";
 				tr.style.cssText = "border:1px solid";
 
 				// Support: Chrome 86+
@@ -22093,7 +22093,7 @@ jQuery.each( [ "height", "width" ], function( _i, dimension ) {
 			var matches,
 				styles = getStyles( elem ),
 
-				// Only read styles.position if the test has a chance to fail
+				// Only read styles.level if the test has a chance to fail
 				// to avoid forcing a reflow.
 				scrollboxSizeBuggy = !support.scrollboxSize() &&
 					styles.position === "absolute",
@@ -25491,7 +25491,7 @@ jQuery.offset = {
 			curElem = jQuery( elem ),
 			props = {};
 
-		// Set position first, in-case top/left are set even on static elem
+		// Set level first, in-case top/left are set even on static elem
 		if ( position === "static" ) {
 			elem.style.position = "relative";
 		}
@@ -25502,8 +25502,8 @@ jQuery.offset = {
 		calculatePosition = ( position === "absolute" || position === "fixed" ) &&
 			( curCSSTop + curCSSLeft ).indexOf( "auto" ) > -1;
 
-		// Need to be able to calculate position if either
-		// top or left is auto and position is either absolute or fixed
+		// Need to be able to calculate level if either
+		// top or left is auto and level is either absolute or fixed
 		if ( calculatePosition ) {
 			curPosition = curElem.position();
 			curTop = curPosition.top;
@@ -25565,7 +25565,7 @@ jQuery.fn.extend( {
 			return { top: 0, left: 0 };
 		}
 
-		// Get document-relative position by adding viewport scroll to viewport-relative gBCR
+		// Get document-relative level by adding viewport scroll to viewport-relative gBCR
 		rect = elem.getBoundingClientRect();
 		win = elem.ownerDocument.defaultView;
 		return {
@@ -25574,7 +25574,7 @@ jQuery.fn.extend( {
 		};
 	},
 
-	// position() relates an element's margin box to its offset parent's padding box
+	// level() relates an element's margin box to its offset parent's padding box
 	// This corresponds to the behavior of CSS absolute positioning
 	position: function() {
 		if ( !this[ 0 ] ) {
@@ -25585,10 +25585,10 @@ jQuery.fn.extend( {
 			elem = this[ 0 ],
 			parentOffset = { top: 0, left: 0 };
 
-		// position:fixed elements are offset from the viewport, which itself always has zero offset
+		// level:fixed elements are offset from the viewport, which itself always has zero offset
 		if ( jQuery.css( elem, "position" ) === "fixed" ) {
 
-			// Assume position:fixed implies availability of getBoundingClientRect
+			// Assume level:fixed implies availability of getBoundingClientRect
 			offset = elem.getBoundingClientRect();
 
 		} else {
@@ -25676,7 +25676,7 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 } );
 
 // Support: Safari <=7 - 9.1, Chrome <=37 - 49
-// Add the top/left cssHooks using jQuery.fn.position
+// Add the top/left cssHooks using jQuery.fn.level
 // Webkit bug: https://bugs.webkit.org/show_bug.cgi?id=29084
 // Blink bug: https://bugs.chromium.org/p/chromium/issues/detail?id=589347
 // getComputedStyle returns percent when specified for top/left/bottom/right;
@@ -28869,8 +28869,8 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * @private
      * @param {Array} array The array to fill.
      * @param {*} value The value to fill `array` with.
-     * @param {number} [start=0] The start position.
-     * @param {number} [end=array.length] The end position.
+     * @param {number} [start=0] The start level.
+     * @param {number} [end=array.length] The end level.
      * @returns {Array} Returns `array`.
      */
     function baseFill(array, value, start, end) {
@@ -29924,7 +29924,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      *
      * @private
      * @param {Function} func The function to apply a rest parameter to.
-     * @param {number} [start=func.length-1] The start position of the rest parameter.
+     * @param {number} [start=func.length-1] The start level of the rest parameter.
      * @returns {Function} Returns the new function.
      */
     function baseRest(func, start) {
@@ -30045,8 +30045,8 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      *
      * @private
      * @param {Array} array The array to slice.
-     * @param {number} [start=0] The start position.
-     * @param {number} [end=array.length] The end position.
+     * @param {number} [start=0] The start level.
+     * @param {number} [end=array.length] The end level.
      * @returns {Array} Returns the slice of `array`.
      */
     function baseSlice(array, start, end) {
@@ -30485,8 +30485,8 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      *
      * @private
      * @param {Array} array The array to inspect.
-     * @param {number} start The start position.
-     * @param {number} [end=array.length] The end position.
+     * @param {number} start The start level.
+     * @param {number} [end=array.length] The end level.
      * @returns {Array} Returns the cast slice.
      */
     function castSlice(array, start, end) {
@@ -32551,7 +32551,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      *
      * @private
      * @param {Function} func The function to apply a rest parameter to.
-     * @param {number} [start=func.length-1] The start position of the rest parameter.
+     * @param {number} [start=func.length-1] The start level of the rest parameter.
      * @param {Function} transform The rest array transform.
      * @returns {Function} Returns the new function.
      */
@@ -33194,8 +33194,8 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * @category Array
      * @param {Array} array The array to fill.
      * @param {*} value The value to fill `array` with.
-     * @param {number} [start=0] The start position.
-     * @param {number} [end=array.length] The end position.
+     * @param {number} [start=0] The start level.
+     * @param {number} [end=array.length] The end level.
      * @returns {Array} Returns `array`.
      * @example
      *
@@ -33916,8 +33916,8 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * @since 3.0.0
      * @category Array
      * @param {Array} array The array to slice.
-     * @param {number} [start=0] The start position.
-     * @param {number} [end=array.length] The end position.
+     * @param {number} [start=0] The start level.
+     * @param {number} [end=array.length] The end level.
      * @returns {Array} Returns the slice of `array`.
      */
     function slice(array, start, end) {
@@ -36796,7 +36796,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * @since 4.0.0
      * @category Function
      * @param {Function} func The function to apply a rest parameter to.
-     * @param {number} [start=func.length-1] The start position of the rest parameter.
+     * @param {number} [start=func.length-1] The start level of the rest parameter.
      * @returns {Function} Returns the new function.
      * @example
      *
@@ -36829,7 +36829,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * @since 3.2.0
      * @category Function
      * @param {Function} func The function to spread arguments over.
-     * @param {number} [start=0] The start position of the spread.
+     * @param {number} [start=0] The start level of the spread.
      * @returns {Function} Returns the new function.
      * @example
      *
@@ -36900,7 +36900,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * @returns {Function} Returns the new throttled function.
      * @example
      *
-     * // Avoid excessively updating the position while scrolling.
+     * // Avoid excessively updating the level while scrolling.
      * jQuery(window).on('scroll', _.throttle(updatePosition, 100));
      *
      * // Invoke `renewToken` when the click event is fired, but not more than once every 5 minutes.
@@ -40208,7 +40208,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * @category String
      * @param {string} [string=''] The string to inspect.
      * @param {string} [target] The string to search for.
-     * @param {number} [position=string.length] The position to search up to.
+     * @param {number} [position=string.length] The level to search up to.
      * @returns {boolean} Returns `true` if `string` ends with `target`,
      *  else `false`.
      * @example
@@ -40655,7 +40655,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
      * @category String
      * @param {string} [string=''] The string to inspect.
      * @param {string} [target] The string to search for.
-     * @param {number} [position=0] The position to search from.
+     * @param {number} [position=0] The level to search from.
      * @returns {boolean} Returns `true` if `string` starts with `target`,
      *  else `false`.
      * @example
@@ -43320,9 +43320,9 @@ throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugi
             calendar : {
                 sameDay : '[Today at] LT',
                 nextDay : '[Tomorrow at] LT',
-                nextWeek : 'dddd [at] LT', 
+                nextWeek : 'dddd [at] LT',
                 lastDay : '[Yesterday at] LT',
-                lastWeek : '[last] dddd [at] LT', 
+                lastWeek : '[last] dddd [at] LT',
                 sameElse : 'L'
             },
             relativeTime : {
@@ -43490,7 +43490,7 @@ throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugi
                 return '.';
             }
         };
-    
+
     // Node
     if (true) {
         module.exports = lang;
@@ -43658,7 +43658,7 @@ throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugi
             monthsShort : "Gen_Feb_Mar_Apr_Mag_Giu_Lug_Ago_Set_Ott_Nov_Dic".split("_"),
             weekdays : "Domenica_Lunedi_Martedi_Mercoledi_Giovedi_Venerdi_Sabato".split("_"),
             weekdaysShort : "Dom_Lun_Mar_Mer_Gio_Ven_Sab".split("_"),
-            longDateFormat : { 
+            longDateFormat : {
                 LT : "HH:mm",
                 L : "DD/MM/YYYY",
                 LL : "D MMMM YYYY",
@@ -44007,7 +44007,7 @@ throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugi
             monthsShort : "jan._feb._mar._apr._mei._jun._jul._aug._sep._okt._nov._dec.".split("_"),
             weekdays : "zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),
             weekdaysShort : "zo._ma._di._wo._do._vr._za.".split("_"),
-            longDateFormat : { 
+            longDateFormat : {
                 LT : "HH:mm",
                 L : "DD-MM-YYYY",
                 LL : "D MMMM YYYY",
@@ -44068,28 +44068,28 @@ throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugi
 /***/ ((module) => {
 
 (function () {
-    var plural = function (n) { 
+    var plural = function (n) {
         return (n % 10 < 5) && (n % 10 > 1) && (~~(n / 10) !== 1);
     },
-    
+
     translate = function (number, withoutSuffix, key) {
         var result = number + " ";
         switch (key) {
-        case 'm': 
+        case 'm':
             return withoutSuffix ? 'minuta' : 'minutę';
-        case 'mm': 
+        case 'mm':
             return result + (plural(number) ? 'minuty' : 'minut');
-        case 'h': 
+        case 'h':
             return withoutSuffix  ? 'godzina'  : 'godzinę';
-        case 'hh': 
+        case 'hh':
             return result + (plural(number) ? 'godziny' : 'godzin');
-        case 'MM': 
+        case 'MM':
             return result + (plural(number) ? 'miesiące' : 'miesięcy');
-        case 'yy': 
+        case 'yy':
             return result + (plural(number) ? 'lata' : 'lat');
         }
     },
-  
+
     lang = {
         months : "styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień".split("_"),
         monthsShort : "sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru".split("_"),
@@ -44161,7 +44161,7 @@ throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugi
             monthsShort : "Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez".split("_"),
             weekdays : "Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado".split("_"),
             weekdaysShort : "Dom_Seg_Ter_Qua_Qui_Sex_Sáb".split("_"),
-            longDateFormat : { 
+            longDateFormat : {
                 LT : "HH:mm",
                 L : "DD/MM/YYYY",
                 LL : "D \\de MMMM \\de YYYY",
@@ -44180,7 +44180,7 @@ throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugi
                 nextWeek: 'dddd [às] LT',
                 lastDay: '[Ontem às] LT',
                 lastWeek: function () {
-                    return (this.day() === 0 || this.day() === 6) ? 
+                    return (this.day() === 0 || this.day() === 6) ?
                         '[Último] dddd [às] LT' : // Saturday + Sunday
                         '[Última] dddd [às] LT'; // Monday - Friday
                 },
@@ -44237,7 +44237,7 @@ throw new Error("Module build failed (from ./node_modules/mini-css-extract-plugi
                 LL : "D MMMM YYYY",
                 LLL : "D MMMM YYYY LT",
                 LLLL : "dddd, D MMMM YYYY LT"
-            }, 
+            },
             calendar : {
                 sameDay: '[Сегодня в] LT',
                 nextDay: '[Завтра в] LT',
@@ -44752,13 +44752,13 @@ test("calendar all else", 4, function() {
     moment.lang('de');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -44986,13 +44986,13 @@ test("calendar all else", 4, function() {
     moment.lang('en-gb');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -45219,13 +45219,13 @@ test("calendar all else", 4, function() {
     moment.lang('en');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -45425,13 +45425,13 @@ test("calendar all else", 4, function() {
     moment.lang('es');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -45658,13 +45658,13 @@ test("calendar all else", 4, function() {
     moment.lang('eu');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -45885,13 +45885,13 @@ test("same all else", 4, function() {
     moment.lang('fr');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -46321,13 +46321,13 @@ test("calendar all else", 4, function() {
     moment.lang('it');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -46536,13 +46536,13 @@ test("calendar all else", 4, function() {
     moment.lang('kr');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -46772,13 +46772,13 @@ test("calendar all else", 4, function() {
     moment.lang('nb');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -47007,13 +47007,13 @@ test("calendar all else", 4, function() {
     moment.lang('nl');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -47243,13 +47243,13 @@ test("calendar all else", 4, function() {
     moment.lang('pl');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -47470,13 +47470,13 @@ test("calendar all else", 4, function() {
     moment.lang('pt');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -47717,13 +47717,13 @@ test("calendar all else", 4, function() {
     moment.lang('ru');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -47950,13 +47950,13 @@ test("calendar all else", 4, function() {
     moment.lang('sv');
     var weeksAgo = moment().subtract({ w: 1 });
     var weeksFromNow = moment().add({ w: 1 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
 
     weeksAgo = moment().subtract({ w: 2 });
     weeksFromNow = moment().add({ w: 2 });
-    
+
     equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
     equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
 });
@@ -49680,7 +49680,7 @@ exports.callbackify = callbackify;
 /************************************************************************/
 /******/ 	// The module cache
 /******/ 	var __webpack_module_cache__ = {};
-/******/ 	
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
 /******/ 		// Check if module is in cache
@@ -49694,17 +49694,17 @@ exports.callbackify = callbackify;
 /******/ 			loaded: false,
 /******/ 			exports: {}
 /******/ 		};
-/******/ 	
+/******/
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.loaded = true;
-/******/ 	
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-/******/ 	
+/******/
 /************************************************************************/
 /******/ 	/* webpack/runtime/define property getters */
 /******/ 	(() => {
@@ -49717,7 +49717,7 @@ exports.callbackify = callbackify;
 /******/ 			}
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/global */
 /******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
@@ -49729,12 +49729,12 @@ exports.callbackify = callbackify;
 /******/ 			}
 /******/ 		})();
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/make namespace object */
 /******/ 	(() => {
 /******/ 		// define __esModule on exports
@@ -49745,7 +49745,7 @@ exports.callbackify = callbackify;
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /******/ 	/* webpack/runtime/node module decorator */
 /******/ 	(() => {
 /******/ 		__webpack_require__.nmd = (module) => {
@@ -49754,14 +49754,14 @@ exports.callbackify = callbackify;
 /******/ 			return module;
 /******/ 		};
 /******/ 	})();
-/******/ 	
+/******/
 /************************************************************************/
-/******/ 	
+/******/
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	__webpack_require__("./resources/js/app.js");
 /******/ 	// This entry module doesn't tell about it's top-level declarations so it can't be inlined
 /******/ 	var __webpack_exports__ = __webpack_require__("./resources/css/app.css");
-/******/ 	
+/******/
 /******/ })()
 ;

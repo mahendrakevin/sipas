@@ -14,9 +14,9 @@ class DepartmentSettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Department $department)
     {
-        //
+        return view('settings.department.index');
     }
 
     /**
@@ -48,6 +48,7 @@ class DepartmentSettingController extends Controller
      */
     public function show(Department $department)
     {
+        //
     }
 
     /**

@@ -14,9 +14,9 @@ class MailAtrributeSettingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(MailAttribute $mail_attribute)
     {
-        //
+        return view('settings.mail-attributes.index');
     }
 
     /**
@@ -48,6 +48,7 @@ class MailAtrributeSettingController extends Controller
      */
     public function show(MailAttribute $mail_attribute)
     {
+        //
     }
 
     /**

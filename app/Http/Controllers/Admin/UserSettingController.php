@@ -48,6 +48,7 @@ class UserSettingController extends Controller
      */
     public function show(User $user)
     {
+        //
     }
 
     /**

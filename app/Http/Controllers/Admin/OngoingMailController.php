@@ -15,7 +15,11 @@ class OngoingMailController extends Controller
      */
     public function index(Mail $mail)
     {
-        return view('mails.index');
+        $page = 'On Going';
+        $mail_kind = null;
+        $mails = $mail->latest()->where('archived_at', $mail_kind)->paginate(10);
+        return view('mails.index', compact('mails', 'page'))
+            ->with('i', (\request()->input('page', 1) - 1) * 10);
     }
 
     /**

@@ -16,7 +16,10 @@ class UserSettingController extends Controller
      */
     public function index(User $user)
     {
-        return view('settings.users.index');
+        $page = 'Data Pengguna';
+        $users = $user->latest()->paginate(10);
+        return view('settings.users.index', compact('users', 'page'))
+            ->with('i', (\request()->input('page', 1) - 1) * 10);
     }
 
     /**
@@ -46,9 +49,10 @@ class UserSettingController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $user, $id)
     {
-        //
+        $user = $user->where('id', $id);
+        return view('settings.users.show', compact('user'));
     }
 
     /**

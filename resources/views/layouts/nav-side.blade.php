@@ -14,13 +14,13 @@
             Auth::user()->hasRole('Sekretaris'))
 
                 <li class="nav-item">
-                    <a class="nav-link has-arrow @@if (Route::currentRouteName() ===  'admin.dashboard.index') { active }"
+                    <a class="nav-link has-arrow {{ (Request::routeIs('admin.dashboard.index')) ? 'active' : '' }}"
                        href="{{ route('admin.dashboard.index') }}">
                         <i data-feather="home" class="nav-icon icon-xs me-2"></i>  Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link has-arrow @@if (Route::currentRouteName() ===  'admin.account.setting.edit') { active }"
+                    <a class="nav-link has-arrow {{ (Request::routeIs('admin.setting.account.edit')) ? 'active' : '' }}"
                        href="{{ route('admin.setting.account.edit') }}">
                         <i data-feather="user" class="nav-icon icon-xs me-2"></i>  Pengaturan Akun
                     </a>
@@ -32,14 +32,15 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link has-arrow @@if (Route::currentRouteName() ===  'admin.mail.ongoing.index') { active }"
+                    <a class="nav-link has-arrow {{ (Request::routeIs('admin.mail.ongoing.index')) ? 'active' : '' }}"
                        href="{{ route('admin.mail.ongoing.index') }}">
-                        <i data-feather="archive" class="nav-icon icon-xs me-2"></i>  Dalam Proses
+                        <i data-feather="archive" class="nav-icon icon-xs me-2"></i>
+                        Dalam Proses
+{{--                        <span class="badge rounded-pill bg-primary">12</span>--}}
                     </a>
-
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link has-arrow @@if (Route::currentRouteName() ===  'admin.mail.archived.index') { active }"
+                    <a class="nav-link has-arrow {{ (Request::routeIs('admin.mail.archived.index')) ? 'active' : '' }}"
                        href="{{ route('admin.mail.archived.index') }}">
                         <i data-feather="archive" class="nav-icon icon-xs me-2"></i>  Terarsip
                     </a>
@@ -50,7 +51,7 @@
                     <div class="navbar-heading">Super Admin Menu</div>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link has-arrow @@if (Route::currentRouteName() ===  'admin.setting.user.index') { active }"
+                    <a class="nav-link has-arrow {{ (Request::routeIs('admin.setting.user.index')) ? 'active' : '' }}"
                        href="{{ route('admin.setting.user.index') }}">
                         <i data-feather="users" class="nav-icon icon-xs me-2"></i>  Lihat Pengguna
                     </a>
@@ -59,24 +60,26 @@
 
                 <!-- Nav item -->
                 <li class="nav-item">
-                    <a class="nav-link has-arrow @@if (Route::currentRouteName() !== 'admin.setting.level.index') { collapsed }" href="#setting" data-bs-toggle="collapse" data-bs-target="#navUtilities" aria-expanded="false" aria-controls="navUtilities">
+                    <a class="nav-link has-arrow {{ (Request::routeIs('admin.setting.*')) ? 'collapsed' : '' }}" href="#setting" data-bs-toggle="collapse" data-bs-target="#navUtilities" aria-expanded="false" aria-controls="navUtilities">
                         <i data-feather="user-check" class="nav-icon icon-xs me-2" >
-                        </i> Pengaturan Jabatan
+                        </i> Pengaturan
                     </a>
-                    <div id="navUtilities" class="collapse @@if (Route::currentRouteName() === 'admin.setting.level.index') { show }" data-bs-parent="#sideNavbar">
+                    <div id="navUtilities" class="collapse {{ (Request::routeIs('admin.setting.*')) ? 'show' : '' }}" data-bs-parent="#sideNavbar">
                         <ul class="nav flex-column">
                             <li class="nav-item">
-                                <a class="nav-link @@if (Route::currentRouteName() === 'admin.setting.level.index') { active }" href="{{ route('admin.setting.level.index') }}" aria-expanded="false">
+                                <a class="nav-link {{ (Request::routeIs('admin.setting.level.index')) ? 'active' : '' }}"
+                                   href="{{ route('admin.setting.level.index') }}" aria-expanded="false">
                                     Jabatan
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link @@if (Route::currentRouteName() === 'admin.setting.department.index') { active }" href="{{ route('admin.setting.department.index') }}" aria-expanded="false">
+                                <a class="nav-link {{ (Request::routeIs('admin.setting.department.index')) ? 'active' : '' }}"
+                                   href="{{ route('admin.setting.department.index') }}" aria-expanded="false">
                                     Departemen
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link @@if (Route::currentRouteName() === 'admin.setting.mail.attribute.index') { active }"
+                                <a class="nav-link {{ (Request::routeIs('admin.setting.mail.attribute.index')) ? 'active' : '' }}"
                                    href="{{ route('admin.setting.mail.attribute.index') }}" aria-expanded="false">
                                     Jenis Surat
                                 </a>
@@ -142,13 +145,13 @@
             @endif
             @if (Auth::user()->hasRole('User'))
                 <li class="nav-item">
-                    <a class="nav-link has-arrow @@if (Route::currentRouteName() ===  'user.dashboard.index') { active }"
+                    <a class="nav-link has-arrow {{ (Route::currentRouteName() ===  'user.dashboard.index') ? 'active' : '' }}"
                        href="{{ route('user.dashboard.index') }}">
                         <i data-feather="home" class="nav-icon icon-xs me-2"></i>  Dashboard
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link has-arrow @@if (Route::currentRouteName() ===  'user.account.setting.edit') { active }"
+                    <a class="nav-link has-arrow {{ (Route::currentRouteName() ===  'user.setting.account.edit') ? 'active' : '' }}"
                        href="{{ route('user.setting.account.edit') }}">
                         <i data-feather="user" class="nav-icon icon-xs me-2"></i>  Pengaturan Akun
                     </a>

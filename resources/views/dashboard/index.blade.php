@@ -40,8 +40,7 @@
                         </div>
                         <!-- project number -->
                         <div>
-                            <h1 class="fw-bold">18</h1>
-                            <p class="mb-0"><span class="text-dark me-2">2</span>Completed</p>
+                            <h1 class="fw-bold">{{ $stat['mail_in'] }}</h1>
                         </div>
                     </div>
                 </div>
@@ -64,8 +63,7 @@
                         </div>
                         <!-- project number -->
                         <div>
-                            <h1 class="fw-bold">132</h1>
-                            <p class="mb-0"><span class="text-dark me-2">28</span>Completed</p>
+                            <h1 class="fw-bold">{{ $stat['mail_out'] }}</h1>
                         </div>
                     </div>
                 </div>
@@ -88,8 +86,7 @@
                         </div>
                         <!-- project number -->
                         <div>
-                            <h1 class="fw-bold">12</h1>
-                            <p class="mb-0"><span class="text-dark me-2">1</span>Completed</p>
+                            <h1 class="fw-bold">{{ $stat['mail_total'] }}</h1>
                         </div>
                     </div>
                 </div>

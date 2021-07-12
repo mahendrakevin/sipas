@@ -11,7 +11,7 @@
     @forelse($mails as $mail)
         <tr>
             <td>
-                <a href="{{ route('admin.mail.master.show', ['mail' => $mail]) }}"
+                <a href="{{ route('admin.mail.master.show', ['id' => $mail]) }}"
                    class="text-dark">
                     <div class="text-wrap">
                         <h6>{{ Str::limit($mail->title, 40) }}</h6>

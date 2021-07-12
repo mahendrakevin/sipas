@@ -36,7 +36,7 @@
                                         @forelse($users as $user)
                                             <tr>
                                                 <td>
-                                                    <form id="user" method="post" action="{{ route('admin.setting.user.show', ['id' => $user->id]) }}">
+                                                    <form id="user" method="post" action="{{ route('admin.setting.user.show', ['user' => $user]) }}">
                                                         <a href="javascript:;" class="text-dark"
                                                            onclick="document.getElementById('user').submit();">
                                                             <div class="text-wrap">

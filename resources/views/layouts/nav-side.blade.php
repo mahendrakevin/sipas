@@ -28,7 +28,7 @@
 
                 <!-- Nav item -->
                 <li class="nav-item">
-                    <div class="navbar-heading">Master Surat</div>
+                    <div class="navbar-heading">Akses Surat</div>
                 </li>
 
                 <li class="nav-item">
@@ -49,6 +49,16 @@
                 <li class="nav-item">
                     <div class="navbar-heading">Super Admin Menu</div>
                 </li>
+
+                <li class="nav-item">
+                    <div class="nav-link text-center">
+                        <a class="btn btn-block btn-success" href="{{ route('admin.setting.user.create') }}">
+                            <i data-feather="plus" class="nav-icon icon-xs me-2"></i>
+                            Tambah Pengguna
+                        </a>
+                    </div>
+                </li>
+
                 <li class="nav-item">
                     <a class="nav-link has-arrow @@if (Route::currentRouteName() ===  'admin.setting.user.index') { active }"
                        href="{{ route('admin.setting.user.index') }}">

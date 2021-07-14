@@ -29,7 +29,7 @@ class UserSettingController extends Controller
      */
     public function create()
     {
-        //
+        return view('settings.users.create');
     }
 
     /**

@@ -16,7 +16,9 @@ class LevelSettingController extends Controller
      */
     public function index(Level $level)
     {
-        return view('settings.level.index');
+        $page = 'Data Jabatan';
+        $levels = $level->get();
+        return view('settings.level.index', compact('levels', 'page'));
     }
 
     /**
@@ -26,7 +28,7 @@ class LevelSettingController extends Controller
      */
     public function create()
     {
-        //
+        return view('settings.level.create');
     }
 
     /**

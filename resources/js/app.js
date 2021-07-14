@@ -5,5 +5,6 @@ require("feather");
 require("bootstrap");
 require("./bootstrap");
 require("alpinejs");
+require("bootstrap-select");
 require("./theme");
 

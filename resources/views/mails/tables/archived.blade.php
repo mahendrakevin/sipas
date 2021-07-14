@@ -23,13 +23,12 @@
             <td>{{ Str::limit($mail->status, 40) }}</td>
             <td>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Aksi</button>
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    </button>
                     <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
+                        <a class="dropdown-item" href="{{ route('admin.mail.master.show', ['mail' => $mail]) }}">Lihat</a>
+                        <x-button class="dropdown-item" action="{{ route('admin.mail.master.download', ['mail' => $mail]) }}">Download</x-button>
                     </div>
                 </div>
             </td>

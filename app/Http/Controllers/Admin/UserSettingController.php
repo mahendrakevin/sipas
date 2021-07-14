@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Models\Department;
+use App\Models\Level;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -29,7 +31,13 @@ class UserSettingController extends Controller
      */
     public function create()
     {
-        return view('settings.users.create');
+        $position = Level::select('id', 'name')->get();
+        $department = Department::select('id', 'name')->get();
+
+        if ($position->count() == 0 || $department->count() == 0){
+            return redirect('/')->withErrors('Silahkan tambahkan jabatan atau bidang untuk menambahkan user');
+        }
+        return view('settings.users.create')->with(compact('position', 'department'));
     }
 
     /**

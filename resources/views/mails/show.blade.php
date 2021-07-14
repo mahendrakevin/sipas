@@ -1,0 +1,89 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+            Dashboard
+        </h2>
+    </x-slot>
+
+    <div class="container-fluid px-6 py-4">
+        <!-- content -->
+        <div class="py-6">
+            <!-- row -->
+            <div class="row">
+                <div class="col-xl-6 col-lg-12 col-md-12 col-12 mb-6">
+                    <!-- card -->
+                    <div class="card">
+                        <!-- card body -->
+                        <div class="card-body">
+                            <!-- card title -->
+                            <h4 class="card-title mb-4">Informasi Surat</h4>
+                            <!-- row -->
+                            <div class="row">
+                                @forelse($mails as $mail)
+                                    <div class="col-6 mb-5">
+                                        <h6 class="text-uppercase fs-5 ls-1">Nomor Surat </h6>
+                                        <p class="mb-0">{{ $mail->code }}</p>
+                                    </div>
+                                    <div class="col-6 mb-5">
+                                        <h6 class="text-uppercase fs-5 ls-2">Judul Surat </h6>
+                                        <p class="mb-0">{{ $mail->title }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <h6 class="text-uppercase fs-5 ls-2">Instansi</h6>
+                                        <p class="mb-0">{{ $mail->instance }}</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <h6 class="text-uppercase fs-5 ls-2">Instansi</h6>
+                                        <p class="mb-0">{{ $mail->instance }}</p>
+                                    </div>
+                                @empty
+                                    <h4>Tidak ada surat.</h4>
+                                @endforelse
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-12 col-md-12 col-12 mb-6">
+                    <!-- card -->
+                    <div class="card">
+                        <!-- card body -->
+                        <div class="card-body">
+                            <!-- card title -->
+                            <h4 class="card-title mb-4">Riwayat Surat</h4>
+                            <div class="d-md-flex justify-content-between
+                      align-items-center mb-4">
+                                <div class="d-flex align-items-center">
+                                    <!-- text -->
+                                    <div class="ms-3 ">
+                                        <h5 class="mb-1"><a href="#" class="text-inherit">Slack Figma Design
+                                                UI</a></h5>
+                                        <p class="mb-0 fs-5 text-muted">Project description and details about...</p>
+                                    </div>
+                                </div>
+                                <div class="d-flex align-items-center ms-10 ms-md-0 mt-3">
+                                    <div>
+                                        <!-- dropdown -->
+                                        <div class="dropdown dropstart">
+                                            <a href="#" class="text-muted text-primary-hover" id="dropdownprojectOne" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                <i data-feather="more-vertical" class="icon-xxs"></i>
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="dropdownprojectOne">
+                                                <a class="dropdown-item" href="#">Action</a>
+                                                <a class="dropdown-item" href="#">Another action</a>
+                                                <a class="dropdown-item" href="#">Something else
+                                                    here</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+</x-app-layout>

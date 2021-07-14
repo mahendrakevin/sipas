@@ -16,7 +16,9 @@ class MailAtrributeSettingController extends Controller
      */
     public function index(MailAttribute $mail_attribute)
     {
-        return view('settings.mail-attributes.index');
+        $page = 'Atribut Surat';
+        $mail_attributes = $mail_attribute->get();
+        return view('settings.mail-attributes.index', compact('mail_attributes', 'page'));
     }
 
     /**
@@ -26,7 +28,7 @@ class MailAtrributeSettingController extends Controller
      */
     public function create()
     {
-        //
+        return view('settings.mail-attributes.create');
     }
 
     /**

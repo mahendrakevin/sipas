@@ -11,7 +11,8 @@ const mix = require("laravel-mix");
  |
  */
 
-mix.js("resources/js/app.js", "public/js").postCss(
+mix.js("resources/js/app.js", "public/js")
+    .postCss(
     "resources/css/app.css",
     "public/css",
     [
@@ -20,6 +21,7 @@ mix.js("resources/js/app.js", "public/js").postCss(
         require("autoprefixer"),
     ]
 )
+    .postCss('node_modules/bootstrap-select/dist/css/bootstrap-select.min.css', 'public/css')
     .autoload({
         jquery: ['$', 'window.jQuery', 'jQuery'],
     })

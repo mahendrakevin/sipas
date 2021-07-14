@@ -16,7 +16,9 @@ class DepartmentSettingController extends Controller
      */
     public function index(Department $department)
     {
-        return view('settings.department.index');
+        $page = 'Data Departemen';
+        $departments = $department->get();
+        return view('settings.department.index', compact('departments', 'page'));
     }
 
     /**
@@ -26,7 +28,7 @@ class DepartmentSettingController extends Controller
      */
     public function create()
     {
-        //
+        return view('settings.department.create');
     }
 
     /**

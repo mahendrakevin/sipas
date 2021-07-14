@@ -23,16 +23,14 @@
                                 @csrf
                                 <!-- Username -->
                                 <div class="mb-3">
-                                    <x-label for="email" :value="__('Email')" class="form-label">Email</x-label>
-                                    <x-input type="email" id="email" :value="old('email')" class="form-control"
-                                           name="email" placeholder="name@example.com" required autofocus />
+                                    <x-input type="email" id="email" :value="old('email')" label="Username" class="form-control"
+                                             name="email" placeholder="name@example.com" required autofocus />
                                 </div>
                                 <!-- Password -->
                                 <div class="mb-3">
-                                    <x-label for="password" :value="__('Password')" class="form-label">Password</x-label>
-                                    <input type="password" id="password" class="form-control"
+                                    <x-input type="password" id="password" value="" label="Password" class="form-control"
                                            name="password"
-                                           placeholder="**************" required autocomplete="current-password">
+                                           placeholder="**************" required autocomplete="current-password"/>
                                 </div>
                                 <!-- Checkbox -->
                                 <div class="d-lg-flex justify-content-between align-items-center mb-4">

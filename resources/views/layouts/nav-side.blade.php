@@ -116,6 +116,14 @@
                     <div class="navbar-heading">Seluruh Surat</div>
                 </li>
                 <li class="nav-item">
+                    <div class="nav-link text-center">
+                        <a class="btn btn-block btn-success" href="{{ route('tu.mail.in.create') }}">
+                            <i data-feather="plus" class="nav-icon icon-xs me-2"></i>
+                            Buat Surat
+                        </a>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link has-arrow {{ Route::is('tu.mail.in.index') ? 'active' : '' }}"
                        href="{{ route('tu.mail.in.index') }}">
                         <i data-feather="mail" class="nav-icon icon-xs me-2"></i>  Surat Masuk

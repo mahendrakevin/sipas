@@ -151,10 +151,10 @@
                             </a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="{{ route('logout') }}">
+                            <x-button action="{{ route('logout') }}" class="dropdown-item">
                                 <i class="me-2 icon-xxs dropdown-item-icon"
                                    data-feather="power"></i>Sign Out
-                            </a>
+                            </x-button>
                         </li>
                     </ul>
 

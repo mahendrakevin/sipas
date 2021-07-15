@@ -39,11 +39,15 @@
                                         <x-input label="Email" :value="$user->email" name="email" placeholder="Email"></x-input>
                                     </div>
                                     <div class="col-md-6">
+                                        <x-input label="Kontak" :value="$user->phone_number" name="kontak" placeholder="Kontak WA"></x-input>
+                                    </div>
+                                    <div class="col-md-6">
                                         <x-input label="Password" name="password" placeholder="Password"></x-input>
                                     </div>
                                     <div class="col-md-6">
-                                        <x-input label="Kontak" :value="$user->phone_number" name="kontak" placeholder="Kontak WA"></x-input>
+                                        <x-input label="Konfirmasi Password" name="password_confirmation" placeholder="Konfirmasi Password"></x-input>
                                     </div>
+
                                     <div class="col-12">
                                         <button class="btn btn-primary" type="submit">Update Profil</button>
                                         <button class="btn btn-secondary" type="submit">Batal</button>

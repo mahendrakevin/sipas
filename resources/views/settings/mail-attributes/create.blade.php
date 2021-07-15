@@ -19,14 +19,14 @@
                                 <form class="row g-3" method="POST" action="{{ route('admin.setting.mail.attribute.store') }}">
                                     @csrf
                                     @method('POST')
-                                    <div class="col-md-4">
-                                        <x-input label="Nama atribut" name="name" placeholder="Nama atribut"></x-input>
+                                                                        <div class="col-md-4">
+                                        <x-input type="text" label="Nama atribut" name="name" placeholder="Nama atribut"></x-input>
                                     </div>
                                     <div class="col-md-4">
-                                        <x-input label="Jenis Surat" name="type" placeholder="Jenis Surat"></x-input>
+                                        <x-input type="text" label="Jenis Surat" name="type" placeholder="Jenis Surat"></x-input>
                                     </div>
                                     <div class="col-md-4">
-                                        <x-input label="Kode Label" name="code" placeholder="Kode Label"></x-input>
+                                        <x-input type="text" label="Kode Label" name="code" placeholder="Kode Label"></x-input>
                                     </div>
                                     <div class="col-md-4">
                                         <x-input-color label="Warna Label" name="color" placeholder="Warna Label"></x-input-color>

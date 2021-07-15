@@ -19,24 +19,35 @@
                                 <form class="row g-3" method="POST" action="{{ route('tu.mail.in.create') }}">
                                     @csrf
                                     @method('POST')
-                                    <div class="col-md-8">
+                                    <div class="col-md-6">
                                         <x-input label="Judul Surat" name="title" placeholder="Judul Surat"></x-input>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <x-input label="Instansi" name="instance" placeholder="Instansi"></x-input>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
+                                        <x-input type="text" label="Kode Surat" name="code" placeholder="Kode Surat"></x-input>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <x-input type="text" label="Kode Arsip" name="code_archive" placeholder="Kode Arsip"></x-input>
+                                    </div>
+                                    <div class="col-md-3">
                                         <x-select label="Sifat Surat" name="sifat" :options="$sifat">
 
                                         </x-select>
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <x-select label="Tipe Surat" name="tipe" :options="$tipe">
 
                                         </x-select>
                                     </div>
-                                    <div class="form-group col-md-4">
+                                    <div class="form-group col-md-3">
                                         <x-select label="Prioritas Surat" name="tipe" :options="$prioritas">
+
+                                        </x-select>
+                                    </div>
+                                    <div class="form-group col-md-3">
+                                        <x-select label="Folder Surat" name="folder" :options="$prioritas">
 
                                         </x-select>
                                     </div>

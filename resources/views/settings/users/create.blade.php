@@ -20,10 +20,10 @@
                                     @csrf
                                     @method('POST')
                                     <div class="col-md-8">
-                                        <x-input label="Nama" name="nama" placeholder="Nama"></x-input>
+                                        <x-input type="text" label="Nama" name="nama" placeholder="Nama"></x-input>
                                     </div>
                                     <div class="col-md-4">
-                                        <x-input label="NIP" name="nip" placeholder="NIP"></x-input>
+                                        <x-input type="text" label="NIP" name="nip" placeholder="NIP"></x-input>
                                     </div>
                                     <div class="col-md-6">
                                         <x-select label="Jabatan" name="jabatan" :options="$position">
@@ -36,16 +36,16 @@
                                         </x-select>
                                     </div>
                                     <div class="col-md-6">
-                                        <x-input label="Username" name="username" placeholder="Username"></x-input>
+                                        <x-input type="text" label="Username" name="username" placeholder="Username"></x-input>
                                     </div>
                                     <div class="col-md-6">
-                                        <x-input label="Password" name="password" placeholder="Password"></x-input>
+                                        <x-input type="text" label="Password" name="password" placeholder="Password"></x-input>
                                     </div>
                                     <div class="col-md-6">
-                                        <x-input label="Email" name="email" placeholder="Email"></x-input>
+                                        <x-input type="text" label="Email" name="email" placeholder="Email"></x-input>
                                     </div>
                                     <div class="col-md-6">
-                                        <x-input label="Kontak" name="kontak" placeholder="Kontak WA"></x-input>
+                                        <x-input type="text" label="Kontak" name="kontak" placeholder="Kontak WA"></x-input>
                                     </div>
                                     <div class="col-12">
                                         <button class="btn btn-primary" type="submit">Submit form</button>

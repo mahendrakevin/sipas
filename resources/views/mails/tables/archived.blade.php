@@ -23,8 +23,8 @@
             <td>{{ Str::limit($mail->status, 40) }}</td>
             <td>
                 <div class="btn-group">
-                    <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-
+                    <button type="button" class="btn btn-secondary rounded" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i data-feather="more-vertical" class="icon-xxs"></i>
                     </button>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="{{ route('admin.mail.master.show', ['mail' => $mail]) }}">Lihat</a>

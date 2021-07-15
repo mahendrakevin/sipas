@@ -59,9 +59,10 @@ class DepartmentSettingController extends Controller
      * @param  \App\Models\Department  $department
      * @return \Illuminate\Http\Response
      */
-    public function edit(Department $department)
+    public function edit(Department $department, $id)
     {
-        //
+        $department = $department->get()->where('id', $id);
+        return view('settings.department.edit')->with(compact('department'));
     }
 
     /**

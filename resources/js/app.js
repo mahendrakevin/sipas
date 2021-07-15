@@ -2,14 +2,10 @@ require("jquery");
 require("jquery-slimscroll");
 require("bootstrap");
 window.bootstrap = require('bootstrap');
-require("../../node_modules/bootstrap-select/dist/js/bootstrap-select.min");
-require
-require("feather-icons");
-require("feather");
+require("bootstrap-select");
+window.feather = require('feather-icons')
 require("alpinejs");
-require("./theme");
-
-$(function () {
-    $('select').selectpicker();
-});
+require("./main.js");
+require("./feather.js");
+require("./sidebarMenu");
 

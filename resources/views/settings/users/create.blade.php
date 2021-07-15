@@ -48,7 +48,8 @@
                                         <x-input type="text" label="Kontak" name="kontak" placeholder="Kontak WA"></x-input>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary" type="submit">Submit form</button>
+                                        <button class="btn btn-success" type="submit">Tambah Pengguna</button>
+                                        <button class="btn btn-secondary" type="submit">Batal</button>
                                     </div>
                                 </form>
                             </div>

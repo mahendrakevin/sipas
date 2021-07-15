@@ -20,10 +20,10 @@
                                     @csrf
                                     @method('POST')
                                     <div class="col-md-6">
-                                        <x-input label="Judul Surat" name="title" placeholder="Judul Surat"></x-input>
+                                        <x-input type="text" label="Judul Surat" name="title" placeholder="Judul Surat"></x-input>
                                     </div>
                                     <div class="col-md-6">
-                                        <x-input label="Instansi" name="instance" placeholder="Instansi"></x-input>
+                                        <x-input type="text" label="Instansi" name="instance" placeholder="Instansi"></x-input>
                                     </div>
                                     <div class="col-md-6">
                                         <x-input type="text" label="Kode Surat" name="code" placeholder="Kode Surat"></x-input>
@@ -58,7 +58,7 @@
                                         <x-input type="file" label="Upload" name="kontak" placeholder="Upload File"></x-input>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary" type="submit">Buat Surat</button>
+                                        <button class="btn btn-success" type="submit">Buat Surat</button>
                                         <button class="btn btn-secondary" type="reset">Batal</button>
                                     </div>
                                 </form>

@@ -32,7 +32,7 @@
                                         <x-input-color label="Warna Label" name="color" placeholder="Warna Label"></x-input-color>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary" type="submit">Simpan</button>
+                                        <button class="btn btn-success" type="submit">Simpan</button>
                                         <button class="btn btn-secondary" type="reset">Cancel</button>
                                     </div>
                                 </form>

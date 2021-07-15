@@ -20,10 +20,10 @@
                                     @csrf
                                     @method('POST')
                                     <div class="col-md-4">
-                                        <x-input label="Jabatan" name="jabatan" placeholder="Jabatan"></x-input>
+                                        <x-input type="text" label="Jabatan" name="jabatan" placeholder="Jabatan"></x-input>
                                     </div>
                                     <div class="col-12">
-                                        <button class="btn btn-primary" type="submit">Simpan</button>
+                                        <button class="btn btn-success" type="submit">Simpan</button>
                                         <button class="btn btn-secondary" type="reset">Cancel</button>
                                     </div>
                                 </form>

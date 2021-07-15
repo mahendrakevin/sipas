@@ -53,10 +53,10 @@
                                                 <td>
                                                     <div class="tab-pane tab-example-design fade show active" id="pills-button-icon-fixed-design" role="tabpanel" aria-labelledby="pills-button-icon-fixed-design-tab">
                                                         <button type="button" class="btn btn-warning btn-icon">
-                                                            <a href="{{ route('admin.setting.mail.attribute.edit', ['id' => $user_mail_atrribute->id]) }}"><i data-feather="edit" class="nav-icon icon-xs me-2"></i></a>
+                                                            <a href="{{ route('admin.setting.mail.attribute.edit', ['id' => $user_mail_atrribute->id]) }}"><i data-feather="edit" class="icon-xxs text-white"></i></a>
                                                         </button>
                                                         <button type="button" class="btn btn-danger btn-icon">
-                                                            <a href="{{ route('admin.setting.mail.attribute.destroy', ['id' => $user_mail_atrribute->id]) }}"><i data-feather="delete" class="nav-icon icon-xs me-2"></i></a>
+                                                            <a href="{{ route('admin.setting.mail.attribute.destroy', ['id' => $user_mail_atrribute->id]) }}"><i data-feather="delete" class="icon-xxs text-white"></i></a>
                                                         </button>
                                                     </div>
                                                 </td>

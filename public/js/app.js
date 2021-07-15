@@ -5069,7 +5069,6 @@ function within(min, value, max) {
   \*****************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
-/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 __webpack_require__(/*! jquery-slimscroll */ "./node_modules/jquery-slimscroll/jquery.slimscroll.js");
@@ -5078,66 +5077,126 @@ __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap
 
 window.bootstrap = __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
 
-__webpack_require__(/*! ../../node_modules/bootstrap-select/dist/js/bootstrap-select.min */ "./node_modules/bootstrap-select/dist/js/bootstrap-select.min.js");
+__webpack_require__(/*! bootstrap-select */ "./node_modules/bootstrap-select/dist/js/bootstrap-select.js");
 
-__webpack_require__(/*! @popperjs/core */ "./node_modules/@popperjs/core/lib/index.js");
-
-__webpack_require__(/*! feather-icons */ "./node_modules/feather-icons/dist/feather.js");
-
-__webpack_require__(/*! feather */ "./node_modules/feather/index.js");
+window.feather = __webpack_require__(/*! feather-icons */ "./node_modules/feather-icons/dist/feather.js");
 
 __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/alpine.js");
 
-__webpack_require__(/*! ./theme */ "./resources/js/theme.js");
+__webpack_require__(/*! ./main.js */ "./resources/js/main.js");
 
-$(function () {
-  $('select').selectpicker();
-});
+__webpack_require__(/*! ./feather.js */ "./resources/js/feather.js");
+
+__webpack_require__(/*! ./sidebarMenu */ "./resources/js/sidebarMenu.js");
 
 /***/ }),
 
-/***/ "./resources/js/theme.js":
-/*!*******************************!*\
-  !*** ./resources/js/theme.js ***!
-  \*******************************/
+/***/ "./resources/js/feather.js":
+/*!*********************************!*\
+  !*** ./resources/js/feather.js ***!
+  \*********************************/
+/***/ (() => {
+
+// feather
+(function () {
+  feather.replace();
+})();
+
+/***/ }),
+
+/***/ "./resources/js/main.js":
+/*!******************************!*\
+  !*** ./resources/js/main.js ***!
+  \******************************/
 /***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 /* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+//
+// Main js
+//
 
 
-!function () {
-  if ($("#nav-toggle").length && $("#nav-toggle").on("click", function (t) {
-    t.preventDefault(), $("#db-wrapper").toggleClass("toggled");
-  }), $(".nav-scroller").length && $(".nav-scroller").slimScroll({
-    height: "90%"
-  }), $(".notification-list-scroll").length && $(".notification-list-scroll").slimScroll({
-    height: 300
-  }), $(".dropdown-menu a.dropdown-toggle").length && $(".dropdown-menu a.dropdown-toggle").on("click", function (t) {
-    return $(this).next().hasClass("show") || $(this).parents(".dropdown-menu").first().find(".show").removeClass("show"), $(this).next(".dropdown-menu").toggleClass("show"), $(this).parents("li.nav-item.dropdown.show").on("hidden.bs.dropdown", function (t) {
-      $(".dropdown-submenu .show").removeClass("show");
-    }), !1;
-  }), $('[data-bs-toggle="tooltip"]').length) [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]')).map(function (t) {
-    return new bootstrap.Tooltip(t);
-  });
-  if ($('[data-bs-toggle="popover"]').length) [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]')).map(function (t) {
-    return new bootstrap.Popover(t);
-  });
-  $('[data-bs-spy="scroll"]').length && [].slice.call(document.querySelectorAll('[data-bs-spy="scroll"]')).forEach(function (t) {
-    bootstrap.ScrollSpy.getInstance(t).refresh();
-  });
-  if ($(".toast").length) [].slice.call(document.querySelectorAll(".toast")).map(function (t) {
-    return new bootstrap.Toast(t);
-  });
+(function () {
+  // Menu toggle for admin dashboard
+  if ($("#nav-toggle").length) {
+    $("#nav-toggle").on("click", function (e) {
+      e.preventDefault();
+      $("#db-wrapper").toggleClass("toggled");
+    });
+  } //  slimscroll for sidebar nav
+
+
+  if ($(".nav-scroller").length) {
+    $(".nav-scroller").slimScroll({
+      height: "90%"
+    });
+  } // Notification dropdown scroll List
+
+
+  if ($('.notification-list-scroll').length) {
+    $(".notification-list-scroll").slimScroll({
+      height: 300
+    });
+  } // Multi level menu dropdown
+
+
+  if ($(".dropdown-menu a.dropdown-toggle").length) {
+    $(".dropdown-menu a.dropdown-toggle").on("click", function (e) {
+      if (!$(this).next().hasClass("show")) {
+        $(this).parents(".dropdown-menu").first().find(".show").removeClass("show");
+      }
+
+      var $subMenu = $(this).next(".dropdown-menu");
+      $subMenu.toggleClass("show");
+      $(this).parents("li.nav-item.dropdown.show").on("hidden.bs.dropdown", function (e) {
+        $(".dropdown-submenu .show").removeClass("show");
+      });
+      return false;
+    });
+  } // Default Tooltip
+
+
+  if ($('[data-bs-toggle="tooltip"]').length) {
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+  } // Default Popover
+
+
+  if ($('[data-bs-toggle="popover"]').length) {
+    var popoverTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="popover"]'));
+    var popoverList = popoverTriggerList.map(function (popoverTriggerEl) {
+      return new bootstrap.Popover(popoverTriggerEl);
+    });
+  } // Scrollspy
+
+
+  if ($('[data-bs-spy="scroll"]').length) {
+    var dataSpyList = [].slice.call(document.querySelectorAll('[data-bs-spy="scroll"]'));
+    dataSpyList.forEach(function (dataSpyEl) {
+      bootstrap.ScrollSpy.getInstance(dataSpyEl).refresh();
+    });
+  } // Toast
+
+
+  if ($('.toast').length) {
+    var toastElList = [].slice.call(document.querySelectorAll('.toast'));
+    var toastList = toastElList.map(function (toastEl) {
+      return new bootstrap.Toast(toastEl);
+    });
+  } // Perfomance Chart
+
 
   if ($("#perfomanceChart").length) {
-    new ApexCharts(document.querySelector("#perfomanceChart"), {
+    var options = {
       series: [100, 78, 89],
       chart: {
         height: 320,
-        type: "radialBar"
+        type: 'radialBar'
       },
-      colors: ["#28a745", "#ffc107", "#dc3545"],
+      colors: ['#28a745', '#ffc107', '#dc3545'],
       stroke: {
         lineCap: "round"
       },
@@ -5146,76 +5205,112 @@ $(function () {
           startAngle: -168,
           endAngle: -450,
           hollow: {
-            size: "55%"
+            size: '55%'
           },
           track: {
-            background: "transaprent"
+            background: 'transaprent'
           },
           dataLabels: {
-            show: !1
+            show: false
           }
         }
       }
-    }).render();
+    };
+    var chart = new ApexCharts(document.querySelector("#perfomanceChart"), options);
+    chart.render();
+  } // offcanvas
+
+
+  if ($(".offcanvas").length) {
+    var offcanvasElementList = [].slice.call(document.querySelectorAll('.offcanvas'));
+    var offcanvasList = offcanvasElementList.map(function (offcanvasEl) {
+      return new bootstrap.Offcanvas(offcanvasEl);
+    });
+  } // Sidenav fixed for docs
+
+
+  if ($(".sidebar-nav-fixed a").length) {
+    $(".sidebar-nav-fixed a") // Remove links that don't actually link to anything
+    .on("click", function (event) {
+      // On-page links
+      if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
+        // Figure out element to scroll to
+        var target = $(this.hash);
+        target = target.length ? target : $('[name=' + this.hash.slice(1) + ']'); // Does a scroll target exist?
+
+        if (target.length) {
+          // Only prevent default if animation is actually gonna happen
+          event.preventDefault();
+          $('html, body').animate({
+            scrollTop: target.offset().top - 90
+          }, 1000, function () {
+            // Callback after animation
+            // Must change focus!
+            var $target = $(target);
+            $target.focus();
+
+            if ($target.is(":focus")) {
+              // Checking if the target was focused
+              return false;
+            } else {
+              $target.attr('tabindex', '-1'); // Adding tabindex for elements not focusable
+
+              $target.focus(); // Set focus again
+            }
+
+            ;
+          });
+        }
+      }
+
+      ;
+      $('.sidebar-nav-fixed a').each(function () {
+        $(this).removeClass('active');
+      });
+      $(this).addClass('active');
+    });
   }
-
-  if ($(".offcanvas").length) [].slice.call(document.querySelectorAll(".offcanvas")).map(function (t) {
-    return new bootstrap.Offcanvas(t);
-  });
-  $(".sidebar-nav-fixed a").length && $(".sidebar-nav-fixed a").on("click", function (t) {
-    if (location.pathname.replace(/^\//, "") == this.pathname.replace(/^\//, "") && location.hostname == this.hostname) {
-      var e = $(this.hash);
-      (e = e.length ? e : $("[name=" + this.hash.slice(1) + "]")).length && (t.preventDefault(), $("html, body").animate({
-        scrollTop: e.offset().top - 90
-      }, 1e3, function () {
-        var t = $(e);
-        if (t.focus(), t.is(":focus")) return !1;
-        t.attr("tabindex", "-1"), t.focus();
-      }));
-    }
-
-    $(".sidebar-nav-fixed a").each(function () {
-      $(this).removeClass("active");
-    }), $(this).addClass("active");
-  });
-}(), feather.replace(), function () {
-  for (var t = document.getElementsByTagName("pre"), e = 0; e < t.length; e++) {
-    if (0 === t[e].children[0].className.indexOf("language-")) {
-      var n = document.createElement("button");
-      n.className = "copy-button", n.textContent = "Copy", t[e].appendChild(n);
-    }
-  }
-
-  var o = new Clipboard(".copy-button", {
-    target: function target(t) {
-      return t.previousElementSibling;
-    }
-  });
-  o.on("success", function (t) {
-    t.clearSelection(), t.trigger.textContent = "Copied", window.setTimeout(function () {
-      t.trigger.textContent = "Copy";
-    }, 2e3);
-  }), o.on("error", function (t) {
-    t.trigger.textContent = 'Press "Ctrl + C" to copy', window.setTimeout(function () {
-      t.trigger.textContent = "Copy";
-    }, 5e3);
-  });
-}(), function () {
-  var t = window.location + "",
-      e = t.replace(window.location.protocol + "//" + window.location.host + "/", "");
-  $("ul#sidebarnav a").filter(function () {
-    return this.href === t || this.href === e;
-  }).parentsUntil(".sidebar-nav").each(function (t) {
-    $(this).is("li") && 0 !== $(this).children("a").length ? ($(this).children("a").addClass("active"), $(this).parent("ul#sidebarnav").length, $(this).addClass("active")) : $(this).is("ul") || 0 !== $(this).children("a").length ? $(this).is("ul") && $(this).addClass("in") : $(this).addClass("active");
-  });
-}();
+})();
 
 /***/ }),
 
-/***/ "./node_modules/bootstrap-select/dist/js/bootstrap-select.min.js":
-/*!***********************************************************************!*\
-  !*** ./node_modules/bootstrap-select/dist/js/bootstrap-select.min.js ***!
-  \***********************************************************************/
+/***/ "./resources/js/sidebarMenu.js":
+/*!*************************************!*\
+  !*** ./resources/js/sidebarMenu.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
+
+"use strict";
+/* provided dependency */ var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+//
+// Sidebar menu js
+//
+
+
+(function () {
+  var url = window.location + "";
+  var path = url.replace(window.location.protocol + "//" + window.location.host + "/", "");
+  var element = $('ul#sidebarnav a').filter(function () {
+    return this.href === url || this.href === path; // || url.href.indexOf(this.href) === 0;
+  });
+  element.parentsUntil(".sidebar-nav").each(function (index) {
+    if ($(this).is("li") && $(this).children("a").length !== 0) {
+      $(this).children("a").addClass("active");
+      $(this).parent("ul#sidebarnav").length === 0 ? $(this).addClass("active") : $(this).addClass("active");
+    } else if (!$(this).is("ul") && $(this).children("a").length === 0) {
+      $(this).addClass("active");
+    } else if ($(this).is("ul")) {
+      $(this).addClass('in');
+    }
+  });
+})();
+
+/***/ }),
+
+/***/ "./node_modules/bootstrap-select/dist/js/bootstrap-select.js":
+/*!*******************************************************************!*\
+  !*** ./node_modules/bootstrap-select/dist/js/bootstrap-select.js ***!
+  \*******************************************************************/
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -5225,9 +5320,3576 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
  * Licensed under MIT (https://github.com/snapappointments/bootstrap-select/blob/master/LICENSE)
  */
 
-!function(e,t){void 0===e&&void 0!==window&&(e=window), true?!(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function(e){return t(e)}).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
-		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__)):0}(this,function(e){!function(T){"use strict";var d=["sanitize","whiteList","sanitizeFn"],l=["background","cite","href","itemtype","longdesc","poster","src","xlink:href"],e={"*":["class","dir","id","lang","role","tabindex","style",/^aria-[\w-]*$/i],a:["target","href","title","rel"],area:[],b:[],br:[],col:[],code:[],div:[],em:[],hr:[],h1:[],h2:[],h3:[],h4:[],h5:[],h6:[],i:[],img:["src","alt","title","width","height"],li:[],ol:[],p:[],pre:[],s:[],small:[],span:[],sub:[],sup:[],strong:[],u:[],ul:[]},r=/^(?:(?:https?|mailto|ftp|tel|file):|[^&:/?#]*(?:[/?#]|$))/gi,a=/^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[a-z0-9+/]+=*$/i,n=["title","placeholder"];function v(e,t){var i=e.nodeName.toLowerCase();if(-1!==T.inArray(i,t))return-1===T.inArray(i,l)||Boolean(e.nodeValue.match(r)||e.nodeValue.match(a));for(var s=T(t).filter(function(e,t){return t instanceof RegExp}),n=0,o=s.length;n<o;n++)if(i.match(s[n]))return!0;return!1}function P(e,t,i){if(i&&"function"==typeof i)return i(e);for(var s=Object.keys(t),n=0,o=e.length;n<o;n++)for(var l=e[n].querySelectorAll("*"),r=0,a=l.length;r<a;r++){var c=l[r],d=c.nodeName.toLowerCase();if(-1!==s.indexOf(d))for(var h=[].slice.call(c.attributes),p=[].concat(t["*"]||[],t[d]||[]),u=0,f=h.length;u<f;u++){var m=h[u];v(m,p)||c.removeAttribute(m.nodeName)}else c.parentNode.removeChild(c)}}function h(t){var i,s={};return n.forEach(function(e){(i=t.attr(e))&&(s[e]=i)}),!s.placeholder&&s.title&&(s.placeholder=s.title),s}"classList"in document.createElement("_")||function(e){if("Element"in e){var t="classList",i="prototype",s=e.Element[i],n=Object,o=function(){var i=T(this);return{add:function(e){return e=Array.prototype.slice.call(arguments).join(" "),i.addClass(e)},remove:function(e){return e=Array.prototype.slice.call(arguments).join(" "),i.removeClass(e)},toggle:function(e,t){return i.toggleClass(e,t)},contains:function(e){return i.hasClass(e)}}};if(n.defineProperty){var l={get:o,enumerable:!0,configurable:!0};try{n.defineProperty(s,t,l)}catch(e){void 0!==e.number&&-2146823252!==e.number||(l.enumerable=!1,n.defineProperty(s,t,l))}}else n[i].__defineGetter__&&s.__defineGetter__(t,o)}}(window);var c,t=document.createElement("_");if(t.classList.add("c1","c2"),!t.classList.contains("c2")){var i=DOMTokenList.prototype.add,s=DOMTokenList.prototype.remove;DOMTokenList.prototype.add=function(){Array.prototype.forEach.call(arguments,i.bind(this))},DOMTokenList.prototype.remove=function(){Array.prototype.forEach.call(arguments,s.bind(this))}}if(t.classList.toggle("c3",!1),t.classList.contains("c3")){var o=DOMTokenList.prototype.toggle;DOMTokenList.prototype.toggle=function(e,t){return 1 in arguments&&!this.contains(e)==!t?t:o.call(this,e)}}function p(e){if(null==this)throw new TypeError;var t=String(this);if(e&&"[object RegExp]"==c.call(e))throw new TypeError;var i=t.length,s=String(e),n=s.length,o=1<arguments.length?arguments[1]:void 0,l=o?Number(o):0;l!=l&&(l=0);var r=Math.min(Math.max(l,0),i);if(i<n+r)return!1;for(var a=-1;++a<n;)if(t.charCodeAt(r+a)!=s.charCodeAt(a))return!1;return!0}function A(){var e=this.selectpicker.main.data.filter(function(e){return!!e.selected&&(!this.options.hideDisabled||!e.disabled)},this);if(this.options.source.data&&!this.multiple&&1<e.length){for(var t=0;t<e.length-1;t++)e[t].selected=!1;e=[e[e.length-1]]}return e}function z(e){for(var t,i=[],s=e||A.call(this),n=0,o=s.length;n<o;n++)(t=s[n]).disabled||i.push(void 0===t.value?t.text:t.value);return this.multiple?i:i.length?i[0]:null}t=null,String.prototype.startsWith||(c={}.toString,Object.defineProperty?Object.defineProperty(String.prototype,"startsWith",{value:p,configurable:!0,writable:!0}):String.prototype.startsWith=p);var u={useDefault:!1,_set:T.valHooks.select.set};T.valHooks.select.set=function(e,t){return t&&!u.useDefault&&T(e).data("selected",!0),u._set.apply(this,arguments)};var D=null,f=function(){try{return new Event("change"),!0}catch(e){return!1}}();function k(e,t,i,s){for(var n=["display","subtext","tokens"],o=!1,l=0;l<n.length;l++){var r=n[l],a=e[r];if(a&&(a=a.toString(),"display"===r&&(a=a.replace(/<[^>]+>/g,"")),s&&(a=I(a)),a=a.toUpperCase(),o="function"==typeof i?i(a,t):"contains"===i?0<=a.indexOf(t):a.startsWith(t)))break}return o}function L(e){return parseInt(e,10)||0}T.fn.triggerNative=function(e){var t,i=this[0];i.dispatchEvent&&(f?t=new Event(e,{bubbles:!0}):(t=document.createEvent("Event")).initEvent(e,!0,!1),i.dispatchEvent(t))};var m={"\xc0":"A","\xc1":"A","\xc2":"A","\xc3":"A","\xc4":"A","\xc5":"A","\xe0":"a","\xe1":"a","\xe2":"a","\xe3":"a","\xe4":"a","\xe5":"a","\xc7":"C","\xe7":"c","\xd0":"D","\xf0":"d","\xc8":"E","\xc9":"E","\xca":"E","\xcb":"E","\xe8":"e","\xe9":"e","\xea":"e","\xeb":"e","\xcc":"I","\xcd":"I","\xce":"I","\xcf":"I","\xec":"i","\xed":"i","\xee":"i","\xef":"i","\xd1":"N","\xf1":"n","\xd2":"O","\xd3":"O","\xd4":"O","\xd5":"O","\xd6":"O","\xd8":"O","\xf2":"o","\xf3":"o","\xf4":"o","\xf5":"o","\xf6":"o","\xf8":"o","\xd9":"U","\xda":"U","\xdb":"U","\xdc":"U","\xf9":"u","\xfa":"u","\xfb":"u","\xfc":"u","\xdd":"Y","\xfd":"y","\xff":"y","\xc6":"Ae","\xe6":"ae","\xde":"Th","\xfe":"th","\xdf":"ss","\u0100":"A","\u0102":"A","\u0104":"A","\u0101":"a","\u0103":"a","\u0105":"a","\u0106":"C","\u0108":"C","\u010a":"C","\u010c":"C","\u0107":"c","\u0109":"c","\u010b":"c","\u010d":"c","\u010e":"D","\u0110":"D","\u010f":"d","\u0111":"d","\u0112":"E","\u0114":"E","\u0116":"E","\u0118":"E","\u011a":"E","\u0113":"e","\u0115":"e","\u0117":"e","\u0119":"e","\u011b":"e","\u011c":"G","\u011e":"G","\u0120":"G","\u0122":"G","\u011d":"g","\u011f":"g","\u0121":"g","\u0123":"g","\u0124":"H","\u0126":"H","\u0125":"h","\u0127":"h","\u0128":"I","\u012a":"I","\u012c":"I","\u012e":"I","\u0130":"I","\u0129":"i","\u012b":"i","\u012d":"i","\u012f":"i","\u0131":"i","\u0134":"J","\u0135":"j","\u0136":"K","\u0137":"k","\u0138":"k","\u0139":"L","\u013b":"L","\u013d":"L","\u013f":"L","\u0141":"L","\u013a":"l","\u013c":"l","\u013e":"l","\u0140":"l","\u0142":"l","\u0143":"N","\u0145":"N","\u0147":"N","\u014a":"N","\u0144":"n","\u0146":"n","\u0148":"n","\u014b":"n","\u014c":"O","\u014e":"O","\u0150":"O","\u014d":"o","\u014f":"o","\u0151":"o","\u0154":"R","\u0156":"R","\u0158":"R","\u0155":"r","\u0157":"r","\u0159":"r","\u015a":"S","\u015c":"S","\u015e":"S","\u0160":"S","\u015b":"s","\u015d":"s","\u015f":"s","\u0161":"s","\u0162":"T","\u0164":"T","\u0166":"T","\u0163":"t","\u0165":"t","\u0167":"t","\u0168":"U","\u016a":"U","\u016c":"U","\u016e":"U","\u0170":"U","\u0172":"U","\u0169":"u","\u016b":"u","\u016d":"u","\u016f":"u","\u0171":"u","\u0173":"u","\u0174":"W","\u0175":"w","\u0176":"Y","\u0177":"y","\u0178":"Y","\u0179":"Z","\u017b":"Z","\u017d":"Z","\u017a":"z","\u017c":"z","\u017e":"z","\u0132":"IJ","\u0133":"ij","\u0152":"Oe","\u0153":"oe","\u0149":"'n","\u017f":"s"},g=/[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g,b=RegExp("[\\u0300-\\u036f\\ufe20-\\ufe2f\\u20d0-\\u20ff\\u1ab0-\\u1aff\\u1dc0-\\u1dff]","g");function w(e){return m[e]}function I(e){return(e=e.toString())&&e.replace(g,w).replace(b,"")}var x,y,$,S,E=(x={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#x27;","`":"&#x60;"},y="(?:"+Object.keys(x).join("|")+")",$=RegExp(y),S=RegExp(y,"g"),function(e){return e=null==e?"":""+e,$.test(e)?e.replace(S,C):e});function C(e){return x[e]}var O={32:" ",48:"0",49:"1",50:"2",51:"3",52:"4",53:"5",54:"6",55:"7",56:"8",57:"9",59:";",65:"A",66:"B",67:"C",68:"D",69:"E",70:"F",71:"G",72:"H",73:"I",74:"J",75:"K",76:"L",77:"M",78:"N",79:"O",80:"P",81:"Q",82:"R",83:"S",84:"T",85:"U",86:"V",87:"W",88:"X",89:"Y",90:"Z",96:"0",97:"1",98:"2",99:"3",100:"4",101:"5",102:"6",103:"7",104:"8",105:"9"},N=27,H=13,W=32,B=9,M=38,R=40,U=window.Dropdown||bootstrap.Dropdown;function V(){var t;try{t=T.fn.dropdown.Constructor.VERSION}catch(e){t=U.VERSION}return t}var j={success:!1,major:"3"};try{j.full=(V()||"").split(" ")[0].split("."),j.major=j.full[0],j.success=!0}catch(e){}var _=0,F=".bs.select",G={DISABLED:"disabled",DIVIDER:"divider",SHOW:"open",DROPUP:"dropup",MENU:"dropdown-menu",MENURIGHT:"dropdown-menu-right",MENULEFT:"dropdown-menu-left",BUTTONCLASS:"btn-default",POPOVERHEADER:"popover-title",ICONBASE:"glyphicon",TICKICON:"glyphicon-ok"},q={MENU:"."+G.MENU,DATA_TOGGLE:'data-toggle="dropdown"'},K={div:document.createElement("div"),span:document.createElement("span"),i:document.createElement("i"),subtext:document.createElement("small"),a:document.createElement("a"),li:document.createElement("li"),whitespace:document.createTextNode("\xa0"),fragment:document.createDocumentFragment(),option:document.createElement("option")};K.selectedOption=K.option.cloneNode(!1),K.selectedOption.setAttribute("selected",!0),K.noResults=K.li.cloneNode(!1),K.noResults.className="no-results",K.a.setAttribute("role","option"),K.a.className="dropdown-item",K.subtext.className="text-muted",K.text=K.span.cloneNode(!1),K.text.className="text",K.checkMark=K.span.cloneNode(!1);var Q=new RegExp(M+"|"+R),Y=new RegExp("^"+B+"$|"+N),Z={li:function(e,t,i){var s=K.li.cloneNode(!1);return e&&(1===e.nodeType||11===e.nodeType?s.appendChild(e):s.innerHTML=e),void 0!==t&&""!==t&&(s.className=t),null!=i&&s.classList.add("optgroup-"+i),s},a:function(e,t,i){var s=K.a.cloneNode(!0);return e&&(11===e.nodeType?s.appendChild(e):s.insertAdjacentHTML("beforeend",e)),void 0!==t&&""!==t&&s.classList.add.apply(s.classList,t.split(/\s+/)),i&&s.setAttribute("style",i),s},text:function(e,t){var i,s,n=K.text.cloneNode(!1);if(e.content)n.innerHTML=e.content;else{if(n.textContent=e.text,e.icon){var o=K.whitespace.cloneNode(!1);(s=(!0===t?K.i:K.span).cloneNode(!1)).className=this.options.iconBase+" "+e.icon,K.fragment.appendChild(s),K.fragment.appendChild(o)}e.subtext&&((i=K.subtext.cloneNode(!1)).textContent=e.subtext,n.appendChild(i))}if(!0===t)for(;0<n.childNodes.length;)K.fragment.appendChild(n.childNodes[0]);else K.fragment.appendChild(n);return K.fragment},label:function(e){var t,i,s=K.text.cloneNode(!1);if(s.innerHTML=e.display,e.icon){var n=K.whitespace.cloneNode(!1);(i=K.span.cloneNode(!1)).className=this.options.iconBase+" "+e.icon,K.fragment.appendChild(i),K.fragment.appendChild(n)}return e.subtext&&((t=K.subtext.cloneNode(!1)).textContent=e.subtext,s.appendChild(t)),K.fragment.appendChild(s),K.fragment}},J={fromOption:function(e,t){var i;switch(t){case"divider":i="true"===e.getAttribute("data-divider");break;case"text":i=e.textContent;break;case"label":i=e.label;break;case"style":i=e.style.cssText;break;case"content":case"tokens":case"subtext":case"icon":i=e.getAttribute("data-"+t)}return i},fromDataSource:function(e,t){var i;switch(t){case"text":case"label":i=e.text||e.value||"";break;case"divider":case"style":case"content":case"tokens":case"subtext":case"icon":i=e[t]}return i}};function X(e,t){e.length||(K.noResults.innerHTML=this.options.noneResultsText.replace("{0}",'"'+E(t)+'"'),this.$menuInner[0].firstChild.appendChild(K.noResults))}function ee(e){return!(e.hidden||this.options.hideDisabled&&e.disabled)}var te=function(e,t){var i=this;u.useDefault||(T.valHooks.select.set=u._set,u.useDefault=!0),this.$element=T(e),this.$newElement=null,this.$button=null,this.$menu=null,this.options=t,this.selectpicker={main:{optionQueue:K.fragment.cloneNode(!1)},search:{},current:{},view:{},isSearching:!1,keydown:{keyHistory:"",resetKeyHistory:{start:function(){return setTimeout(function(){i.selectpicker.keydown.keyHistory=""},800)}}}},this.sizeInfo={};var s=this.options.windowPadding;"number"==typeof s&&(this.options.windowPadding=[s,s,s,s]),this.val=te.prototype.val,this.render=te.prototype.render,this.refresh=te.prototype.refresh,this.setStyle=te.prototype.setStyle,this.selectAll=te.prototype.selectAll,this.deselectAll=te.prototype.deselectAll,this.destroy=te.prototype.destroy,this.remove=te.prototype.remove,this.show=te.prototype.show,this.hide=te.prototype.hide,this.init()};function ie(e){var r,a=arguments,c=e;if([].shift.apply(a),!j.success){try{j.full=(V()||"").split(" ")[0].split(".")}catch(e){te.BootstrapVersion?j.full=te.BootstrapVersion.split(" ")[0].split("."):(j.full=[j.major,"0","0"],console.warn("There was an issue retrieving Bootstrap's version. Ensure Bootstrap is being loaded before bootstrap-select and there is no namespace collision. If loading Bootstrap asynchronously, the version may need to be manually specified via $.fn.selectpicker.Constructor.BootstrapVersion.",e))}j.major=j.full[0],j.success=!0}if("4"<=j.major){var t=[];te.DEFAULTS.style===G.BUTTONCLASS&&t.push({name:"style",className:"BUTTONCLASS"}),te.DEFAULTS.iconBase===G.ICONBASE&&t.push({name:"iconBase",className:"ICONBASE"}),te.DEFAULTS.tickIcon===G.TICKICON&&t.push({name:"tickIcon",className:"TICKICON"}),G.DIVIDER="dropdown-divider",G.SHOW="show",G.BUTTONCLASS="btn-light",G.POPOVERHEADER="popover-header",G.ICONBASE="",G.TICKICON="bs-ok-default";for(var i=0;i<t.length;i++){e=t[i];te.DEFAULTS[e.name]=G[e.className]}}"4"<j.major&&(q.DATA_TOGGLE='data-bs-toggle="dropdown"');var s=this.each(function(){var e=T(this);if(e.is("select")){var t=e.data("selectpicker"),i="object"==typeof c&&c;if(i.title&&(i.placeholder=i.title),t){if(i)for(var s in i)Object.prototype.hasOwnProperty.call(i,s)&&(t.options[s]=i[s])}else{var n=e.data();for(var o in n)Object.prototype.hasOwnProperty.call(n,o)&&-1!==T.inArray(o,d)&&delete n[o];var l=T.extend({},te.DEFAULTS,T.fn.selectpicker.defaults||{},h(e),n,i);l.template=T.extend({},te.DEFAULTS.template,T.fn.selectpicker.defaults?T.fn.selectpicker.defaults.template:{},n.template,i.template),e.data("selectpicker",t=new te(this,l))}"string"==typeof c&&(r=t[c]instanceof Function?t[c].apply(t,a):t.options[c])}});return void 0!==r?r:s}te.VERSION="1.14.0-beta2",te.DEFAULTS={noneSelectedText:"Nothing selected",noneResultsText:"No results matched {0}",countSelectedText:function(e,t){return 1==e?"{0} item selected":"{0} items selected"},maxOptionsText:function(e,t){return[1==e?"Limit reached ({n} item max)":"Limit reached ({n} items max)",1==t?"Group limit reached ({n} item max)":"Group limit reached ({n} items max)"]},selectAllText:"Select All",deselectAllText:"Deselect All",source:{},chunkSize:40,doneButton:!1,doneButtonText:"Close",multipleSeparator:", ",styleBase:"btn",style:G.BUTTONCLASS,size:"auto",title:null,placeholder:null,allowClear:!1,selectedTextFormat:"values",width:!1,container:!1,hideDisabled:!1,showSubtext:!1,showIcon:!0,showContent:!0,dropupAuto:!0,header:!1,liveSearch:!1,liveSearchPlaceholder:null,liveSearchNormalize:!1,liveSearchStyle:"contains",actionsBox:!1,iconBase:G.ICONBASE,tickIcon:G.TICKICON,showTick:!1,template:{caret:'<span class="caret"></span>'},maxOptions:!1,mobile:!1,selectOnTab:!1,dropdownAlignRight:!1,windowPadding:0,virtualScroll:600,display:!1,sanitize:!0,sanitizeFn:null,whiteList:e},te.prototype={constructor:te,init:function(){var i=this,e=this.$element.attr("id"),t=this.$element[0],s=t.form;_++,this.selectId="bs-select-"+_,t.classList.add("bs-select-hidden"),this.multiple=this.$element.prop("multiple"),this.autofocus=this.$element.prop("autofocus"),t.classList.contains("show-tick")&&(this.options.showTick=!0),this.$newElement=this.createDropdown(),this.$element.after(this.$newElement).prependTo(this.$newElement),s&&null===t.form&&(s.id||(s.id="form-"+this.selectId),t.setAttribute("form",s.id)),this.$button=this.$newElement.children("button"),this.options.allowClear&&(this.$clearButton=this.$button.children(".bs-select-clear-selected")),this.$menu=this.$newElement.children(q.MENU),this.$menuInner=this.$menu.children(".inner"),this.$searchbox=this.$menu.find("input"),t.classList.remove("bs-select-hidden"),this.fetchData(function(){i.render(!0),i.buildList(),requestAnimationFrame(function(){i.$element.trigger("loaded"+F)})}),this.fetchData(function(){i.render(!0),i.buildList(),requestAnimationFrame(function(){i.$element.trigger("loaded"+F)})}),!0===this.options.dropdownAlignRight&&this.$menu[0].classList.add(G.MENURIGHT),void 0!==e&&this.$button.attr("data-id",e),this.checkDisabled(),this.clickListener(),4<j.major&&(this.dropdown=new U(this.$button[0])),this.options.liveSearch?(this.liveSearchListener(),this.focusedParent=this.$searchbox[0]):this.focusedParent=this.$menuInner[0],this.setStyle(),this.setWidth(),this.options.container?this.selectPosition():this.$element.on("hide"+F,function(){if(i.isVirtual()){var e=i.$menuInner[0],t=e.firstChild.cloneNode(!1);e.replaceChild(t,e.firstChild),e.scrollTop=0}}),this.$menu.data("this",this),this.$newElement.data("this",this),this.options.mobile&&this.mobile(),this.$newElement.on({"hide.bs.dropdown":function(e){i.$element.trigger("hide"+F,e)},"hidden.bs.dropdown":function(e){i.$element.trigger("hidden"+F,e)},"show.bs.dropdown":function(e){i.$element.trigger("show"+F,e)},"shown.bs.dropdown":function(e){i.$element.trigger("shown"+F,e)}}),t.hasAttribute("required")&&this.$element.on("invalid"+F,function(){i.$button[0].classList.add("bs-invalid"),i.$element.on("shown"+F+".invalid",function(){i.$element.val(i.$element.val()).off("shown"+F+".invalid")}).on("rendered"+F,function(){this.validity.valid&&i.$button[0].classList.remove("bs-invalid"),i.$element.off("rendered"+F)}),i.$button.on("blur"+F,function(){i.$element.trigger("focus").trigger("blur"),i.$button.off("blur"+F)})}),s&&T(s).on("reset"+F,function(){requestAnimationFrame(function(){i.render()})})},createDropdown:function(){var e=this.multiple||this.options.showTick?" show-tick":"",t=this.multiple?' aria-multiselectable="true"':"",i="",s=this.autofocus?" autofocus":"";j.major<4&&this.$element.parent().hasClass("input-group")&&(i=" input-group-btn");var n,o="",l="",r="",a="",c="";return this.options.header&&(o='<div class="'+G.POPOVERHEADER+'"><button type="button" class="close" aria-hidden="true">&times;</button>'+this.options.header+"</div>"),this.options.liveSearch&&(l='<div class="bs-searchbox"><input type="search" class="form-control" autocomplete="off"'+(null===this.options.liveSearchPlaceholder?"":' placeholder="'+E(this.options.liveSearchPlaceholder)+'"')+' role="combobox" aria-label="Search" aria-controls="'+this.selectId+'" aria-autocomplete="list"></div>'),this.multiple&&this.options.actionsBox&&(r='<div class="bs-actionsbox"><div class="btn-group btn-group-sm"><button type="button" class="actions-btn bs-select-all btn '+G.BUTTONCLASS+'">'+this.options.selectAllText+'</button><button type="button" class="actions-btn bs-deselect-all btn '+G.BUTTONCLASS+'">'+this.options.deselectAllText+"</button></div></div>"),this.multiple&&this.options.doneButton&&(a='<div class="bs-donebutton"><div class="btn-group"><button type="button" class="btn btn-sm '+G.BUTTONCLASS+'">'+this.options.doneButtonText+"</button></div></div>"),this.options.allowClear&&(c='<span class="close bs-select-clear-selected" title="'+this.options.deselectAllText+'"><span>&times;</span>'),n='<div class="dropdown bootstrap-select'+e+i+'"><button type="button" tabindex="-1" class="'+this.options.styleBase+' dropdown-toggle" '+("static"===this.options.display?'data-display="static"':"")+q.DATA_TOGGLE+s+' role="combobox" aria-owns="'+this.selectId+'" aria-haspopup="listbox" aria-expanded="false"><div class="filter-option"><div class="filter-option-inner"><div class="filter-option-inner-inner">&nbsp;</div></div> </div>'+c+"</span>"+("4"<=j.major?"":'<span class="bs-caret">'+this.options.template.caret+"</span>")+'</button><div class="'+G.MENU+" "+("4"<=j.major?"":G.SHOW)+'">'+o+l+r+'<div class="inner '+G.SHOW+'" role="listbox" id="'+this.selectId+'" tabindex="-1" '+t+'><ul class="'+G.MENU+" inner "+("4"<=j.major?G.SHOW:"")+'" role="presentation"></ul></div>'+a+"</div></div>",T(n)},setPositionData:function(){this.selectpicker.view.canHighlight=[],this.selectpicker.view.size=0,this.selectpicker.view.firstHighlightIndex=!1;for(var e=0;e<this.selectpicker.current.data.length;e++){var t=this.selectpicker.current.data[e],i=!0;"divider"===t.type?(i=!1,t.height=this.sizeInfo.dividerHeight):"optgroup-label"===t.type?(i=!1,t.height=this.sizeInfo.dropdownHeaderHeight):t.height=this.sizeInfo.liHeight,t.disabled&&(i=!1),this.selectpicker.view.canHighlight.push(i),i&&(this.selectpicker.view.size++,t.posinset=this.selectpicker.view.size,!1===this.selectpicker.view.firstHighlightIndex&&(this.selectpicker.view.firstHighlightIndex=e)),t.position=(0===e?0:this.selectpicker.current.data[e-1].position)+t.height}},isVirtual:function(){return!1!==this.options.virtualScroll&&this.selectpicker.main.data.length>=this.options.virtualScroll||!0===this.options.virtualScroll},createView:function(z,e,t){var D,L,N=this,i=0,H=[];if(this.selectpicker.isSearching=z,this.selectpicker.current=z?this.selectpicker.search:this.selectpicker.main,this.setPositionData(),e)if(t)i=this.$menuInner[0].scrollTop;else if(!N.multiple){var s=N.$element[0],n=(s.options[s.selectedIndex]||{}).liIndex;if("number"==typeof n&&!1!==N.options.size){var o=N.selectpicker.main.data[n],l=o&&o.position;l&&(i=l-(N.sizeInfo.menuInnerHeight+N.sizeInfo.liHeight)/2)}}function W(e,t){var i,s,n,o,l,r,a,c,d=N.selectpicker.current.data.length,h=[],p=!0,u=N.isVirtual();N.selectpicker.view.scrollTop=e,i=N.options.chunkSize,s=Math.ceil(d/i)||1;for(var f=0;f<s;f++){var m=(f+1)*i;if(f===s-1&&(m=d),h[f]=[f*i+(f?1:0),m],!d)break;void 0===l&&e-1<=N.selectpicker.current.data[m-1].position-N.sizeInfo.menuInnerHeight&&(l=f)}if(void 0===l&&(l=0),r=[N.selectpicker.view.position0,N.selectpicker.view.position1],n=Math.max(0,l-1),o=Math.min(s-1,l+1),N.selectpicker.view.position0=!1===u?0:Math.max(0,h[n][0])||0,N.selectpicker.view.position1=!1===u?d:Math.min(d,h[o][1])||0,a=r[0]!==N.selectpicker.view.position0||r[1]!==N.selectpicker.view.position1,void 0!==N.activeIndex&&(L=(N.selectpicker.main.data[N.prevActiveIndex]||{}).element,H=(N.selectpicker.main.data[N.activeIndex]||{}).element,D=(N.selectpicker.main.data[N.selectedIndex]||{}).element,t&&(N.activeIndex!==N.selectedIndex&&N.defocusItem(H),N.activeIndex=void 0),N.activeIndex&&N.activeIndex!==N.selectedIndex&&N.defocusItem(D)),void 0!==N.prevActiveIndex&&N.prevActiveIndex!==N.activeIndex&&N.prevActiveIndex!==N.selectedIndex&&N.defocusItem(L),t||a){if(c=N.selectpicker.view.visibleElements?N.selectpicker.view.visibleElements.slice():[],N.selectpicker.view.visibleElements=!1===u?N.selectpicker.current.elements:N.selectpicker.current.elements.slice(N.selectpicker.view.position0,N.selectpicker.view.position1),N.setOptionStatus(),(z||!1===u&&t)&&(p=!function(e,i){return e.length===i.length&&e.every(function(e,t){return e===i[t]})}(c,N.selectpicker.view.visibleElements)),(t||!0===u)&&p){var v,g,b=N.$menuInner[0],w=document.createDocumentFragment(),I=b.firstChild.cloneNode(!1),x=N.selectpicker.view.visibleElements,k=[];b.replaceChild(I,b.firstChild);f=0;for(var y=x.length;f<y;f++){var $,S,E=x[f];N.options.sanitize&&($=E.lastChild)&&(S=N.selectpicker.current.data[f+N.selectpicker.view.position0])&&S.content&&!S.sanitized&&(k.push($),S.sanitized=!0),w.appendChild(E)}if(N.options.sanitize&&k.length&&P(k,N.options.whiteList,N.options.sanitizeFn),!0===u?(v=0===N.selectpicker.view.position0?0:N.selectpicker.current.data[N.selectpicker.view.position0-1].position,g=N.selectpicker.view.position1>d-1?0:N.selectpicker.current.data[d-1].position-N.selectpicker.current.data[N.selectpicker.view.position1-1].position,b.firstChild.style.marginTop=v+"px",b.firstChild.style.marginBottom=g+"px"):(b.firstChild.style.marginTop=0,b.firstChild.style.marginBottom=0),b.firstChild.appendChild(w),!0===u&&N.sizeInfo.hasScrollBar){var C=b.firstChild.offsetWidth;if(t&&C<N.sizeInfo.menuInnerInnerWidth&&N.sizeInfo.totalMenuWidth>N.sizeInfo.selectWidth)b.firstChild.style.minWidth=N.sizeInfo.menuInnerInnerWidth+"px";else if(C>N.sizeInfo.menuInnerInnerWidth){N.$menu[0].style.minWidth=0;var O=b.firstChild.offsetWidth;O>N.sizeInfo.menuInnerInnerWidth&&(N.sizeInfo.menuInnerInnerWidth=O,b.firstChild.style.minWidth=N.sizeInfo.menuInnerInnerWidth+"px"),N.$menu[0].style.minWidth=""}}}(!z&&N.options.source.load||z&&N.options.source.search)&&l===s-1&&N.fetchData(function(){N.render(),N.buildList(d,z),N.setPositionData(),W(e)},z?"search":"load",l+1,z?N.selectpicker.search.previousValue:void 0)}if(N.prevActiveIndex=N.activeIndex,N.options.liveSearch){if(z&&t){var A,T=0;N.selectpicker.view.canHighlight[T]||(T=1+N.selectpicker.view.canHighlight.slice(1).indexOf(!0)),A=N.selectpicker.view.visibleElements[T],N.defocusItem(N.selectpicker.view.currentActive),N.activeIndex=(N.selectpicker.current.data[T]||{}).index,N.focusItem(A)}}else N.$menuInner.trigger("focus")}W(i,!0),this.$menuInner.off("scroll.createView").on("scroll.createView",function(e,t){N.noScroll||W(this.scrollTop,t),N.noScroll=!1}),T(window).off("resize"+F+"."+this.selectId+".createView").on("resize"+F+"."+this.selectId+".createView",function(){N.$newElement.hasClass(G.SHOW)&&W(N.$menuInner[0].scrollTop)})},focusItem:function(e,t,i){if(e){t=t||this.selectpicker.main.data[this.activeIndex];var s=e.firstChild;s&&(s.setAttribute("aria-setsize",this.selectpicker.view.size),s.setAttribute("aria-posinset",t.posinset),!0!==i&&(this.focusedParent.setAttribute("aria-activedescendant",s.id),e.classList.add("active"),s.classList.add("active")))}},defocusItem:function(e){e&&(e.classList.remove("active"),e.firstChild&&e.firstChild.classList.remove("active"))},setPlaceholder:function(){var e=this,t=!1;if((this.options.placeholder||this.options.allowClear)&&!this.multiple){this.selectpicker.view.titleOption||(this.selectpicker.view.titleOption=document.createElement("option")),t=!0;var i=this.$element[0],s=!1,n=!this.selectpicker.view.titleOption.parentNode,o=i.selectedIndex,l=i.options[o],r=i.querySelector("select > *:not(:disabled)"),a=r?r.index:0,c=window.performance&&window.performance.getEntriesByType("navigation"),d=c&&c.length?"back_forward"!==c[0].type:2!==window.performance.navigation.type;n&&(this.selectpicker.view.titleOption.className="bs-title-option",this.selectpicker.view.titleOption.value="",s=!l||o===a&&!1===l.defaultSelected&&void 0===this.$element.data("selected")),!n&&0===this.selectpicker.view.titleOption.index||i.insertBefore(this.selectpicker.view.titleOption,i.firstChild),s&&d?i.selectedIndex=0:"complete"!==document.readyState&&window.addEventListener("pageshow",function(){e.selectpicker.view.displayedValue!==i.value&&e.render()})}return t},fetchData:function(t,i,e,s){i=i||"data";var n,o=this,l=this.options.source[i];l?(this.options.virtualScroll=!0,"function"==typeof l?l.call(this,function(e){n=o.buildData(e,i),t.call(o,n)},e,s):Array.isArray(l)&&(n=o.buildData(l,i),t.call(o,n))):(n=this.buildData(!1,i),t.call(o,n))},buildData:function(p,e){var u=!1===p?J.fromOption:J.fromDataSource,f=':not([hidden]):not([data-hidden="true"])',m=[],l=0,v=0,g=this.setPlaceholder()&&!p?1:0;"load"===e?l=this.selectpicker.main.data.length:"search"===e&&(l=this.selectpicker.search.data.length),this.options.hideDisabled&&(f+=":not(:disabled)");var t=p?p.filter(ee,this):this.$element[0].querySelectorAll("select > *"+f);function b(e){var t=m[m.length-1];t&&"divider"===t.type&&(t.optID||e.optID)||((e=e||{}).type="divider",m.push(e))}function w(e,t){if((t=t||{}).divider=u(e,"divider"),!0===t.divider)b({optID:t.optID});else{var i=m.length+l,s=u(e,"style"),n=s?E(s):"",o=(e.className||"")+(t.optgroupClass||"");t.optID&&(o="opt "+o),t.optionClass=o.trim(),t.inlineStyle=n,t.text=u(e,"text"),t.content=u(e,"content"),t.tokens=u(e,"tokens"),t.subtext=u(e,"subtext"),t.icon=u(e,"icon"),t.display=t.content||t.text,t.value=void 0===e.value?e.text:e.value,t.type="option",t.index=i,t.option=e.option?e.option:e,t.option.liIndex=i,t.selected=!!e.selected,t.disabled=t.disabled||!!e.disabled,m.push(t)}}function i(e,t){var i=t[e],s=!(e-1<g)&&t[e-1],n=t[e+1],o=p?i.children.filter(ee,this):i.querySelectorAll("option"+f);if(o.length){var l,r,a={display:E(u(I,"label")),subtext:u(i,"subtext"),icon:u(i,"icon"),type:"optgroup-label",optgroupClass:" "+(i.className||"")};v++,s&&b({optID:v}),a.optID=v,m.push(a);for(var c=0,d=o.length;c<d;c++){var h=o[c];0===c&&(r=(l=m.length-1)+d),w(h,{headerIndex:l,lastIndex:r,optID:a.optID,optgroupClass:a.optgroupClass,disabled:i.disabled})}n&&b({optID:v})}}for(var s=t.length,n=g;n<s;n++){var I=t[n],o=I.children;o&&o.length?i.call(this,g,t):w.call(this,I,{})}switch(e){case"data":this.selectpicker.main.data=this.selectpicker.current.data=m;break;case"load":Array.prototype.push.apply(this.selectpicker.main.data,m),this.selectpicker.current.data=this.selectpicker.main.data;break;case"search":Array.prototype.push.apply(this.selectpicker.search.data,m)}return m},buildList:function(e,t){var n=this,i=t?this.selectpicker.search.data:this.selectpicker.main.data,s=[],o=0;function l(e,t){var i,s=0;switch(t.type){case"divider":i=Z.li(!1,G.DIVIDER,t.optID?t.optID+"div":void 0);break;case"option":(i=Z.li(Z.a(Z.text.call(n,t),t.optionClass,t.inlineStyle),"",t.optID)).firstChild&&(i.firstChild.id=n.selectId+"-"+t.index);break;case"optgroup-label":i=Z.li(Z.label.call(n,t),"dropdown-header"+t.optgroupClass,t.optID)}t.element=i,e.push(i),t.display&&(s+=t.display.length),t.subtext&&(s+=t.subtext.length),t.icon&&(s+=1),o<s&&(o=s,n.selectpicker.view.widestOption=e[e.length-1])}!n.options.showTick&&!n.multiple||K.checkMark.parentNode||(K.checkMark.className=this.options.iconBase+" "+n.options.tickIcon+" check-mark",K.a.appendChild(K.checkMark));for(var r=e||0,a=i.length,c=r;c<a;c++){l(s,i[c])}e?t?Array.prototype.push.apply(this.selectpicker.search.elements,s):(Array.prototype.push.apply(this.selectpicker.main.elements,s),this.selectpicker.current.elements=this.selectpicker.main.elements):t?this.selectpicker.search.elements=s:this.selectpicker.main.elements=this.selectpicker.current.elements=s},findLis:function(){return this.$menuInner.find(".inner > li")},render:function(e){var t,i=this,s=this.$element[0],n=this.setPlaceholder()&&0===s.selectedIndex,o=A.call(this),l=o.length,r=z.call(this,o),a=this.$button[0],c=a.querySelector(".filter-option-inner-inner"),d=document.createTextNode(this.options.multipleSeparator),h=K.fragment.cloneNode(!1),p=!1;if(this.options.source.data&&e&&(o.map(function e(t){t.selected?i.createOption(t,!0):t.children&&t.children.length&&t.children.map(e)}),s.appendChild(this.selectpicker.main.optionQueue),n=n&&0===s.selectedIndex),a.classList.toggle("bs-placeholder",i.multiple?!l:!r&&0!==r),i.multiple||1!==o.length||(i.selectpicker.view.displayedValue=r),"static"===this.options.selectedTextFormat)h=Z.text.call(this,{text:this.options.placeholder},!0);else if(!1===(this.multiple&&-1!==this.options.selectedTextFormat.indexOf("count")&&1<l&&(1<(t=this.options.selectedTextFormat.split(">")).length&&l>t[1]||1===t.length&&2<=l))){if(!n){for(var u=0;u<l&&u<50;u++){var f=o[u],m={};f&&(this.multiple&&0<u&&h.appendChild(d.cloneNode(!1)),f.title?m.text=f.title:f.content&&i.options.showContent?(m.content=f.content.toString(),p=!0):(i.options.showIcon&&(m.icon=f.icon),i.options.showSubtext&&!i.multiple&&f.subtext&&(m.subtext=" "+f.subtext),m.text=f.text.trim()),h.appendChild(Z.text.call(this,m,!0)))}49<l&&h.appendChild(document.createTextNode("..."))}}else{var v=':not([hidden]):not([data-hidden="true"]):not([data-divider="true"])';this.options.hideDisabled&&(v+=":not(:disabled)");var g=this.$element[0].querySelectorAll("select > option"+v+", optgroup"+v+" option"+v).length,b="function"==typeof this.options.countSelectedText?this.options.countSelectedText(l,g):this.options.countSelectedText;h=Z.text.call(this,{text:b.replace("{0}",l.toString()).replace("{1}",g.toString())},!0)}if(h.childNodes.length||(h=Z.text.call(this,{text:this.options.placeholder?this.options.placeholder:this.options.noneSelectedText},!0)),a.title=h.textContent.replace(/<[^>]*>?/g,"").trim(),this.options.sanitize&&p&&P([h],i.options.whiteList,i.options.sanitizeFn),c.innerHTML="",c.appendChild(h),j.major<4&&this.$newElement[0].classList.contains("bs3-has-addon")){var w=a.querySelector(".filter-expand"),I=c.cloneNode(!0);I.className="filter-expand",w?a.replaceChild(I,w):a.appendChild(I)}this.$element.trigger("rendered"+F)},setStyle:function(e,t){var i,s=this.$button[0],n=this.$newElement[0],o=this.options.style.trim();this.$element.attr("class")&&this.$newElement.addClass(this.$element.attr("class").replace(/selectpicker|mobile-device|bs-select-hidden|validate\[.*\]/gi,"")),j.major<4&&(n.classList.add("bs3"),n.parentNode.classList&&n.parentNode.classList.contains("input-group")&&(n.previousElementSibling||n.nextElementSibling)&&(n.previousElementSibling||n.nextElementSibling).classList.contains("input-group-addon")&&n.classList.add("bs3-has-addon")),i=e?e.trim():o,"add"==t?i&&s.classList.add.apply(s.classList,i.split(" ")):"remove"==t?i&&s.classList.remove.apply(s.classList,i.split(" ")):(o&&s.classList.remove.apply(s.classList,o.split(" ")),i&&s.classList.add.apply(s.classList,i.split(" ")))},liHeight:function(e){if(e||!1!==this.options.size&&!Object.keys(this.sizeInfo).length){var t,i=K.div.cloneNode(!1),s=K.div.cloneNode(!1),n=K.div.cloneNode(!1),o=document.createElement("ul"),l=K.li.cloneNode(!1),r=K.li.cloneNode(!1),a=K.a.cloneNode(!1),c=K.span.cloneNode(!1),d=this.options.header&&0<this.$menu.find("."+G.POPOVERHEADER).length?this.$menu.find("."+G.POPOVERHEADER)[0].cloneNode(!0):null,h=this.options.liveSearch?K.div.cloneNode(!1):null,p=this.options.actionsBox&&this.multiple&&0<this.$menu.find(".bs-actionsbox").length?this.$menu.find(".bs-actionsbox")[0].cloneNode(!0):null,u=this.options.doneButton&&this.multiple&&0<this.$menu.find(".bs-donebutton").length?this.$menu.find(".bs-donebutton")[0].cloneNode(!0):null,f=this.$element[0].options[0];if(this.sizeInfo.selectWidth=this.$newElement[0].offsetWidth,c.className="text",a.className="dropdown-item "+(f?f.className:""),i.className=this.$menu[0].parentNode.className+" "+G.SHOW,i.style.width=0,"auto"===this.options.width&&(s.style.minWidth=0),s.className=G.MENU+" "+G.SHOW,n.className="inner "+G.SHOW,o.className=G.MENU+" inner "+("4"<=j.major?G.SHOW:""),l.className=G.DIVIDER,r.className="dropdown-header",c.appendChild(document.createTextNode("\u200b")),this.selectpicker.current.data.length)for(var m=0;m<this.selectpicker.current.data.length;m++){var v=this.selectpicker.current.data[m];if("option"===v.type){t=v.element;break}}else t=K.li.cloneNode(!1),a.appendChild(c),t.appendChild(a);if(r.appendChild(c.cloneNode(!0)),this.selectpicker.view.widestOption&&o.appendChild(this.selectpicker.view.widestOption.cloneNode(!0)),o.appendChild(t),o.appendChild(l),o.appendChild(r),d&&s.appendChild(d),h){var g=document.createElement("input");h.className="bs-searchbox",g.className="form-control",h.appendChild(g),s.appendChild(h)}p&&s.appendChild(p),n.appendChild(o),s.appendChild(n),u&&s.appendChild(u),i.appendChild(s),document.body.appendChild(i);var b,w=t.offsetHeight,I=r?r.offsetHeight:0,x=d?d.offsetHeight:0,k=h?h.offsetHeight:0,y=p?p.offsetHeight:0,$=u?u.offsetHeight:0,S=T(l).outerHeight(!0),E=window.getComputedStyle(s),C=s.offsetWidth,O={vert:L(E.paddingTop)+L(E.paddingBottom)+L(E.borderTopWidth)+L(E.borderBottomWidth),horiz:L(E.paddingLeft)+L(E.paddingRight)+L(E.borderLeftWidth)+L(E.borderRightWidth)},A={vert:O.vert+L(E.marginTop)+L(E.marginBottom)+2,horiz:O.horiz+L(E.marginLeft)+L(E.marginRight)+2};n.style.overflowY="scroll",b=s.offsetWidth-C,document.body.removeChild(i),this.sizeInfo.liHeight=w,this.sizeInfo.dropdownHeaderHeight=I,this.sizeInfo.headerHeight=x,this.sizeInfo.searchHeight=k,this.sizeInfo.actionsHeight=y,this.sizeInfo.doneButtonHeight=$,this.sizeInfo.dividerHeight=S,this.sizeInfo.menuPadding=O,this.sizeInfo.menuExtras=A,this.sizeInfo.menuWidth=C,this.sizeInfo.menuInnerInnerWidth=C-O.horiz,this.sizeInfo.totalMenuWidth=this.sizeInfo.menuWidth,this.sizeInfo.scrollBarWidth=b,this.sizeInfo.selectHeight=this.$newElement[0].offsetHeight,this.setPositionData()}},getSelectPosition:function(){var e,t=T(window),i=this.$newElement.offset(),s=T(this.options.container);this.options.container&&s.length&&!s.is("body")?((e=s.offset()).top+=parseInt(s.css("borderTopWidth")),e.left+=parseInt(s.css("borderLeftWidth"))):e={top:0,left:0};var n=this.options.windowPadding;this.sizeInfo.selectOffsetTop=i.top-e.top-t.scrollTop(),this.sizeInfo.selectOffsetBot=t.height()-this.sizeInfo.selectOffsetTop-this.sizeInfo.selectHeight-e.top-n[2],this.sizeInfo.selectOffsetLeft=i.left-e.left-t.scrollLeft(),this.sizeInfo.selectOffsetRight=t.width()-this.sizeInfo.selectOffsetLeft-this.sizeInfo.selectWidth-e.left-n[1],this.sizeInfo.selectOffsetTop-=n[0],this.sizeInfo.selectOffsetLeft-=n[3]},setMenuSize:function(e){this.getSelectPosition();var t,i,s,n,o,l,r,a,c=this.sizeInfo.selectWidth,d=this.sizeInfo.liHeight,h=this.sizeInfo.headerHeight,p=this.sizeInfo.searchHeight,u=this.sizeInfo.actionsHeight,f=this.sizeInfo.doneButtonHeight,m=this.sizeInfo.dividerHeight,v=this.sizeInfo.menuPadding,g=0;if(this.options.dropupAuto&&(r=d*this.selectpicker.current.data.length+v.vert,a=this.sizeInfo.selectOffsetTop-this.sizeInfo.selectOffsetBot>this.sizeInfo.menuExtras.vert&&r+this.sizeInfo.menuExtras.vert+50>this.sizeInfo.selectOffsetBot,!0===this.selectpicker.isSearching&&(a=this.selectpicker.dropup),this.$newElement.toggleClass(G.DROPUP,a),this.selectpicker.dropup=a),"auto"===this.options.size)n=3<this.selectpicker.current.data.length?3*this.sizeInfo.liHeight+this.sizeInfo.menuExtras.vert-2:0,i=this.sizeInfo.selectOffsetBot-this.sizeInfo.menuExtras.vert,s=n+h+p+u+f,l=Math.max(n-v.vert,0),this.$newElement.hasClass(G.DROPUP)&&(i=this.sizeInfo.selectOffsetTop-this.sizeInfo.menuExtras.vert),t=(o=i)-h-p-u-f-v.vert;else if(this.options.size&&"auto"!=this.options.size&&this.selectpicker.current.elements.length>this.options.size){for(var b=0;b<this.options.size;b++)"divider"===this.selectpicker.current.data[b].type&&g++;t=(i=d*this.options.size+g*m+v.vert)-v.vert,o=i+h+p+u+f,s=l=""}this.$menu.css({"max-height":o+"px",overflow:"hidden","min-height":s+"px"}),this.$menuInner.css({"max-height":t+"px","overflow-y":"auto","min-height":l+"px"}),this.sizeInfo.menuInnerHeight=Math.max(t,1),this.selectpicker.current.data.length&&this.selectpicker.current.data[this.selectpicker.current.data.length-1].position>this.sizeInfo.menuInnerHeight&&(this.sizeInfo.hasScrollBar=!0,this.sizeInfo.totalMenuWidth=this.sizeInfo.menuWidth+this.sizeInfo.scrollBarWidth),"auto"===this.options.dropdownAlignRight&&this.$menu.toggleClass(G.MENURIGHT,this.sizeInfo.selectOffsetLeft>this.sizeInfo.selectOffsetRight&&this.sizeInfo.selectOffsetRight<this.sizeInfo.totalMenuWidth-c),this.dropdown&&this.dropdown._popper&&this.dropdown._popper.update()},setSize:function(e){if(this.liHeight(e),this.options.header&&this.$menu.css("padding-top",0),!1!==this.options.size){var t=this,i=T(window);this.setMenuSize(),this.options.liveSearch&&this.$searchbox.off("input.setMenuSize propertychange.setMenuSize").on("input.setMenuSize propertychange.setMenuSize",function(){return t.setMenuSize()}),"auto"===this.options.size?i.off("resize"+F+"."+this.selectId+".setMenuSize scroll"+F+"."+this.selectId+".setMenuSize").on("resize"+F+"."+this.selectId+".setMenuSize scroll"+F+"."+this.selectId+".setMenuSize",function(){return t.setMenuSize()}):this.options.size&&"auto"!=this.options.size&&this.selectpicker.current.elements.length>this.options.size&&i.off("resize"+F+"."+this.selectId+".setMenuSize scroll"+F+"."+this.selectId+".setMenuSize")}this.createView(!1,!0,e)},setWidth:function(){var i=this;"auto"===this.options.width?requestAnimationFrame(function(){i.$menu.css("min-width","0"),i.$element.on("loaded"+F,function(){i.liHeight(),i.setMenuSize();var e=i.$newElement.clone().appendTo("body"),t=e.css("width","auto").children("button").outerWidth();e.remove(),i.sizeInfo.selectWidth=Math.max(i.sizeInfo.totalMenuWidth,t),i.$newElement.css("width",i.sizeInfo.selectWidth+"px")})}):"fit"===this.options.width?(this.$menu.css("min-width",""),this.$newElement.css("width","").addClass("fit-width")):this.options.width?(this.$menu.css("min-width",""),this.$newElement.css("width",this.options.width)):(this.$menu.css("min-width",""),this.$newElement.css("width","")),this.$newElement.hasClass("fit-width")&&"fit"!==this.options.width&&this.$newElement[0].classList.remove("fit-width")},selectPosition:function(){this.$bsContainer=T('<div class="bs-container" />');function e(e){var t={},i=l.options.display||!!T.fn.dropdown.Constructor.Default&&T.fn.dropdown.Constructor.Default.display;l.$bsContainer.addClass(e.attr("class").replace(/form-control|fit-width/gi,"")).toggleClass(G.DROPUP,e.hasClass(G.DROPUP)),s=e.offset(),r.is("body")?n={top:0,left:0}:((n=r.offset()).top+=parseInt(r.css("borderTopWidth"))-r.scrollTop(),n.left+=parseInt(r.css("borderLeftWidth"))-r.scrollLeft()),o=e.hasClass(G.DROPUP)?0:e[0].offsetHeight,(j.major<4||"static"===i)&&(t.top=s.top-n.top+o,t.left=s.left-n.left),t.width=e[0].offsetWidth,l.$bsContainer.css(t)}var s,n,o,l=this,r=T(this.options.container);this.$button.on("click.bs.dropdown.data-api",function(){l.isDisabled()||(e(l.$newElement),l.$bsContainer.appendTo(l.options.container).toggleClass(G.SHOW,!l.$button.hasClass(G.SHOW)).append(l.$menu))}),T(window).off("resize"+F+"."+this.selectId+" scroll"+F+"."+this.selectId).on("resize"+F+"."+this.selectId+" scroll"+F+"."+this.selectId,function(){l.$newElement.hasClass(G.SHOW)&&e(l.$newElement)}),this.$element.on("hide"+F,function(){l.$menu.data("height",l.$menu.height()),l.$bsContainer.detach()})},createOption:function(e,t){var i=e.option?e.option:e;if(i&&1!==i.nodeType){var s=(t?K.selectedOption:K.option).cloneNode(!0);void 0!==i.value&&(s.value=i.value),s.textContent=i.text,s.selected=!0,void 0!==i.liIndex?s.liIndex=i.liIndex:t||(s.liIndex=e.index),e.option=s,this.selectpicker.main.optionQueue.appendChild(s)}},setOptionStatus:function(e){var t=this;if(t.noScroll=!1,t.selectpicker.view.visibleElements&&t.selectpicker.view.visibleElements.length){for(var i=0;i<t.selectpicker.view.visibleElements.length;i++){var s=t.selectpicker.current.data[i+t.selectpicker.view.position0];s.option&&(!0!==e&&t.setDisabled(s),t.setSelected(s))}this.options.source.data&&this.$element[0].appendChild(this.selectpicker.main.optionQueue)}},setSelected:function(e,t){t=void 0===t?e.selected:t;var i,s,n=e.index,o=e.element,l=void 0!==this.activeIndex,r=this.activeIndex===n||t&&!this.multiple&&!l;o&&(void 0!==t&&(e.selected=t,e.option&&(e.option.selected=t)),t&&this.options.source.data&&this.createOption(e,!1),s=o.firstChild,t&&(this.selectedIndex=n),o.classList.toggle("selected",t),r?(this.focusItem(o,e),this.selectpicker.view.currentActive=o,this.activeIndex=n):this.defocusItem(o),s&&(s.classList.toggle("selected",t),t?s.setAttribute("aria-selected",!0):this.multiple?s.setAttribute("aria-selected",!1):s.removeAttribute("aria-selected")),r||l||!t||void 0===this.prevActiveIndex||(i=this.selectpicker.main.elements[this.prevActiveIndex],this.defocusItem(i)))},setDisabled:function(e){var t,i=e.disabled,s=e.element;s&&(t=s.firstChild,s.classList.toggle(G.DISABLED,i),t&&("4"<=j.major&&t.classList.toggle(G.DISABLED,i),i?(t.setAttribute("aria-disabled",i),t.setAttribute("tabindex",-1)):(t.removeAttribute("aria-disabled"),t.setAttribute("tabindex",0))))},isDisabled:function(){return this.$element[0].disabled},checkDisabled:function(){this.isDisabled()?(this.$newElement[0].classList.add(G.DISABLED),this.$button.addClass(G.DISABLED).attr("aria-disabled",!0)):this.$button[0].classList.contains(G.DISABLED)&&(this.$newElement[0].classList.remove(G.DISABLED),this.$button.removeClass(G.DISABLED).attr("aria-disabled",!1))},clickListener:function(){var O=this,t=T(document);function e(){O.options.liveSearch?O.$searchbox.trigger("focus"):O.$menuInner.trigger("focus")}function i(){O.dropdown&&O.dropdown._popper&&O.dropdown._popper.state?e():requestAnimationFrame(i)}t.data("spaceSelect",!1),this.$button.on("keyup",function(e){/(32)/.test(e.keyCode.toString(10))&&t.data("spaceSelect")&&(e.preventDefault(),t.data("spaceSelect",!1))}),this.$newElement.on("show.bs.dropdown",function(){O.dropdown||"4"!==j.major||(O.dropdown=O.$button.data("bs.dropdown"),O.dropdown._menu=O.$menu[0])}),this.$button.on("click.bs.dropdown.data-api",function(e){if(O.options.allowClear){var t=e.target,i=O.$clearButton[0];/MSIE|Trident/.test(window.navigator.userAgent)&&(t=document.elementFromPoint(e.clientX,e.clientY)),t!==i&&t.parentElement!==i||(e.stopImmediatePropagation(),function(){if(O.multiple)O.deselectAll();else{var e=O.$element[0],t=e.value,i=e.selectedIndex,s=e.options[i],n=!!s&&O.selectpicker.main.data[s.liIndex];n&&O.setSelected(n,!1),e.selectedIndex=0,D=[i,!1,t],O.$element.triggerNative("change")}O.$newElement.hasClass(G.SHOW)&&(O.options.liveSearch&&O.$searchbox.trigger("focus"),O.createView(!1))}())}O.$newElement.hasClass(G.SHOW)||O.setSize()}),this.$element.on("shown"+F,function(){O.$menuInner[0].scrollTop!==O.selectpicker.view.scrollTop&&(O.$menuInner[0].scrollTop=O.selectpicker.view.scrollTop),3<j.major?requestAnimationFrame(i):e()}),this.$menuInner.on("mouseenter","li a",function(e){var t=this.parentElement,i=O.isVirtual()?O.selectpicker.view.position0:0,s=Array.prototype.indexOf.call(t.parentElement.children,t),n=O.selectpicker.current.data[s+i];O.focusItem(t,n,!0)}),this.$menuInner.on("click","li a",function(e,t){var i=T(this),s=O.$element[0],n=O.isVirtual()?O.selectpicker.view.position0:0,o=O.selectpicker.current.data[i.parent().index()+n],l=o.index,r=z.call(O),a=s.selectedIndex,c=s.options[a],d=!!c&&O.selectpicker.main.data[c.liIndex],h=!0;if(O.multiple&&1!==O.options.maxOptions&&e.stopPropagation(),e.preventDefault(),!O.isDisabled()&&!i.parent().hasClass(G.DISABLED)){var p=o.option,u=T(p),f=p.selected,m=u.parent("optgroup"),v=m.find("option"),g=O.options.maxOptions,b=m.data("maxOptions")||!1;if(l===O.activeIndex&&(t=!0),t||(O.prevActiveIndex=O.activeIndex,O.activeIndex=void 0),O.multiple){if(O.setSelected(o,!f),O.focusedParent.focus(),!1!==g||!1!==b){var w=g<A.call(O).length,I=b<m.find("option:selected").length;if(g&&w||b&&I)if(g&&1==g)s.selectedIndex=-1,p.selected=!0,O.setOptionStatus(!0);else if(b&&1==b){for(var x=0;x<v.length;x++){var k=v[x];k.selected=!1,O.setSelected(k.liIndex,!1)}p.selected=!0,O.setSelected(l,!0)}else{var y="string"==typeof O.options.maxOptionsText?[O.options.maxOptionsText,O.options.maxOptionsText]:O.options.maxOptionsText,$="function"==typeof y?y(g,b):y,S=$[0].replace("{n}",g),E=$[1].replace("{n}",b),C=T('<div class="notify"></div>');$[2]&&(S=S.replace("{var}",$[2][1<g?0:1]),E=E.replace("{var}",$[2][1<b?0:1])),p.selected=!1,O.$menu.append(C),g&&w&&(C.append(T("<div>"+S+"</div>")),h=!1,O.$element.trigger("maxReached"+F)),b&&I&&(C.append(T("<div>"+E+"</div>")),h=!1,O.$element.trigger("maxReachedGrp"+F)),setTimeout(function(){O.setSelected(l,!1)},10),C[0].classList.add("fadeOut"),setTimeout(function(){C.remove()},1050)}}}else d&&O.setSelected(d,!1),O.setSelected(o,!0);O.options.source.data&&O.$element[0].appendChild(O.selectpicker.main.optionQueue),!O.multiple||O.multiple&&1===O.options.maxOptions?O.$button.trigger("focus"):O.options.liveSearch&&O.$searchbox.trigger("focus"),h&&(!O.multiple&&a===s.selectedIndex||(D=[p.index,u.prop("selected"),r],O.$element.triggerNative("change")))}}),this.$menu.on("click","li."+G.DISABLED+" a, ."+G.POPOVERHEADER+", ."+G.POPOVERHEADER+" :not(.close)",function(e){e.currentTarget==this&&(e.preventDefault(),e.stopPropagation(),O.options.liveSearch&&!T(e.target).hasClass("close")?O.$searchbox.trigger("focus"):O.$button.trigger("focus"))}),this.$menuInner.on("click",".divider, .dropdown-header",function(e){e.preventDefault(),e.stopPropagation(),O.options.liveSearch?O.$searchbox.trigger("focus"):O.$button.trigger("focus")}),this.$menu.on("click","."+G.POPOVERHEADER+" .close",function(){O.$button.trigger("click")}),this.$searchbox.on("click",function(e){e.stopPropagation()}),this.$menu.on("click",".actions-btn",function(e){O.options.liveSearch?O.$searchbox.trigger("focus"):O.$button.trigger("focus"),e.preventDefault(),e.stopPropagation(),T(this).hasClass("bs-select-all")?O.selectAll():O.deselectAll()}),this.$button.on("focus"+F,function(e){var t=O.$element[0].getAttribute("tabindex");void 0!==t&&e.originalEvent&&e.originalEvent.isTrusted&&(this.setAttribute("tabindex",t),O.$element[0].setAttribute("tabindex",-1),O.selectpicker.view.tabindex=t)}).on("blur"+F,function(e){void 0!==O.selectpicker.view.tabindex&&e.originalEvent&&e.originalEvent.isTrusted&&(O.$element[0].setAttribute("tabindex",O.selectpicker.view.tabindex),this.setAttribute("tabindex",-1),O.selectpicker.view.tabindex=void 0)}),this.$element.on("change"+F,function(){O.render(),O.$element.trigger("changed"+F,D),D=null}).on("focus"+F,function(){O.options.mobile||O.$button[0].focus()})},liveSearchListener:function(){var u=this;this.$button.on("click.bs.dropdown.data-api",function(){u.$searchbox.val()&&(u.$searchbox.val(""),u.selectpicker.search.previousValue=void 0)}),this.$searchbox.on("click.bs.dropdown.data-api focus.bs.dropdown.data-api touchend.bs.dropdown.data-api",function(e){e.stopPropagation()}),this.$searchbox.on("input propertychange",function(){var t=u.$searchbox[0].value;if(u.selectpicker.search.elements=[],u.selectpicker.search.data=[],t)if(u.options.source.search)u.fetchData(function(e){u.render(),u.buildList(void 0,!0),u.createView(!0),X.call(u,e,t)},"search",0,t);else{var e=[],i=t.toUpperCase(),s={},n=[],o=u._searchStyle(),l=u.options.liveSearchNormalize;l&&(i=I(i));for(var r=0;r<u.selectpicker.main.data.length;r++){var a=u.selectpicker.main.data[r];s[r]||(s[r]=k(a,i,o,l)),s[r]&&void 0!==a.headerIndex&&-1===n.indexOf(a.headerIndex)&&(0<a.headerIndex&&(s[a.headerIndex-1]=!0,n.push(a.headerIndex-1)),s[a.headerIndex]=!0,n.push(a.headerIndex),s[a.lastIndex+1]=!0),s[r]&&"optgroup-label"!==a.type&&n.push(r)}r=0;for(var c=n.length;r<c;r++){var d=n[r],h=n[r-1],p=(a=u.selectpicker.main.data[d],u.selectpicker.main.data[h]);("divider"!==a.type||"divider"===a.type&&p&&"divider"!==p.type&&c-1!==r)&&(u.selectpicker.search.data.push(a),e.push(u.selectpicker.main.elements[d]))}u.activeIndex=void 0,u.noScroll=!0,u.$menuInner.scrollTop(0),u.selectpicker.search.elements=e,u.createView(!0),X.call(u,e,t)}else u.selectpicker.search.previousValue&&(u.$menuInner.scrollTop(0),u.createView(!1));u.selectpicker.search.previousValue=t})},_searchStyle:function(){return this.options.liveSearchStyle||"contains"},val:function(t){var e=this.$element[0];if(void 0===t)return this.$element.val();var i=A.call(this),s=z.call(this,i);D=[null,null,s],Array.isArray(t)||(t=[t]),t.map(String);for(var n=0;n<i.length;n++){var o=i[n];o&&-1===t.indexOf(String(o.value))&&this.setSelected(o,!1)}if(this.selectpicker.main.data.filter(function(e){return-1!==t.indexOf(String(e.value))&&(this.setSelected(e,!0),!0)},this),this.options.source.data&&e.appendChild(this.selectpicker.main.optionQueue),this.$element.trigger("changed"+F,D),this.$newElement.hasClass(G.SHOW))if(this.multiple)this.setOptionStatus(!0);else{var l=(e.options[e.selectedIndex]||{}).liIndex;"number"==typeof l&&(this.setSelected(this.selectedIndex,!1),this.setSelected(l,!0))}return this.render(),D=null,this.$element},changeAll:function(e){if(this.multiple){void 0===e&&(e=!0);var t=this.$element[0],i=0,s=0,n=z.call(this);t.classList.add("bs-select-hidden");for(var o=0,l=this.selectpicker.current.data,r=l.length;o<r;o++){var a=l[o],c=a.option;c&&!a.disabled&&"divider"!==a.type&&(a.selected&&i++,c.selected=e,!0===(a.selected=e)&&s++)}t.classList.remove("bs-select-hidden"),i!==s&&(this.setOptionStatus(),D=[null,null,n],this.$element.triggerNative("change"))}},selectAll:function(){return this.changeAll(!0)},deselectAll:function(){return this.changeAll(!1)},toggle:function(e,t){var i,s=void 0===t;(e=e||window.event)&&e.stopPropagation(),!1===s&&(i=this.$newElement[0].classList.contains(G.SHOW),s=!0===t&&!1===i||!1===t&&!0===i),s&&this.$button.trigger("click.bs.dropdown.data-api")},open:function(e){this.toggle(e,!0)},close:function(e){this.toggle(e,!1)},keydown:function(e){var t,i,s,n,o,l=T(this),r=l.hasClass("dropdown-toggle"),a=(r?l.closest(".dropdown"):l.closest(q.MENU)).data("this"),c=a.findLis(),d=!1,h=e.which===B&&!r&&!a.options.selectOnTab,p=Q.test(e.which)||h,u=a.$menuInner[0].scrollTop,f=!0===a.isVirtual()?a.selectpicker.view.position0:0;if(!(112<=e.which&&e.which<=123))if(!(i=a.$menu.hasClass(G.SHOW))&&(p||48<=e.which&&e.which<=57||96<=e.which&&e.which<=105||65<=e.which&&e.which<=90)&&(a.$button.trigger("click.bs.dropdown.data-api"),a.options.liveSearch))a.$searchbox.trigger("focus");else{if(e.which===N&&i&&(e.preventDefault(),a.$button.trigger("click.bs.dropdown.data-api").trigger("focus")),p){if(!c.length)return;-1!==(t=(s=a.selectpicker.main.elements[a.activeIndex])?Array.prototype.indexOf.call(s.parentElement.children,s):-1)&&a.defocusItem(s),e.which===M?(-1!==t&&t--,t+f<0&&(t+=c.length),a.selectpicker.view.canHighlight[t+f]||-1===(t=a.selectpicker.view.canHighlight.slice(0,t+f).lastIndexOf(!0)-f)&&(t=c.length-1)):e.which!==R&&!h||(++t+f>=a.selectpicker.view.canHighlight.length&&(t=a.selectpicker.view.firstHighlightIndex),a.selectpicker.view.canHighlight[t+f]||(t=t+1+a.selectpicker.view.canHighlight.slice(t+f+1).indexOf(!0))),e.preventDefault();var m=f+t;e.which===M?0===f&&t===c.length-1?(a.$menuInner[0].scrollTop=a.$menuInner[0].scrollHeight,m=a.selectpicker.current.elements.length-1):d=(o=(n=a.selectpicker.current.data[m]).position-n.height)<u:e.which!==R&&!h||(t===a.selectpicker.view.firstHighlightIndex?(a.$menuInner[0].scrollTop=0,m=a.selectpicker.view.firstHighlightIndex):d=u<(o=(n=a.selectpicker.current.data[m]).position-a.sizeInfo.menuInnerHeight)),s=a.selectpicker.current.elements[m],a.activeIndex=a.selectpicker.current.data[m].index,a.focusItem(s),a.selectpicker.view.currentActive=s,d&&(a.$menuInner[0].scrollTop=o),a.options.liveSearch?a.$searchbox.trigger("focus"):l.trigger("focus")}else if(!l.is("input")&&!Y.test(e.which)||e.which===W&&a.selectpicker.keydown.keyHistory){var v,g,b=[];e.preventDefault(),a.selectpicker.keydown.keyHistory+=O[e.which],a.selectpicker.keydown.resetKeyHistory.cancel&&clearTimeout(a.selectpicker.keydown.resetKeyHistory.cancel),a.selectpicker.keydown.resetKeyHistory.cancel=a.selectpicker.keydown.resetKeyHistory.start(),g=a.selectpicker.keydown.keyHistory,/^(.)\1+$/.test(g)&&(g=g.charAt(0));for(var w=0;w<a.selectpicker.current.data.length;w++){var I=a.selectpicker.current.data[w];k(I,g,"startsWith",!0)&&a.selectpicker.view.canHighlight[w]&&b.push(I.index)}if(b.length){var x=0;c.removeClass("active").find("a").removeClass("active"),1===g.length&&(-1===(x=b.indexOf(a.activeIndex))||x===b.length-1?x=0:x++),v=b[x],d=0<u-(n=a.selectpicker.main.data[v]).position?(o=n.position-n.height,!0):(o=n.position-a.sizeInfo.menuInnerHeight,n.position>u+a.sizeInfo.menuInnerHeight),s=a.selectpicker.main.elements[v],a.activeIndex=b[x],a.focusItem(s),s&&s.firstChild.focus(),d&&(a.$menuInner[0].scrollTop=o),l.trigger("focus")}}i&&(e.which===W&&!a.selectpicker.keydown.keyHistory||e.which===H||e.which===B&&a.options.selectOnTab)&&(e.which!==W&&e.preventDefault(),a.options.liveSearch&&e.which===W||(a.$menuInner.find(".active a").trigger("click",!0),l.trigger("focus"),a.options.liveSearch||(e.preventDefault(),T(document).data("spaceSelect",!0))))}},mobile:function(){this.options.mobile=!0,this.$element[0].classList.add("mobile-device")},refresh:function(){var e=this,t=T.extend({},this.options,h(this.$element),this.$element.data());this.options=t,this.options.source.data?(this.render(),this.buildList()):this.fetchData(function(){e.render(),e.buildList()}),this.checkDisabled(),this.setStyle(),this.setWidth(),this.setSize(!0),this.$element.trigger("refreshed"+F)},hide:function(){this.$newElement.hide()},show:function(){this.$newElement.show()},remove:function(){this.$newElement.remove(),this.$element.remove()},destroy:function(){this.$newElement.before(this.$element).remove(),this.$bsContainer?this.$bsContainer.remove():this.$menu.remove(),this.selectpicker.view.titleOption&&this.selectpicker.view.titleOption.parentNode&&this.selectpicker.view.titleOption.parentNode.removeChild(this.selectpicker.view.titleOption),this.$element.off(F).removeData("selectpicker").removeClass("bs-select-hidden selectpicker"),T(window).off(F+"."+this.selectId)}};var se=T.fn.selectpicker;function ne(){return j.major<5?T.fn.dropdown?(T.fn.dropdown.Constructor._dataApiKeydownHandler||T.fn.dropdown.Constructor.prototype.keydown).apply(this,arguments):void 0:U.dataApiKeydownHandler}T.fn.selectpicker=ie,T.fn.selectpicker.Constructor=te,T.fn.selectpicker.noConflict=function(){return T.fn.selectpicker=se,this},T(document).off("keydown.bs.dropdown.data-api").on("keydown.bs.dropdown.data-api",":not(.bootstrap-select) > ["+q.DATA_TOGGLE+"]",ne).on("keydown.bs.dropdown.data-api",":not(.bootstrap-select) > .dropdown-menu",ne).on("keydown"+F,".bootstrap-select ["+q.DATA_TOGGLE+'], .bootstrap-select [role="listbox"], .bootstrap-select .bs-searchbox input',te.prototype.keydown).on("focusin.modal",".bootstrap-select ["+q.DATA_TOGGLE+'], .bootstrap-select [role="listbox"], .bootstrap-select .bs-searchbox input',function(e){e.stopPropagation()}),document.addEventListener("DOMContentLoaded",function(){T(".selectpicker").each(function(){var e=T(this);ie.call(e,e.data())})})}(e)});
-//# sourceMappingURL=bootstrap-select.min.js.map
+(function (root, factory) {
+  if (root === undefined && window !== undefined) root = window;
+  if (true) {
+    // AMD. Register as an anonymous module unless amdModuleId is set
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function (a0) {
+      return (factory(a0));
+    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+  } else {}
+}(this, function (jQuery) {
+
+(function ($) {
+  'use strict';
+
+  var DISALLOWED_ATTRIBUTES = ['sanitize', 'whiteList', 'sanitizeFn'];
+
+  var uriAttrs = [
+    'background',
+    'cite',
+    'href',
+    'itemtype',
+    'longdesc',
+    'poster',
+    'src',
+    'xlink:href'
+  ];
+
+  var ARIA_ATTRIBUTE_PATTERN = /^aria-[\w-]*$/i;
+
+  var DefaultWhitelist = {
+    // Global attributes allowed on any supplied element below.
+    '*': ['class', 'dir', 'id', 'lang', 'role', 'tabindex', 'style', ARIA_ATTRIBUTE_PATTERN],
+    a: ['target', 'href', 'title', 'rel'],
+    area: [],
+    b: [],
+    br: [],
+    col: [],
+    code: [],
+    div: [],
+    em: [],
+    hr: [],
+    h1: [],
+    h2: [],
+    h3: [],
+    h4: [],
+    h5: [],
+    h6: [],
+    i: [],
+    img: ['src', 'alt', 'title', 'width', 'height'],
+    li: [],
+    ol: [],
+    p: [],
+    pre: [],
+    s: [],
+    small: [],
+    span: [],
+    sub: [],
+    sup: [],
+    strong: [],
+    u: [],
+    ul: []
+  }
+
+  /**
+   * A pattern that recognizes a commonly useful subset of URLs that are safe.
+   *
+   * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
+   */
+  var SAFE_URL_PATTERN = /^(?:(?:https?|mailto|ftp|tel|file):|[^&:/?#]*(?:[/?#]|$))/gi;
+
+  /**
+   * A pattern that matches safe data URLs. Only matches image, video and audio types.
+   *
+   * Shoutout to Angular 7 https://github.com/angular/angular/blob/7.2.4/packages/core/src/sanitization/url_sanitizer.ts
+   */
+  var DATA_URL_PATTERN = /^data:(?:image\/(?:bmp|gif|jpeg|jpg|png|tiff|webp)|video\/(?:mpeg|mp4|ogg|webm)|audio\/(?:mp3|oga|ogg|opus));base64,[a-z0-9+/]+=*$/i;
+
+  var ParseableAttributes = ['title', 'placeholder']; // attributes to use as settings, can add others in the future
+
+  function allowedAttribute (attr, allowedAttributeList) {
+    var attrName = attr.nodeName.toLowerCase()
+
+    if ($.inArray(attrName, allowedAttributeList) !== -1) {
+      if ($.inArray(attrName, uriAttrs) !== -1) {
+        return Boolean(attr.nodeValue.match(SAFE_URL_PATTERN) || attr.nodeValue.match(DATA_URL_PATTERN))
+      }
+
+      return true
+    }
+
+    var regExp = $(allowedAttributeList).filter(function (index, value) {
+      return value instanceof RegExp
+    })
+
+    // Check if a regular expression validates the attribute.
+    for (var i = 0, l = regExp.length; i < l; i++) {
+      if (attrName.match(regExp[i])) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  function sanitizeHtml (unsafeElements, whiteList, sanitizeFn) {
+    if (sanitizeFn && typeof sanitizeFn === 'function') {
+      return sanitizeFn(unsafeElements);
+    }
+
+    var whitelistKeys = Object.keys(whiteList);
+
+    for (var i = 0, len = unsafeElements.length; i < len; i++) {
+      var elements = unsafeElements[i].querySelectorAll('*');
+
+      for (var j = 0, len2 = elements.length; j < len2; j++) {
+        var el = elements[j];
+        var elName = el.nodeName.toLowerCase();
+
+        if (whitelistKeys.indexOf(elName) === -1) {
+          el.parentNode.removeChild(el);
+
+          continue;
+        }
+
+        var attributeList = [].slice.call(el.attributes);
+        var whitelistedAttributes = [].concat(whiteList['*'] || [], whiteList[elName] || []);
+
+        for (var k = 0, len3 = attributeList.length; k < len3; k++) {
+          var attr = attributeList[k];
+
+          if (!allowedAttribute(attr, whitelistedAttributes)) {
+            el.removeAttribute(attr.nodeName);
+          }
+        }
+      }
+    }
+  }
+
+  function getAttributesObject ($select) {
+    var attributesObject = {},
+        attrVal;
+
+    ParseableAttributes.forEach(function (item) {
+      attrVal = $select.attr(item);
+      if (attrVal) attributesObject[item] = attrVal;
+    });
+
+    // for backwards compatibility
+    // (using title as placeholder is deprecated - remove in v2.0.0)
+    if (!attributesObject.placeholder && attributesObject.title) {
+      attributesObject.placeholder = attributesObject.title;
+    }
+
+    return attributesObject;
+  }
+
+  // Polyfill for browsers with no classList support
+  // Remove in v2
+  if (!('classList' in document.createElement('_'))) {
+    (function (view) {
+      if (!('Element' in view)) return;
+
+      var classListProp = 'classList',
+          protoProp = 'prototype',
+          elemCtrProto = view.Element[protoProp],
+          objCtr = Object,
+          classListGetter = function () {
+            var $elem = $(this);
+
+            return {
+              add: function (classes) {
+                classes = Array.prototype.slice.call(arguments).join(' ');
+                return $elem.addClass(classes);
+              },
+              remove: function (classes) {
+                classes = Array.prototype.slice.call(arguments).join(' ');
+                return $elem.removeClass(classes);
+              },
+              toggle: function (classes, force) {
+                return $elem.toggleClass(classes, force);
+              },
+              contains: function (classes) {
+                return $elem.hasClass(classes);
+              }
+            }
+          };
+
+      if (objCtr.defineProperty) {
+        var classListPropDesc = {
+          get: classListGetter,
+          enumerable: true,
+          configurable: true
+        };
+        try {
+          objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+        } catch (ex) { // IE 8 doesn't support enumerable:true
+          // adding undefined to fight this issue https://github.com/eligrey/classList.js/issues/36
+          // modernie IE8-MSW7 machine has IE8 8.0.6001.18702 and is affected
+          if (ex.number === undefined || ex.number === -0x7FF5EC54) {
+            classListPropDesc.enumerable = false;
+            objCtr.defineProperty(elemCtrProto, classListProp, classListPropDesc);
+          }
+        }
+      } else if (objCtr[protoProp].__defineGetter__) {
+        elemCtrProto.__defineGetter__(classListProp, classListGetter);
+      }
+    }(window));
+  }
+
+  var testElement = document.createElement('_');
+
+  testElement.classList.add('c1', 'c2');
+
+  if (!testElement.classList.contains('c2')) {
+    var _add = DOMTokenList.prototype.add,
+        _remove = DOMTokenList.prototype.remove;
+
+    DOMTokenList.prototype.add = function () {
+      Array.prototype.forEach.call(arguments, _add.bind(this));
+    }
+
+    DOMTokenList.prototype.remove = function () {
+      Array.prototype.forEach.call(arguments, _remove.bind(this));
+    }
+  }
+
+  testElement.classList.toggle('c3', false);
+
+  // Polyfill for IE 10 and Firefox <24, where classList.toggle does not
+  // support the second argument.
+  if (testElement.classList.contains('c3')) {
+    var _toggle = DOMTokenList.prototype.toggle;
+
+    DOMTokenList.prototype.toggle = function (token, force) {
+      if (1 in arguments && !this.contains(token) === !force) {
+        return force;
+      } else {
+        return _toggle.call(this, token);
+      }
+    };
+  }
+
+  testElement = null;
+
+  // shallow array comparison
+  function isEqual (array1, array2) {
+    return array1.length === array2.length && array1.every(function (element, index) {
+      return element === array2[index];
+    });
+  };
+
+  // <editor-fold desc="Shims">
+  if (!String.prototype.startsWith) {
+    (function () {
+      'use strict'; // needed to support `apply`/`call` with `undefined`/`null`
+      var toString = {}.toString;
+      var startsWith = function (search) {
+        if (this == null) {
+          throw new TypeError();
+        }
+        var string = String(this);
+        if (search && toString.call(search) == '[object RegExp]') {
+          throw new TypeError();
+        }
+        var stringLength = string.length;
+        var searchString = String(search);
+        var searchLength = searchString.length;
+        var position = arguments.length > 1 ? arguments[1] : undefined;
+        // `ToInteger`
+        var pos = position ? Number(position) : 0;
+        if (pos != pos) { // better `isNaN`
+          pos = 0;
+        }
+        var start = Math.min(Math.max(pos, 0), stringLength);
+        // Avoid the `indexOf` call if no match is possible
+        if (searchLength + start > stringLength) {
+          return false;
+        }
+        var index = -1;
+        while (++index < searchLength) {
+          if (string.charCodeAt(start + index) != searchString.charCodeAt(index)) {
+            return false;
+          }
+        }
+        return true;
+      };
+      if (Object.defineProperty) {
+        Object.defineProperty(String.prototype, 'startsWith', {
+          'value': startsWith,
+          'configurable': true,
+          'writable': true
+        });
+      } else {
+        String.prototype.startsWith = startsWith;
+      }
+    }());
+  }
+
+  function getSelectedOptions () {
+    var selectedOptions = this.selectpicker.main.data.filter(function (item) {
+      if (item.selected) {
+        if (this.options.hideDisabled && item.disabled) return false;
+        return true;
+      }
+
+      return false;
+    }, this);
+
+    // ensure only 1 option is selected if multiple are set in the data source
+    if (this.options.source.data && !this.multiple && selectedOptions.length > 1) {
+      for (var i = 0; i < selectedOptions.length - 1; i++) {
+        selectedOptions[i].selected = false;
+      }
+
+      selectedOptions = [ selectedOptions[selectedOptions.length - 1] ];
+    }
+
+    return selectedOptions;
+  }
+
+  // much faster than $.val()
+  function getSelectValues (selectedOptions) {
+    var value = [],
+        options = selectedOptions || getSelectedOptions.call(this),
+        opt;
+
+    for (var i = 0, len = options.length; i < len; i++) {
+      opt = options[i];
+
+      if (!opt.disabled) {
+        value.push(opt.value === undefined ? opt.text : opt.value);
+      }
+    }
+
+    if (!this.multiple) {
+      return !value.length ? null : value[0];
+    }
+
+    return value;
+  }
+
+  // set data-selected on select element if the value has been programmatically selected
+  // prior to initialization of bootstrap-select
+  // * consider removing or replacing an alternative method *
+  var valHooks = {
+    useDefault: false,
+    _set: $.valHooks.select.set
+  };
+
+  $.valHooks.select.set = function (elem, value) {
+    if (value && !valHooks.useDefault) $(elem).data('selected', true);
+
+    return valHooks._set.apply(this, arguments);
+  };
+
+  var changedArguments = null;
+
+  var EventIsSupported = (function () {
+    try {
+      new Event('change');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  })();
+
+  $.fn.triggerNative = function (eventName) {
+    var el = this[0],
+        event;
+
+    if (el.dispatchEvent) { // for modern browsers & IE9+
+      if (EventIsSupported) {
+        // For modern browsers
+        event = new Event(eventName, {
+          bubbles: true
+        });
+      } else {
+        // For IE since it doesn't support Event constructor
+        event = document.createEvent('Event');
+        event.initEvent(eventName, true, false);
+      }
+
+      el.dispatchEvent(event);
+    }
+  };
+  // </editor-fold>
+
+  function stringSearch (li, searchString, method, normalize) {
+    var stringTypes = [
+          'display',
+          'subtext',
+          'tokens'
+        ],
+        searchSuccess = false;
+
+    for (var i = 0; i < stringTypes.length; i++) {
+      var stringType = stringTypes[i],
+          string = li[stringType];
+
+      if (string) {
+        string = string.toString();
+
+        // Strip HTML tags. This isn't perfect, but it's much faster than any other method
+        if (stringType === 'display') {
+          string = string.replace(/<[^>]+>/g, '');
+        }
+
+        if (normalize) string = normalizeToBase(string);
+        string = string.toUpperCase();
+
+        if (typeof method === 'function') {
+          searchSuccess = method(string, searchString);
+        } else if (method === 'contains') {
+          searchSuccess = string.indexOf(searchString) >= 0;
+        } else {
+          searchSuccess = string.startsWith(searchString);
+        }
+
+        if (searchSuccess) break;
+      }
+    }
+
+    return searchSuccess;
+  }
+
+  function toInteger (value) {
+    return parseInt(value, 10) || 0;
+  }
+
+  // Borrowed from Lodash (_.deburr)
+  /** Used to map Latin Unicode letters to basic Latin letters. */
+  var deburredLetters = {
+    // Latin-1 Supplement block.
+    '\xc0': 'A',  '\xc1': 'A', '\xc2': 'A', '\xc3': 'A', '\xc4': 'A', '\xc5': 'A',
+    '\xe0': 'a',  '\xe1': 'a', '\xe2': 'a', '\xe3': 'a', '\xe4': 'a', '\xe5': 'a',
+    '\xc7': 'C',  '\xe7': 'c',
+    '\xd0': 'D',  '\xf0': 'd',
+    '\xc8': 'E',  '\xc9': 'E', '\xca': 'E', '\xcb': 'E',
+    '\xe8': 'e',  '\xe9': 'e', '\xea': 'e', '\xeb': 'e',
+    '\xcc': 'I',  '\xcd': 'I', '\xce': 'I', '\xcf': 'I',
+    '\xec': 'i',  '\xed': 'i', '\xee': 'i', '\xef': 'i',
+    '\xd1': 'N',  '\xf1': 'n',
+    '\xd2': 'O',  '\xd3': 'O', '\xd4': 'O', '\xd5': 'O', '\xd6': 'O', '\xd8': 'O',
+    '\xf2': 'o',  '\xf3': 'o', '\xf4': 'o', '\xf5': 'o', '\xf6': 'o', '\xf8': 'o',
+    '\xd9': 'U',  '\xda': 'U', '\xdb': 'U', '\xdc': 'U',
+    '\xf9': 'u',  '\xfa': 'u', '\xfb': 'u', '\xfc': 'u',
+    '\xdd': 'Y',  '\xfd': 'y', '\xff': 'y',
+    '\xc6': 'Ae', '\xe6': 'ae',
+    '\xde': 'Th', '\xfe': 'th',
+    '\xdf': 'ss',
+    // Latin Extended-A block.
+    '\u0100': 'A',  '\u0102': 'A', '\u0104': 'A',
+    '\u0101': 'a',  '\u0103': 'a', '\u0105': 'a',
+    '\u0106': 'C',  '\u0108': 'C', '\u010a': 'C', '\u010c': 'C',
+    '\u0107': 'c',  '\u0109': 'c', '\u010b': 'c', '\u010d': 'c',
+    '\u010e': 'D',  '\u0110': 'D', '\u010f': 'd', '\u0111': 'd',
+    '\u0112': 'E',  '\u0114': 'E', '\u0116': 'E', '\u0118': 'E', '\u011a': 'E',
+    '\u0113': 'e',  '\u0115': 'e', '\u0117': 'e', '\u0119': 'e', '\u011b': 'e',
+    '\u011c': 'G',  '\u011e': 'G', '\u0120': 'G', '\u0122': 'G',
+    '\u011d': 'g',  '\u011f': 'g', '\u0121': 'g', '\u0123': 'g',
+    '\u0124': 'H',  '\u0126': 'H', '\u0125': 'h', '\u0127': 'h',
+    '\u0128': 'I',  '\u012a': 'I', '\u012c': 'I', '\u012e': 'I', '\u0130': 'I',
+    '\u0129': 'i',  '\u012b': 'i', '\u012d': 'i', '\u012f': 'i', '\u0131': 'i',
+    '\u0134': 'J',  '\u0135': 'j',
+    '\u0136': 'K',  '\u0137': 'k', '\u0138': 'k',
+    '\u0139': 'L',  '\u013b': 'L', '\u013d': 'L', '\u013f': 'L', '\u0141': 'L',
+    '\u013a': 'l',  '\u013c': 'l', '\u013e': 'l', '\u0140': 'l', '\u0142': 'l',
+    '\u0143': 'N',  '\u0145': 'N', '\u0147': 'N', '\u014a': 'N',
+    '\u0144': 'n',  '\u0146': 'n', '\u0148': 'n', '\u014b': 'n',
+    '\u014c': 'O',  '\u014e': 'O', '\u0150': 'O',
+    '\u014d': 'o',  '\u014f': 'o', '\u0151': 'o',
+    '\u0154': 'R',  '\u0156': 'R', '\u0158': 'R',
+    '\u0155': 'r',  '\u0157': 'r', '\u0159': 'r',
+    '\u015a': 'S',  '\u015c': 'S', '\u015e': 'S', '\u0160': 'S',
+    '\u015b': 's',  '\u015d': 's', '\u015f': 's', '\u0161': 's',
+    '\u0162': 'T',  '\u0164': 'T', '\u0166': 'T',
+    '\u0163': 't',  '\u0165': 't', '\u0167': 't',
+    '\u0168': 'U',  '\u016a': 'U', '\u016c': 'U', '\u016e': 'U', '\u0170': 'U', '\u0172': 'U',
+    '\u0169': 'u',  '\u016b': 'u', '\u016d': 'u', '\u016f': 'u', '\u0171': 'u', '\u0173': 'u',
+    '\u0174': 'W',  '\u0175': 'w',
+    '\u0176': 'Y',  '\u0177': 'y', '\u0178': 'Y',
+    '\u0179': 'Z',  '\u017b': 'Z', '\u017d': 'Z',
+    '\u017a': 'z',  '\u017c': 'z', '\u017e': 'z',
+    '\u0132': 'IJ', '\u0133': 'ij',
+    '\u0152': 'Oe', '\u0153': 'oe',
+    '\u0149': "'n", '\u017f': 's'
+  };
+
+  /** Used to match Latin Unicode letters (excluding mathematical operators). */
+  var reLatin = /[\xc0-\xd6\xd8-\xf6\xf8-\xff\u0100-\u017f]/g;
+
+  /** Used to compose unicode character classes. */
+  var rsComboMarksRange = '\\u0300-\\u036f',
+      reComboHalfMarksRange = '\\ufe20-\\ufe2f',
+      rsComboSymbolsRange = '\\u20d0-\\u20ff',
+      rsComboMarksExtendedRange = '\\u1ab0-\\u1aff',
+      rsComboMarksSupplementRange = '\\u1dc0-\\u1dff',
+      rsComboRange = rsComboMarksRange + reComboHalfMarksRange + rsComboSymbolsRange + rsComboMarksExtendedRange + rsComboMarksSupplementRange;
+
+  /** Used to compose unicode capture groups. */
+  var rsCombo = '[' + rsComboRange + ']';
+
+  /**
+   * Used to match [combining diacritical marks](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks) and
+   * [combining diacritical marks for symbols](https://en.wikipedia.org/wiki/Combining_Diacritical_Marks_for_Symbols).
+   */
+  var reComboMark = RegExp(rsCombo, 'g');
+
+  function deburrLetter (key) {
+    return deburredLetters[key];
+  };
+
+  function normalizeToBase (string) {
+    string = string.toString();
+    return string && string.replace(reLatin, deburrLetter).replace(reComboMark, '');
+  }
+
+  // List of HTML entities for escaping.
+  var escapeMap = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#x27;',
+    '`': '&#x60;'
+  };
+
+  // Functions for escaping and unescaping strings to/from HTML interpolation.
+  var createEscaper = function (map) {
+    var escaper = function (match) {
+      return map[match];
+    };
+    // Regexes for identifying a key that needs to be escaped.
+    var source = '(?:' + Object.keys(map).join('|') + ')';
+    var testRegexp = RegExp(source);
+    var replaceRegexp = RegExp(source, 'g');
+    return function (string) {
+      string = string == null ? '' : '' + string;
+      return testRegexp.test(string) ? string.replace(replaceRegexp, escaper) : string;
+    };
+  };
+
+  var htmlEscape = createEscaper(escapeMap);
+
+  /**
+   * ------------------------------------------------------------------------
+   * Constants
+   * ------------------------------------------------------------------------
+   */
+
+  var keyCodeMap = {
+    32: ' ',
+    48: '0',
+    49: '1',
+    50: '2',
+    51: '3',
+    52: '4',
+    53: '5',
+    54: '6',
+    55: '7',
+    56: '8',
+    57: '9',
+    59: ';',
+    65: 'A',
+    66: 'B',
+    67: 'C',
+    68: 'D',
+    69: 'E',
+    70: 'F',
+    71: 'G',
+    72: 'H',
+    73: 'I',
+    74: 'J',
+    75: 'K',
+    76: 'L',
+    77: 'M',
+    78: 'N',
+    79: 'O',
+    80: 'P',
+    81: 'Q',
+    82: 'R',
+    83: 'S',
+    84: 'T',
+    85: 'U',
+    86: 'V',
+    87: 'W',
+    88: 'X',
+    89: 'Y',
+    90: 'Z',
+    96: '0',
+    97: '1',
+    98: '2',
+    99: '3',
+    100: '4',
+    101: '5',
+    102: '6',
+    103: '7',
+    104: '8',
+    105: '9'
+  };
+
+  var keyCodes = {
+    ESCAPE: 27, // KeyboardEvent.which value for Escape (Esc) key
+    ENTER: 13, // KeyboardEvent.which value for Enter key
+    SPACE: 32, // KeyboardEvent.which value for space key
+    TAB: 9, // KeyboardEvent.which value for tab key
+    ARROW_UP: 38, // KeyboardEvent.which value for up arrow key
+    ARROW_DOWN: 40 // KeyboardEvent.which value for down arrow key
+  }
+
+  // eslint-disable-next-line no-undef
+  var Dropdown = window.Dropdown || bootstrap.Dropdown;
+
+  function getVersion () {
+    var version;
+
+    try {
+      version = $.fn.dropdown.Constructor.VERSION;
+    } catch (err) {
+      version = Dropdown.VERSION;
+    }
+
+    return version;
+  }
+
+  var version = {
+    success: false,
+    major: '3'
+  };
+
+  try {
+    version.full = (getVersion() || '').split(' ')[0].split('.');
+    version.major = version.full[0];
+    version.success = true;
+  } catch (err) {
+    // do nothing
+  }
+
+  var selectId = 0;
+
+  var EVENT_KEY = '.bs.select';
+
+  var classNames = {
+    DISABLED: 'disabled',
+    DIVIDER: 'divider',
+    SHOW: 'open',
+    DROPUP: 'dropup',
+    MENU: 'dropdown-menu',
+    MENURIGHT: 'dropdown-menu-right',
+    MENULEFT: 'dropdown-menu-left',
+    // to-do: replace with more advanced template/customization options
+    BUTTONCLASS: 'btn-default',
+    POPOVERHEADER: 'popover-title',
+    ICONBASE: 'glyphicon',
+    TICKICON: 'glyphicon-ok'
+  }
+
+  var Selector = {
+    MENU: '.' + classNames.MENU,
+    DATA_TOGGLE: 'data-toggle="dropdown"'
+  }
+
+  var elementTemplates = {
+    div: document.createElement('div'),
+    span: document.createElement('span'),
+    i: document.createElement('i'),
+    subtext: document.createElement('small'),
+    a: document.createElement('a'),
+    li: document.createElement('li'),
+    whitespace: document.createTextNode('\u00A0'),
+    fragment: document.createDocumentFragment(),
+    option: document.createElement('option')
+  }
+
+  elementTemplates.selectedOption = elementTemplates.option.cloneNode(false);
+  elementTemplates.selectedOption.setAttribute('selected', true);
+
+  elementTemplates.noResults = elementTemplates.li.cloneNode(false);
+  elementTemplates.noResults.className = 'no-results';
+
+  elementTemplates.a.setAttribute('role', 'option');
+  elementTemplates.a.className = 'dropdown-item';
+
+  elementTemplates.subtext.className = 'text-muted';
+
+  elementTemplates.text = elementTemplates.span.cloneNode(false);
+  elementTemplates.text.className = 'text';
+
+  elementTemplates.checkMark = elementTemplates.span.cloneNode(false);
+
+  var REGEXP_ARROW = new RegExp(keyCodes.ARROW_UP + '|' + keyCodes.ARROW_DOWN);
+  var REGEXP_TAB_OR_ESCAPE = new RegExp('^' + keyCodes.TAB + '$|' + keyCodes.ESCAPE);
+
+  var generateOption = {
+    li: function (content, classes, optgroup) {
+      var li = elementTemplates.li.cloneNode(false);
+
+      if (content) {
+        if (content.nodeType === 1 || content.nodeType === 11) {
+          li.appendChild(content);
+        } else {
+          li.innerHTML = content;
+        }
+      }
+
+      if (typeof classes !== 'undefined' && classes !== '') li.className = classes;
+      if (typeof optgroup !== 'undefined' && optgroup !== null) li.classList.add('optgroup-' + optgroup);
+
+      return li;
+    },
+
+    a: function (text, classes, inline) {
+      var a = elementTemplates.a.cloneNode(true);
+
+      if (text) {
+        if (text.nodeType === 11) {
+          a.appendChild(text);
+        } else {
+          a.insertAdjacentHTML('beforeend', text);
+        }
+      }
+
+      if (typeof classes !== 'undefined' && classes !== '') a.classList.add.apply(a.classList, classes.split(/\s+/));
+      if (inline) a.setAttribute('style', inline);
+
+      return a;
+    },
+
+    text: function (options, useFragment) {
+      var textElement = elementTemplates.text.cloneNode(false),
+          subtextElement,
+          iconElement;
+
+      if (options.content) {
+        textElement.innerHTML = options.content;
+      } else {
+        textElement.textContent = options.text;
+
+        if (options.icon) {
+          var whitespace = elementTemplates.whitespace.cloneNode(false);
+
+          // need to use <i> for icons in the button to prevent a breaking change
+          // note: switch to span in next major release
+          iconElement = (useFragment === true ? elementTemplates.i : elementTemplates.span).cloneNode(false);
+          iconElement.className = this.options.iconBase + ' ' + options.icon;
+
+          elementTemplates.fragment.appendChild(iconElement);
+          elementTemplates.fragment.appendChild(whitespace);
+        }
+
+        if (options.subtext) {
+          subtextElement = elementTemplates.subtext.cloneNode(false);
+          subtextElement.textContent = options.subtext;
+          textElement.appendChild(subtextElement);
+        }
+      }
+
+      if (useFragment === true) {
+        while (textElement.childNodes.length > 0) {
+          elementTemplates.fragment.appendChild(textElement.childNodes[0]);
+        }
+      } else {
+        elementTemplates.fragment.appendChild(textElement);
+      }
+
+      return elementTemplates.fragment;
+    },
+
+    label: function (options) {
+      var textElement = elementTemplates.text.cloneNode(false),
+          subtextElement,
+          iconElement;
+
+      textElement.innerHTML = options.display;
+
+      if (options.icon) {
+        var whitespace = elementTemplates.whitespace.cloneNode(false);
+
+        iconElement = elementTemplates.span.cloneNode(false);
+        iconElement.className = this.options.iconBase + ' ' + options.icon;
+
+        elementTemplates.fragment.appendChild(iconElement);
+        elementTemplates.fragment.appendChild(whitespace);
+      }
+
+      if (options.subtext) {
+        subtextElement = elementTemplates.subtext.cloneNode(false);
+        subtextElement.textContent = options.subtext;
+        textElement.appendChild(subtextElement);
+      }
+
+      elementTemplates.fragment.appendChild(textElement);
+
+      return elementTemplates.fragment;
+    }
+  }
+
+  var getOptionData = {
+    fromOption: function (option, type) {
+      var value;
+
+      switch (type) {
+        case 'divider':
+          value = option.getAttribute('data-divider') === 'true';
+          break;
+
+        case 'text':
+          value = option.textContent;
+          break;
+
+        case 'label':
+          value = option.label;
+          break;
+
+        case 'style':
+          value = option.style.cssText;
+          break;
+
+        case 'content':
+        case 'tokens':
+        case 'subtext':
+        case 'icon':
+          value = option.getAttribute('data-' + type);
+          break;
+      }
+
+      return value;
+    },
+    fromDataSource: function (option, type) {
+      var value;
+
+      switch (type) {
+        case 'text':
+        case 'label':
+          value = option.text || option.value || '';
+          break;
+
+        case 'divider':
+        case 'style':
+        case 'content':
+        case 'tokens':
+        case 'subtext':
+        case 'icon':
+          value = option[type];
+          break;
+      }
+
+      return value;
+    }
+  }
+
+  function showNoResults (searchMatch, searchValue) {
+    if (!searchMatch.length) {
+      elementTemplates.noResults.innerHTML = this.options.noneResultsText.replace('{0}', '"' + htmlEscape(searchValue) + '"');
+      this.$menuInner[0].firstChild.appendChild(elementTemplates.noResults);
+    }
+  }
+
+  function filterHidden (item) {
+    return !(item.hidden || this.options.hideDisabled && item.disabled);
+  }
+
+  var Selectpicker = function (element, options) {
+    var that = this;
+
+    // bootstrap-select has been initialized - revert valHooks.select.set back to its original function
+    if (!valHooks.useDefault) {
+      $.valHooks.select.set = valHooks._set;
+      valHooks.useDefault = true;
+    }
+
+    this.$element = $(element);
+    this.$newElement = null;
+    this.$button = null;
+    this.$menu = null;
+    this.options = options;
+    this.selectpicker = {
+      main: {
+        optionQueue: elementTemplates.fragment.cloneNode(false)
+      },
+      search: {},
+      current: {}, // current changes if a search is in progress
+      view: {},
+      isSearching: false,
+      keydown: {
+        keyHistory: '',
+        resetKeyHistory: {
+          start: function () {
+            return setTimeout(function () {
+              that.selectpicker.keydown.keyHistory = '';
+            }, 800);
+          }
+        }
+      }
+    };
+
+    this.sizeInfo = {};
+
+    // Format window padding
+    var winPad = this.options.windowPadding;
+    if (typeof winPad === 'number') {
+      this.options.windowPadding = [winPad, winPad, winPad, winPad];
+    }
+
+    // Expose public methods
+    this.val = Selectpicker.prototype.val;
+    this.render = Selectpicker.prototype.render;
+    this.refresh = Selectpicker.prototype.refresh;
+    this.setStyle = Selectpicker.prototype.setStyle;
+    this.selectAll = Selectpicker.prototype.selectAll;
+    this.deselectAll = Selectpicker.prototype.deselectAll;
+    this.destroy = Selectpicker.prototype.destroy;
+    this.remove = Selectpicker.prototype.remove;
+    this.show = Selectpicker.prototype.show;
+    this.hide = Selectpicker.prototype.hide;
+
+    this.init();
+  };
+
+  Selectpicker.VERSION = '1.14.0-beta2';
+
+  // part of this is duplicated in i18n/defaults-en_US.js. Make sure to update both.
+  Selectpicker.DEFAULTS = {
+    noneSelectedText: 'Nothing selected',
+    noneResultsText: 'No results matched {0}',
+    countSelectedText: function (numSelected, numTotal) {
+      return (numSelected == 1) ? '{0} item selected' : '{0} items selected';
+    },
+    maxOptionsText: function (numAll, numGroup) {
+      return [
+        (numAll == 1) ? 'Limit reached ({n} item max)' : 'Limit reached ({n} items max)',
+        (numGroup == 1) ? 'Group limit reached ({n} item max)' : 'Group limit reached ({n} items max)'
+      ];
+    },
+    selectAllText: 'Select All',
+    deselectAllText: 'Deselect All',
+    source: {},
+    chunkSize: 40,
+    doneButton: false,
+    doneButtonText: 'Close',
+    multipleSeparator: ', ',
+    styleBase: 'btn',
+    style: classNames.BUTTONCLASS,
+    size: 'auto',
+    title: null,
+    placeholder: null,
+    allowClear: false,
+    selectedTextFormat: 'values',
+    width: false,
+    container: false,
+    hideDisabled: false,
+    showSubtext: false,
+    showIcon: true,
+    showContent: true,
+    dropupAuto: true,
+    header: false,
+    liveSearch: false,
+    liveSearchPlaceholder: null,
+    liveSearchNormalize: false,
+    liveSearchStyle: 'contains',
+    actionsBox: false,
+    iconBase: classNames.ICONBASE,
+    tickIcon: classNames.TICKICON,
+    showTick: false,
+    template: {
+      caret: '<span class="caret"></span>'
+    },
+    maxOptions: false,
+    mobile: false,
+    selectOnTab: false,
+    dropdownAlignRight: false,
+    windowPadding: 0,
+    virtualScroll: 600,
+    display: false,
+    sanitize: true,
+    sanitizeFn: null,
+    whiteList: DefaultWhitelist
+  };
+
+  Selectpicker.prototype = {
+
+    constructor: Selectpicker,
+
+    init: function () {
+      var that = this,
+          id = this.$element.attr('id'),
+          element = this.$element[0],
+          form = element.form;
+
+      selectId++;
+      this.selectId = 'bs-select-' + selectId;
+
+      element.classList.add('bs-select-hidden');
+
+      this.multiple = this.$element.prop('multiple');
+      this.autofocus = this.$element.prop('autofocus');
+
+      if (element.classList.contains('show-tick')) {
+        this.options.showTick = true;
+      }
+
+      this.$newElement = this.createDropdown();
+
+      this.$element
+        .after(this.$newElement)
+        .prependTo(this.$newElement);
+
+      // ensure select is associated with form element if it got unlinked after moving it inside newElement
+      if (form && element.form === null) {
+        if (!form.id) form.id = 'form-' + this.selectId;
+        element.setAttribute('form', form.id);
+      }
+
+      this.$button = this.$newElement.children('button');
+      if (this.options.allowClear) this.$clearButton = this.$button.children('.bs-select-clear-selected');
+      this.$menu = this.$newElement.children(Selector.MENU);
+      this.$menuInner = this.$menu.children('.inner');
+      this.$searchbox = this.$menu.find('input');
+
+      element.classList.remove('bs-select-hidden');
+
+      this.fetchData(function () {
+        that.render(true);
+        that.buildList();
+
+        requestAnimationFrame(function () {
+          that.$element.trigger('loaded' + EVENT_KEY);
+        });
+      });
+
+      this.fetchData(function () {
+        that.render(true);
+        that.buildList();
+
+        requestAnimationFrame(function () {
+          that.$element.trigger('loaded' + EVENT_KEY);
+        });
+      });
+
+      if (this.options.dropdownAlignRight === true) this.$menu[0].classList.add(classNames.MENURIGHT);
+
+      if (typeof id !== 'undefined') {
+        this.$button.attr('data-id', id);
+      }
+
+      this.checkDisabled();
+      this.clickListener();
+
+      if (version.major > 4) this.dropdown = new Dropdown(this.$button[0]);
+
+      if (this.options.liveSearch) {
+        this.liveSearchListener();
+        this.focusedParent = this.$searchbox[0];
+      } else {
+        this.focusedParent = this.$menuInner[0];
+      }
+
+      this.setStyle();
+      this.setWidth();
+      if (this.options.container) {
+        this.selectPosition();
+      } else {
+        this.$element.on('hide' + EVENT_KEY, function () {
+          if (that.isVirtual()) {
+            // empty menu on close
+            var menuInner = that.$menuInner[0],
+                emptyMenu = menuInner.firstChild.cloneNode(false);
+
+            // replace the existing UL with an empty one - this is faster than $.empty() or innerHTML = ''
+            menuInner.replaceChild(emptyMenu, menuInner.firstChild);
+            menuInner.scrollTop = 0;
+          }
+        });
+      }
+      this.$menu.data('this', this);
+      this.$newElement.data('this', this);
+      if (this.options.mobile) this.mobile();
+
+      this.$newElement.on({
+        'hide.bs.dropdown': function (e) {
+          that.$element.trigger('hide' + EVENT_KEY, e);
+        },
+        'hidden.bs.dropdown': function (e) {
+          that.$element.trigger('hidden' + EVENT_KEY, e);
+        },
+        'show.bs.dropdown': function (e) {
+          that.$element.trigger('show' + EVENT_KEY, e);
+        },
+        'shown.bs.dropdown': function (e) {
+          that.$element.trigger('shown' + EVENT_KEY, e);
+        }
+      });
+
+      if (element.hasAttribute('required')) {
+        this.$element.on('invalid' + EVENT_KEY, function () {
+          that.$button[0].classList.add('bs-invalid');
+
+          that.$element
+            .on('shown' + EVENT_KEY + '.invalid', function () {
+              that.$element
+                .val(that.$element.val()) // set the value to hide the validation message in Chrome when menu is opened
+                .off('shown' + EVENT_KEY + '.invalid');
+            })
+            .on('rendered' + EVENT_KEY, function () {
+              // if select is no longer invalid, remove the bs-invalid class
+              if (this.validity.valid) that.$button[0].classList.remove('bs-invalid');
+              that.$element.off('rendered' + EVENT_KEY);
+            });
+
+          that.$button.on('blur' + EVENT_KEY, function () {
+            that.$element.trigger('focus').trigger('blur');
+            that.$button.off('blur' + EVENT_KEY);
+          });
+        });
+      }
+
+      if (form) {
+        $(form).on('reset' + EVENT_KEY, function () {
+          requestAnimationFrame(function () {
+            that.render();
+          });
+        });
+      }
+    },
+
+    createDropdown: function () {
+      // Options
+      // If we are multiple or showTick option is set, then add the show-tick class
+      var showTick = (this.multiple || this.options.showTick) ? ' show-tick' : '',
+          multiselectable = this.multiple ? ' aria-multiselectable="true"' : '',
+          inputGroup = '',
+          autofocus = this.autofocus ? ' autofocus' : '';
+
+      if (version.major < 4 && this.$element.parent().hasClass('input-group')) {
+        inputGroup = ' input-group-btn';
+      }
+
+      // Elements
+      var drop,
+          header = '',
+          searchbox = '',
+          actionsbox = '',
+          donebutton = '',
+          clearButton = '';
+
+      if (this.options.header) {
+        header =
+          '<div class="' + classNames.POPOVERHEADER + '">' +
+            '<button type="button" class="close" aria-hidden="true">&times;</button>' +
+              this.options.header +
+          '</div>';
+      }
+
+      if (this.options.liveSearch) {
+        searchbox =
+          '<div class="bs-searchbox">' +
+            '<input type="search" class="form-control" autocomplete="off"' +
+              (
+                this.options.liveSearchPlaceholder === null ? ''
+                :
+                ' placeholder="' + htmlEscape(this.options.liveSearchPlaceholder) + '"'
+              ) +
+              ' role="combobox" aria-label="Search" aria-controls="' + this.selectId + '" aria-autocomplete="list">' +
+          '</div>';
+      }
+
+      if (this.multiple && this.options.actionsBox) {
+        actionsbox =
+          '<div class="bs-actionsbox">' +
+            '<div class="btn-group btn-group-sm">' +
+              '<button type="button" class="actions-btn bs-select-all btn ' + classNames.BUTTONCLASS + '">' +
+                this.options.selectAllText +
+              '</button>' +
+              '<button type="button" class="actions-btn bs-deselect-all btn ' + classNames.BUTTONCLASS + '">' +
+                this.options.deselectAllText +
+              '</button>' +
+            '</div>' +
+          '</div>';
+      }
+
+      if (this.multiple && this.options.doneButton) {
+        donebutton =
+          '<div class="bs-donebutton">' +
+            '<div class="btn-group">' +
+              '<button type="button" class="btn btn-sm ' + classNames.BUTTONCLASS + '">' +
+                this.options.doneButtonText +
+              '</button>' +
+            '</div>' +
+          '</div>';
+      }
+
+      if (this.options.allowClear) {
+        clearButton = '<span class="close bs-select-clear-selected" title="' + this.options.deselectAllText + '"><span>&times;</span>';
+      }
+
+      drop =
+        '<div class="dropdown bootstrap-select' + showTick + inputGroup + '">' +
+          '<button type="button" tabindex="-1" class="' +
+            this.options.styleBase +
+            ' dropdown-toggle" ' +
+            (this.options.display === 'static' ? 'data-display="static"' : '') +
+            Selector.DATA_TOGGLE +
+            autofocus +
+            ' role="combobox" aria-owns="' +
+            this.selectId +
+            '" aria-haspopup="listbox" aria-expanded="false">' +
+            '<div class="filter-option">' +
+              '<div class="filter-option-inner">' +
+                '<div class="filter-option-inner-inner">&nbsp;</div>' +
+              '</div> ' +
+            '</div>' +
+            clearButton +
+            '</span>' +
+            (
+              version.major >= '4' ? ''
+              :
+              '<span class="bs-caret">' +
+                this.options.template.caret +
+              '</span>'
+            ) +
+          '</button>' +
+          '<div class="' + classNames.MENU + ' ' + (version.major >= '4' ? '' : classNames.SHOW) + '">' +
+            header +
+            searchbox +
+            actionsbox +
+            '<div class="inner ' + classNames.SHOW + '" role="listbox" id="' + this.selectId + '" tabindex="-1" ' + multiselectable + '>' +
+                '<ul class="' + classNames.MENU + ' inner ' + (version.major >= '4' ? classNames.SHOW : '') + '" role="presentation">' +
+                '</ul>' +
+            '</div>' +
+            donebutton +
+          '</div>' +
+        '</div>';
+
+      return $(drop);
+    },
+
+    setPositionData: function () {
+      this.selectpicker.view.canHighlight = [];
+      this.selectpicker.view.size = 0;
+      this.selectpicker.view.firstHighlightIndex = false;
+
+      for (var i = 0; i < this.selectpicker.current.data.length; i++) {
+        var li = this.selectpicker.current.data[i],
+            canHighlight = true;
+
+        if (li.type === 'divider') {
+          canHighlight = false;
+          li.height = this.sizeInfo.dividerHeight;
+        } else if (li.type === 'optgroup-label') {
+          canHighlight = false;
+          li.height = this.sizeInfo.dropdownHeaderHeight;
+        } else {
+          li.height = this.sizeInfo.liHeight;
+        }
+
+        if (li.disabled) canHighlight = false;
+
+        this.selectpicker.view.canHighlight.push(canHighlight);
+
+        if (canHighlight) {
+          this.selectpicker.view.size++;
+          li.posinset = this.selectpicker.view.size;
+          if (this.selectpicker.view.firstHighlightIndex === false) this.selectpicker.view.firstHighlightIndex = i;
+        }
+
+        li.position = (i === 0 ? 0 : this.selectpicker.current.data[i - 1].position) + li.height;
+      }
+    },
+
+    isVirtual: function () {
+      return (this.options.virtualScroll !== false) && (this.selectpicker.main.data.length >= this.options.virtualScroll) || this.options.virtualScroll === true;
+    },
+
+    createView: function (isSearching, setSize, refresh) {
+      var that = this,
+          scrollTop = 0,
+          active = [],
+          selected,
+          prevActive;
+
+      this.selectpicker.isSearching = isSearching;
+      this.selectpicker.current = isSearching ? this.selectpicker.search : this.selectpicker.main;
+
+      this.setPositionData();
+
+      if (setSize) {
+        if (refresh) {
+          scrollTop = this.$menuInner[0].scrollTop;
+        } else if (!that.multiple) {
+          var element = that.$element[0],
+              selectedIndex = (element.options[element.selectedIndex] || {}).liIndex;
+
+          if (typeof selectedIndex === 'number' && that.options.size !== false) {
+            var selectedData = that.selectpicker.main.data[selectedIndex],
+                position = selectedData && selectedData.position;
+
+            if (position) {
+              scrollTop = position - ((that.sizeInfo.menuInnerHeight + that.sizeInfo.liHeight) / 2);
+            }
+          }
+        }
+      }
+
+      scroll(scrollTop, true);
+
+      this.$menuInner.off('scroll.createView').on('scroll.createView', function (e, updateValue) {
+        if (!that.noScroll) scroll(this.scrollTop, updateValue);
+        that.noScroll = false;
+      });
+
+      function scroll (scrollTop, init) {
+        var size = that.selectpicker.current.data.length,
+            chunks = [],
+            chunkSize,
+            chunkCount,
+            firstChunk,
+            lastChunk,
+            currentChunk,
+            prevPositions,
+            positionIsDifferent,
+            previousElements,
+            menuIsDifferent = true,
+            isVirtual = that.isVirtual();
+
+        that.selectpicker.view.scrollTop = scrollTop;
+
+        chunkSize = that.options.chunkSize; // number of options in a chunk
+        chunkCount = Math.ceil(size / chunkSize) || 1; // number of chunks
+
+        for (var i = 0; i < chunkCount; i++) {
+          var endOfChunk = (i + 1) * chunkSize;
+
+          if (i === chunkCount - 1) {
+            endOfChunk = size;
+          }
+
+          chunks[i] = [
+            (i) * chunkSize + (!i ? 0 : 1),
+            endOfChunk
+          ];
+
+          if (!size) break;
+
+          if (currentChunk === undefined && scrollTop - 1 <= that.selectpicker.current.data[endOfChunk - 1].position - that.sizeInfo.menuInnerHeight) {
+            currentChunk = i;
+          }
+        }
+
+        if (currentChunk === undefined) currentChunk = 0;
+
+        prevPositions = [that.selectpicker.view.position0, that.selectpicker.view.position1];
+
+        // always display previous, current, and next chunks
+        firstChunk = Math.max(0, currentChunk - 1);
+        lastChunk = Math.min(chunkCount - 1, currentChunk + 1);
+
+        that.selectpicker.view.position0 = isVirtual === false ? 0 : (Math.max(0, chunks[firstChunk][0]) || 0);
+        that.selectpicker.view.position1 = isVirtual === false ? size : (Math.min(size, chunks[lastChunk][1]) || 0);
+
+        positionIsDifferent = prevPositions[0] !== that.selectpicker.view.position0 || prevPositions[1] !== that.selectpicker.view.position1;
+
+        if (that.activeIndex !== undefined) {
+          prevActive = (that.selectpicker.main.data[that.prevActiveIndex] || {}).element;
+          active = (that.selectpicker.main.data[that.activeIndex] || {}).element;
+          selected = (that.selectpicker.main.data[that.selectedIndex] || {}).element;
+
+          if (init) {
+            if (that.activeIndex !== that.selectedIndex) {
+              that.defocusItem(active);
+            }
+            that.activeIndex = undefined;
+          }
+
+          if (that.activeIndex && that.activeIndex !== that.selectedIndex) {
+            that.defocusItem(selected);
+          }
+        }
+
+        if (that.prevActiveIndex !== undefined && that.prevActiveIndex !== that.activeIndex && that.prevActiveIndex !== that.selectedIndex) {
+          that.defocusItem(prevActive);
+        }
+
+        if (init || positionIsDifferent) {
+          previousElements = that.selectpicker.view.visibleElements ? that.selectpicker.view.visibleElements.slice() : [];
+
+          if (isVirtual === false) {
+            that.selectpicker.view.visibleElements = that.selectpicker.current.elements;
+          } else {
+            that.selectpicker.view.visibleElements = that.selectpicker.current.elements.slice(that.selectpicker.view.position0, that.selectpicker.view.position1);
+          }
+
+          that.setOptionStatus();
+
+          // if searching, check to make sure the list has actually been updated before updating DOM
+          // this prevents unnecessary repaints
+          if (isSearching || (isVirtual === false && init)) menuIsDifferent = !isEqual(previousElements, that.selectpicker.view.visibleElements);
+
+          // if virtual scroll is disabled and not searching,
+          // menu should never need to be updated more than once
+          if ((init || isVirtual === true) && menuIsDifferent) {
+            var menuInner = that.$menuInner[0],
+                menuFragment = document.createDocumentFragment(),
+                emptyMenu = menuInner.firstChild.cloneNode(false),
+                marginTop,
+                marginBottom,
+                elements = that.selectpicker.view.visibleElements,
+                toSanitize = [];
+
+            // replace the existing UL with an empty one - this is faster than $.empty()
+            menuInner.replaceChild(emptyMenu, menuInner.firstChild);
+
+            for (var i = 0, visibleElementsLen = elements.length; i < visibleElementsLen; i++) {
+              var element = elements[i],
+                  elText,
+                  elementData;
+
+              if (that.options.sanitize) {
+                elText = element.lastChild;
+
+                if (elText) {
+                  elementData = that.selectpicker.current.data[i + that.selectpicker.view.position0];
+
+                  if (elementData && elementData.content && !elementData.sanitized) {
+                    toSanitize.push(elText);
+                    elementData.sanitized = true;
+                  }
+                }
+              }
+
+              menuFragment.appendChild(element);
+            }
+
+            if (that.options.sanitize && toSanitize.length) {
+              sanitizeHtml(toSanitize, that.options.whiteList, that.options.sanitizeFn);
+            }
+
+            if (isVirtual === true) {
+              marginTop = (that.selectpicker.view.position0 === 0 ? 0 : that.selectpicker.current.data[that.selectpicker.view.position0 - 1].position);
+              marginBottom = (that.selectpicker.view.position1 > size - 1 ? 0 : that.selectpicker.current.data[size - 1].position - that.selectpicker.current.data[that.selectpicker.view.position1 - 1].position);
+
+              menuInner.firstChild.style.marginTop = marginTop + 'px';
+              menuInner.firstChild.style.marginBottom = marginBottom + 'px';
+            } else {
+              menuInner.firstChild.style.marginTop = 0;
+              menuInner.firstChild.style.marginBottom = 0;
+            }
+
+            menuInner.firstChild.appendChild(menuFragment);
+
+            // if an option is encountered that is wider than the current menu width, update the menu width accordingly
+            // switch to ResizeObserver with increased browser support
+            if (isVirtual === true && that.sizeInfo.hasScrollBar) {
+              var menuInnerInnerWidth = menuInner.firstChild.offsetWidth;
+
+              if (init && menuInnerInnerWidth < that.sizeInfo.menuInnerInnerWidth && that.sizeInfo.totalMenuWidth > that.sizeInfo.selectWidth) {
+                menuInner.firstChild.style.minWidth = that.sizeInfo.menuInnerInnerWidth + 'px';
+              } else if (menuInnerInnerWidth > that.sizeInfo.menuInnerInnerWidth) {
+                // set to 0 to get actual width of menu
+                that.$menu[0].style.minWidth = 0;
+
+                var actualMenuWidth = menuInner.firstChild.offsetWidth;
+
+                if (actualMenuWidth > that.sizeInfo.menuInnerInnerWidth) {
+                  that.sizeInfo.menuInnerInnerWidth = actualMenuWidth;
+                  menuInner.firstChild.style.minWidth = that.sizeInfo.menuInnerInnerWidth + 'px';
+                }
+
+                // reset to default CSS styling
+                that.$menu[0].style.minWidth = '';
+              }
+            }
+          }
+
+          if ((!isSearching && that.options.source.load || isSearching && that.options.source.search) && currentChunk === chunkCount - 1) {
+            that.fetchData(function () {
+              that.render();
+              that.buildList(size, isSearching);
+              that.setPositionData();
+              scroll(scrollTop);
+            }, isSearching ? 'search' : 'load', currentChunk + 1, isSearching ? that.selectpicker.search.previousValue : undefined);
+          }
+        }
+
+        that.prevActiveIndex = that.activeIndex;
+
+        if (!that.options.liveSearch) {
+          that.$menuInner.trigger('focus');
+        } else if (isSearching && init) {
+          var index = 0,
+              newActive;
+
+          if (!that.selectpicker.view.canHighlight[index]) {
+            index = 1 + that.selectpicker.view.canHighlight.slice(1).indexOf(true);
+          }
+
+          newActive = that.selectpicker.view.visibleElements[index];
+
+          that.defocusItem(that.selectpicker.view.currentActive);
+
+          that.activeIndex = (that.selectpicker.current.data[index] || {}).index;
+
+          that.focusItem(newActive);
+        }
+      }
+
+      $(window)
+        .off('resize' + EVENT_KEY + '.' + this.selectId + '.createView')
+        .on('resize' + EVENT_KEY + '.' + this.selectId + '.createView', function () {
+          var isActive = that.$newElement.hasClass(classNames.SHOW);
+
+          if (isActive) scroll(that.$menuInner[0].scrollTop);
+        });
+    },
+
+    focusItem: function (li, liData, noStyle) {
+      if (li) {
+        liData = liData || this.selectpicker.main.data[this.activeIndex];
+        var a = li.firstChild;
+
+        if (a) {
+          a.setAttribute('aria-setsize', this.selectpicker.view.size);
+          a.setAttribute('aria-posinset', liData.posinset);
+
+          if (noStyle !== true) {
+            this.focusedParent.setAttribute('aria-activedescendant', a.id);
+            li.classList.add('active');
+            a.classList.add('active');
+          }
+        }
+      }
+    },
+
+    defocusItem: function (li) {
+      if (li) {
+        li.classList.remove('active');
+        if (li.firstChild) li.firstChild.classList.remove('active');
+      }
+    },
+
+    setPlaceholder: function () {
+      var that = this,
+          updateIndex = false;
+
+      if ((this.options.placeholder || this.options.allowClear) && !this.multiple) {
+        if (!this.selectpicker.view.titleOption) this.selectpicker.view.titleOption = document.createElement('option');
+
+        // this option doesn't create a new <li> element, but does add a new option at the start,
+        // so startIndex should increase to prevent having to check every option for the bs-title-option class
+        updateIndex = true;
+
+        var element = this.$element[0],
+            selectTitleOption = false,
+            titleNotAppended = !this.selectpicker.view.titleOption.parentNode,
+            selectedIndex = element.selectedIndex,
+            selectedOption = element.options[selectedIndex],
+            firstSelectable = element.querySelector('select > *:not(:disabled)'),
+            firstSelectableIndex = firstSelectable ? firstSelectable.index : 0,
+            navigation = window.performance && window.performance.getEntriesByType('navigation'),
+            // Safari doesn't support getEntriesByType('navigation') - fall back to performance.navigation
+            isNotBackForward = (navigation && navigation.length) ? navigation[0].type !== 'back_forward' : window.performance.navigation.type !== 2;
+
+        if (titleNotAppended) {
+          // Use native JS to prepend option (faster)
+          this.selectpicker.view.titleOption.className = 'bs-title-option';
+          this.selectpicker.view.titleOption.value = '';
+
+          // Check if selected or data-selected attribute is already set on an option. If not, select the titleOption option.
+          // the selected item may have been changed by user or programmatically before the bootstrap select plugin runs,
+          // if so, the select will have the data-selected attribute
+          selectTitleOption = !selectedOption || (selectedIndex === firstSelectableIndex && selectedOption.defaultSelected === false && this.$element.data('selected') === undefined);
+        }
+
+        if (titleNotAppended || this.selectpicker.view.titleOption.index !== 0) {
+          element.insertBefore(this.selectpicker.view.titleOption, element.firstChild);
+        }
+
+        // Set selected *after* appending to select,
+        // otherwise the option doesn't get selected in IE
+        // set using selectedIndex, as setting the selected attr to true here doesn't work in IE11
+        if (selectTitleOption && isNotBackForward) {
+          element.selectedIndex = 0;
+        } else if (document.readyState !== 'complete') {
+          // if navigation type is back_forward, there's a chance the select will have its value set by BFCache
+          // wait for that value to be set, then run render again
+          window.addEventListener('pageshow', function () {
+            if (that.selectpicker.view.displayedValue !== element.value) that.render();
+          });
+        }
+      }
+
+      return updateIndex;
+    },
+
+    fetchData: function (callback, type, page, searchValue) {
+      type = type || 'data';
+
+      var that = this,
+          data = this.options.source[type],
+          builtData;
+
+      if (data) {
+        this.options.virtualScroll = true;
+
+        if (typeof data === 'function') {
+          data.call(
+            this,
+            function (data) {
+              builtData = that.buildData(data, type);
+              callback.call(that, builtData);
+            },
+            page,
+            searchValue
+          );
+        } else if (Array.isArray(data)) {
+          builtData = that.buildData(data, type);
+          callback.call(that, builtData);
+        }
+      } else {
+        builtData = this.buildData(false, type);
+        callback.call(that, builtData);
+      }
+    },
+
+    buildData: function (data, type) {
+      var dataGetter = data === false ? getOptionData.fromOption : getOptionData.fromDataSource;
+
+      var optionSelector = ':not([hidden]):not([data-hidden="true"])',
+          mainData = [],
+          startLen = 0,
+          optID = 0,
+          startIndex = this.setPlaceholder() && !data ? 1 : 0; // append the titleOption if necessary and skip the first option in the loop
+
+      if (type === 'load') {
+        startLen = this.selectpicker.main.data.length;
+      } else if (type === 'search') {
+        startLen = this.selectpicker.search.data.length;
+      }
+
+      if (this.options.hideDisabled) optionSelector += ':not(:disabled)';
+
+      var selectOptions = data ? data.filter(filterHidden, this) : this.$element[0].querySelectorAll('select > *' + optionSelector);
+
+      function addDivider (config) {
+        var previousData = mainData[mainData.length - 1];
+
+        // ensure optgroup doesn't create back-to-back dividers
+        if (
+          previousData &&
+          previousData.type === 'divider' &&
+          (previousData.optID || config.optID)
+        ) {
+          return;
+        }
+
+        config = config || {};
+        config.type = 'divider';
+
+        mainData.push(config);
+      }
+
+      function addOption (item, config) {
+        config = config || {};
+
+        config.divider = dataGetter(item, 'divider');
+
+        if (config.divider === true) {
+          addDivider({
+            optID: config.optID
+          });
+        } else {
+          var liIndex = mainData.length + startLen,
+              cssText = dataGetter(item, 'style'),
+              inlineStyle = cssText ? htmlEscape(cssText) : '',
+              optionClass = (item.className || '') + (config.optgroupClass || '');
+
+          if (config.optID) optionClass = 'opt ' + optionClass;
+
+          config.optionClass = optionClass.trim();
+          config.inlineStyle = inlineStyle;
+
+          config.text = dataGetter(item, 'text');
+          config.content = dataGetter(item, 'content');
+          config.tokens = dataGetter(item, 'tokens');
+          config.subtext = dataGetter(item, 'subtext');
+          config.icon = dataGetter(item, 'icon');
+
+          config.display = config.content || config.text;
+          config.value = item.value === undefined ? item.text : item.value;
+          config.type = 'option';
+          config.index = liIndex;
+
+          config.option = !item.option ? item : item.option; // reference option element if it exists
+          config.option.liIndex = liIndex;
+          config.selected = !!item.selected;
+          config.disabled = config.disabled || !!item.disabled;
+
+          mainData.push(config);
+        }
+      }
+
+      function addOptgroup (index, selectOptions) {
+        var optgroup = selectOptions[index],
+            // skip placeholder option
+            previous = index - 1 < startIndex ? false : selectOptions[index - 1],
+            next = selectOptions[index + 1],
+            options = data ? optgroup.children.filter(filterHidden, this) : optgroup.querySelectorAll('option' + optionSelector);
+
+        if (!options.length) return;
+
+        var config = {
+              display: htmlEscape(dataGetter(item, 'label')),
+              subtext: dataGetter(optgroup, 'subtext'),
+              icon: dataGetter(optgroup, 'icon'),
+              type: 'optgroup-label',
+              optgroupClass: ' ' + (optgroup.className || '')
+            },
+            headerIndex,
+            lastIndex;
+
+        optID++;
+
+        if (previous) {
+          addDivider({ optID: optID });
+        }
+
+        config.optID = optID;
+
+        mainData.push(config);
+
+        for (var j = 0, len = options.length; j < len; j++) {
+          var option = options[j];
+
+          if (j === 0) {
+            headerIndex = mainData.length - 1;
+            lastIndex = headerIndex + len;
+          }
+
+          addOption(option, {
+            headerIndex: headerIndex,
+            lastIndex: lastIndex,
+            optID: config.optID,
+            optgroupClass: config.optgroupClass,
+            disabled: optgroup.disabled
+          });
+        }
+
+        if (next) {
+          addDivider({ optID: optID });
+        }
+      }
+
+      for (var len = selectOptions.length, i = startIndex; i < len; i++) {
+        var item = selectOptions[i],
+            children = item.children;
+
+        if (children && children.length) {
+          addOptgroup.call(this, startIndex, selectOptions);
+        } else {
+          addOption.call(this, item, {});
+        }
+      }
+
+      switch (type) {
+        case 'data': {
+          this.selectpicker.main.data = this.selectpicker.current.data = mainData;
+          break;
+        }
+        case 'load': {
+          Array.prototype.push.apply(this.selectpicker.main.data, mainData);
+          this.selectpicker.current.data = this.selectpicker.main.data;
+          break;
+        }
+        case 'search': {
+          Array.prototype.push.apply(this.selectpicker.search.data, mainData);
+          break;
+        }
+      }
+
+      return mainData;
+    },
+
+    buildList: function (size, searching) {
+      var that = this,
+          selectData = searching ? this.selectpicker.search.data : this.selectpicker.main.data,
+          mainElements = [],
+          widestOptionLength = 0;
+
+      if ((that.options.showTick || that.multiple) && !elementTemplates.checkMark.parentNode) {
+        elementTemplates.checkMark.className = this.options.iconBase + ' ' + that.options.tickIcon + ' check-mark';
+        elementTemplates.a.appendChild(elementTemplates.checkMark);
+      }
+
+      function buildElement (mainElements, item) {
+        var liElement,
+            combinedLength = 0;
+
+        switch (item.type) {
+          case 'divider':
+            liElement = generateOption.li(
+              false,
+              classNames.DIVIDER,
+              (item.optID ? item.optID + 'div' : undefined)
+            );
+
+            break;
+
+          case 'option':
+            liElement = generateOption.li(
+              generateOption.a(
+                generateOption.text.call(that, item),
+                item.optionClass,
+                item.inlineStyle
+              ),
+              '',
+              item.optID
+            );
+
+            if (liElement.firstChild) {
+              liElement.firstChild.id = that.selectId + '-' + item.index;
+            }
+
+            break;
+
+          case 'optgroup-label':
+            liElement = generateOption.li(
+              generateOption.label.call(that, item),
+              'dropdown-header' + item.optgroupClass,
+              item.optID
+            );
+
+            break;
+        }
+
+        item.element = liElement;
+        mainElements.push(liElement);
+
+        // count the number of characters in the option - not perfect, but should work in most cases
+        if (item.display) combinedLength += item.display.length;
+        if (item.subtext) combinedLength += item.subtext.length;
+        // if there is an icon, ensure this option's width is checked
+        if (item.icon) combinedLength += 1;
+
+        if (combinedLength > widestOptionLength) {
+          widestOptionLength = combinedLength;
+
+          // guess which option is the widest
+          // use this when calculating menu width
+          // not perfect, but it's fast, and the width will be updating accordingly when scrolling
+          that.selectpicker.view.widestOption = mainElements[mainElements.length - 1];
+        }
+      }
+
+      var startIndex = size || 0;
+
+      for (var len = selectData.length, i = startIndex; i < len; i++) {
+        var item = selectData[i];
+
+        buildElement(mainElements, item);
+      }
+
+      if (size) {
+        if (searching) {
+          Array.prototype.push.apply(this.selectpicker.search.elements, mainElements);
+        } else {
+          Array.prototype.push.apply(this.selectpicker.main.elements, mainElements);
+          this.selectpicker.current.elements = this.selectpicker.main.elements;
+        }
+      } else {
+        if (searching) {
+          this.selectpicker.search.elements = mainElements;
+        } else {
+          this.selectpicker.main.elements = this.selectpicker.current.elements = mainElements;
+        }
+      }
+    },
+
+    findLis: function () {
+      return this.$menuInner.find('.inner > li');
+    },
+
+    render: function (init) {
+      var that = this,
+          element = this.$element[0],
+          // ensure titleOption is appended and selected (if necessary) before getting selectedOptions
+          placeholderSelected = this.setPlaceholder() && element.selectedIndex === 0,
+          selectedOptions = getSelectedOptions.call(this),
+          selectedCount = selectedOptions.length,
+          selectedValues = getSelectValues.call(this, selectedOptions),
+          button = this.$button[0],
+          buttonInner = button.querySelector('.filter-option-inner-inner'),
+          multipleSeparator = document.createTextNode(this.options.multipleSeparator),
+          titleFragment = elementTemplates.fragment.cloneNode(false),
+          showCount,
+          countMax,
+          hasContent = false;
+
+      function createSelected (item) {
+        if (item.selected) {
+          that.createOption(item, true);
+        } else if (item.children && item.children.length) {
+          item.children.map(createSelected);
+        }
+      }
+
+      // create selected option elements to ensure select value is correct
+      if (this.options.source.data && init) {
+        selectedOptions.map(createSelected);
+        element.appendChild(this.selectpicker.main.optionQueue);
+
+        if (placeholderSelected) placeholderSelected = element.selectedIndex === 0;
+      }
+
+      button.classList.toggle('bs-placeholder', that.multiple ? !selectedCount : !selectedValues && selectedValues !== 0);
+
+      if (!that.multiple && selectedOptions.length === 1) {
+        that.selectpicker.view.displayedValue = selectedValues;
+      }
+
+      if (this.options.selectedTextFormat === 'static') {
+        titleFragment = generateOption.text.call(this, { text: this.options.placeholder }, true);
+      } else {
+        showCount = this.multiple && this.options.selectedTextFormat.indexOf('count') !== -1 && selectedCount > 1;
+
+        // determine if the number of selected options will be shown (showCount === true)
+        if (showCount) {
+          countMax = this.options.selectedTextFormat.split('>');
+          showCount = (countMax.length > 1 && selectedCount > countMax[1]) || (countMax.length === 1 && selectedCount >= 2);
+        }
+
+        // only loop through all selected options if the count won't be shown
+        if (showCount === false) {
+          if (!placeholderSelected) {
+            for (var selectedIndex = 0; selectedIndex < selectedCount; selectedIndex++) {
+              if (selectedIndex < 50) {
+                var option = selectedOptions[selectedIndex],
+                    titleOptions = {};
+
+                if (option) {
+                  if (this.multiple && selectedIndex > 0) {
+                    titleFragment.appendChild(multipleSeparator.cloneNode(false));
+                  }
+
+                  if (option.title) {
+                    titleOptions.text = option.title;
+                  } else if (option.content && that.options.showContent) {
+                    titleOptions.content = option.content.toString();
+                    hasContent = true;
+                  } else {
+                    if (that.options.showIcon) {
+                      titleOptions.icon = option.icon;
+                    }
+                    if (that.options.showSubtext && !that.multiple && option.subtext) titleOptions.subtext = ' ' + option.subtext;
+                    titleOptions.text = option.text.trim();
+                  }
+
+                  titleFragment.appendChild(generateOption.text.call(this, titleOptions, true));
+                }
+              } else {
+                break;
+              }
+            }
+
+            // add ellipsis
+            if (selectedCount > 49) {
+              titleFragment.appendChild(document.createTextNode('...'));
+            }
+          }
+        } else {
+          var optionSelector = ':not([hidden]):not([data-hidden="true"]):not([data-divider="true"])';
+          if (this.options.hideDisabled) optionSelector += ':not(:disabled)';
+
+          // If this is a multiselect, and selectedTextFormat is count, then show 1 of 2 selected, etc.
+          var totalCount = this.$element[0].querySelectorAll('select > option' + optionSelector + ', optgroup' + optionSelector + ' option' + optionSelector).length,
+              tr8nText = (typeof this.options.countSelectedText === 'function') ? this.options.countSelectedText(selectedCount, totalCount) : this.options.countSelectedText;
+
+          titleFragment = generateOption.text.call(this, {
+            text: tr8nText.replace('{0}', selectedCount.toString()).replace('{1}', totalCount.toString())
+          }, true);
+        }
+      }
+
+      // If the select doesn't have a title, then use the default, or if nothing is set at all, use noneSelectedText
+      if (!titleFragment.childNodes.length) {
+        titleFragment = generateOption.text.call(this, {
+          text: this.options.placeholder ? this.options.placeholder : this.options.noneSelectedText
+        }, true);
+      }
+
+      // if the select has a title, apply it to the button, and if not, apply titleFragment text
+      // strip all HTML tags and trim the result, then unescape any escaped tags
+      button.title = titleFragment.textContent.replace(/<[^>]*>?/g, '').trim();
+
+      if (this.options.sanitize && hasContent) {
+        sanitizeHtml([titleFragment], that.options.whiteList, that.options.sanitizeFn);
+      }
+
+      buttonInner.innerHTML = '';
+      buttonInner.appendChild(titleFragment);
+
+      if (version.major < 4 && this.$newElement[0].classList.contains('bs3-has-addon')) {
+        var filterExpand = button.querySelector('.filter-expand'),
+            clone = buttonInner.cloneNode(true);
+
+        clone.className = 'filter-expand';
+
+        if (filterExpand) {
+          button.replaceChild(clone, filterExpand);
+        } else {
+          button.appendChild(clone);
+        }
+      }
+
+      this.$element.trigger('rendered' + EVENT_KEY);
+    },
+
+    /**
+     * @param [style]
+     * @param [status]
+     */
+    setStyle: function (newStyle, status) {
+      var button = this.$button[0],
+          newElement = this.$newElement[0],
+          style = this.options.style.trim(),
+          buttonClass;
+
+      if (this.$element.attr('class')) {
+        this.$newElement.addClass(this.$element.attr('class').replace(/selectpicker|mobile-device|bs-select-hidden|validate\[.*\]/gi, ''));
+      }
+
+      if (version.major < 4) {
+        newElement.classList.add('bs3');
+
+        if (newElement.parentNode.classList && newElement.parentNode.classList.contains('input-group') &&
+            (newElement.previousElementSibling || newElement.nextElementSibling) &&
+            (newElement.previousElementSibling || newElement.nextElementSibling).classList.contains('input-group-addon')
+        ) {
+          newElement.classList.add('bs3-has-addon');
+        }
+      }
+
+      if (newStyle) {
+        buttonClass = newStyle.trim();
+      } else {
+        buttonClass = style;
+      }
+
+      if (status == 'add') {
+        if (buttonClass) button.classList.add.apply(button.classList, buttonClass.split(' '));
+      } else if (status == 'remove') {
+        if (buttonClass) button.classList.remove.apply(button.classList, buttonClass.split(' '));
+      } else {
+        if (style) button.classList.remove.apply(button.classList, style.split(' '));
+        if (buttonClass) button.classList.add.apply(button.classList, buttonClass.split(' '));
+      }
+    },
+
+    liHeight: function (refresh) {
+      if (!refresh && (this.options.size === false || Object.keys(this.sizeInfo).length)) return;
+
+      var newElement = elementTemplates.div.cloneNode(false),
+          menu = elementTemplates.div.cloneNode(false),
+          menuInner = elementTemplates.div.cloneNode(false),
+          menuInnerInner = document.createElement('ul'),
+          divider = elementTemplates.li.cloneNode(false),
+          dropdownHeader = elementTemplates.li.cloneNode(false),
+          li,
+          a = elementTemplates.a.cloneNode(false),
+          text = elementTemplates.span.cloneNode(false),
+          header = this.options.header && this.$menu.find('.' + classNames.POPOVERHEADER).length > 0 ? this.$menu.find('.' + classNames.POPOVERHEADER)[0].cloneNode(true) : null,
+          search = this.options.liveSearch ? elementTemplates.div.cloneNode(false) : null,
+          actions = this.options.actionsBox && this.multiple && this.$menu.find('.bs-actionsbox').length > 0 ? this.$menu.find('.bs-actionsbox')[0].cloneNode(true) : null,
+          doneButton = this.options.doneButton && this.multiple && this.$menu.find('.bs-donebutton').length > 0 ? this.$menu.find('.bs-donebutton')[0].cloneNode(true) : null,
+          firstOption = this.$element[0].options[0];
+
+      this.sizeInfo.selectWidth = this.$newElement[0].offsetWidth;
+
+      text.className = 'text';
+      a.className = 'dropdown-item ' + (firstOption ? firstOption.className : '');
+      newElement.className = this.$menu[0].parentNode.className + ' ' + classNames.SHOW;
+      newElement.style.width = 0; // ensure button width doesn't affect natural width of menu when calculating
+      if (this.options.width === 'auto') menu.style.minWidth = 0;
+      menu.className = classNames.MENU + ' ' + classNames.SHOW;
+      menuInner.className = 'inner ' + classNames.SHOW;
+      menuInnerInner.className = classNames.MENU + ' inner ' + (version.major >= '4' ? classNames.SHOW : '');
+      divider.className = classNames.DIVIDER;
+      dropdownHeader.className = 'dropdown-header';
+
+      text.appendChild(document.createTextNode('\u200b'));
+
+      if (this.selectpicker.current.data.length) {
+        for (var i = 0; i < this.selectpicker.current.data.length; i++) {
+          var data = this.selectpicker.current.data[i];
+          if (data.type === 'option') {
+            li = data.element;
+            break;
+          }
+        }
+      } else {
+        li = elementTemplates.li.cloneNode(false);
+        a.appendChild(text);
+        li.appendChild(a);
+      }
+
+      dropdownHeader.appendChild(text.cloneNode(true));
+
+      if (this.selectpicker.view.widestOption) {
+        menuInnerInner.appendChild(this.selectpicker.view.widestOption.cloneNode(true));
+      }
+
+      menuInnerInner.appendChild(li);
+      menuInnerInner.appendChild(divider);
+      menuInnerInner.appendChild(dropdownHeader);
+      if (header) menu.appendChild(header);
+      if (search) {
+        var input = document.createElement('input');
+        search.className = 'bs-searchbox';
+        input.className = 'form-control';
+        search.appendChild(input);
+        menu.appendChild(search);
+      }
+      if (actions) menu.appendChild(actions);
+      menuInner.appendChild(menuInnerInner);
+      menu.appendChild(menuInner);
+      if (doneButton) menu.appendChild(doneButton);
+      newElement.appendChild(menu);
+
+      document.body.appendChild(newElement);
+
+      var liHeight = li.offsetHeight,
+          dropdownHeaderHeight = dropdownHeader ? dropdownHeader.offsetHeight : 0,
+          headerHeight = header ? header.offsetHeight : 0,
+          searchHeight = search ? search.offsetHeight : 0,
+          actionsHeight = actions ? actions.offsetHeight : 0,
+          doneButtonHeight = doneButton ? doneButton.offsetHeight : 0,
+          dividerHeight = $(divider).outerHeight(true),
+          menuStyle = window.getComputedStyle(menu),
+          menuWidth = menu.offsetWidth,
+          menuPadding = {
+            vert: toInteger(menuStyle.paddingTop) +
+                  toInteger(menuStyle.paddingBottom) +
+                  toInteger(menuStyle.borderTopWidth) +
+                  toInteger(menuStyle.borderBottomWidth),
+            horiz: toInteger(menuStyle.paddingLeft) +
+                  toInteger(menuStyle.paddingRight) +
+                  toInteger(menuStyle.borderLeftWidth) +
+                  toInteger(menuStyle.borderRightWidth)
+          },
+          menuExtras = {
+            vert: menuPadding.vert +
+                  toInteger(menuStyle.marginTop) +
+                  toInteger(menuStyle.marginBottom) + 2,
+            horiz: menuPadding.horiz +
+                  toInteger(menuStyle.marginLeft) +
+                  toInteger(menuStyle.marginRight) + 2
+          },
+          scrollBarWidth;
+
+      menuInner.style.overflowY = 'scroll';
+
+      scrollBarWidth = menu.offsetWidth - menuWidth;
+
+      document.body.removeChild(newElement);
+
+      this.sizeInfo.liHeight = liHeight;
+      this.sizeInfo.dropdownHeaderHeight = dropdownHeaderHeight;
+      this.sizeInfo.headerHeight = headerHeight;
+      this.sizeInfo.searchHeight = searchHeight;
+      this.sizeInfo.actionsHeight = actionsHeight;
+      this.sizeInfo.doneButtonHeight = doneButtonHeight;
+      this.sizeInfo.dividerHeight = dividerHeight;
+      this.sizeInfo.menuPadding = menuPadding;
+      this.sizeInfo.menuExtras = menuExtras;
+      this.sizeInfo.menuWidth = menuWidth;
+      this.sizeInfo.menuInnerInnerWidth = menuWidth - menuPadding.horiz;
+      this.sizeInfo.totalMenuWidth = this.sizeInfo.menuWidth;
+      this.sizeInfo.scrollBarWidth = scrollBarWidth;
+      this.sizeInfo.selectHeight = this.$newElement[0].offsetHeight;
+
+      this.setPositionData();
+    },
+
+    getSelectPosition: function () {
+      var that = this,
+          $window = $(window),
+          pos = that.$newElement.offset(),
+          $container = $(that.options.container),
+          containerPos;
+
+      if (that.options.container && $container.length && !$container.is('body')) {
+        containerPos = $container.offset();
+        containerPos.top += parseInt($container.css('borderTopWidth'));
+        containerPos.left += parseInt($container.css('borderLeftWidth'));
+      } else {
+        containerPos = { top: 0, left: 0 };
+      }
+
+      var winPad = that.options.windowPadding;
+
+      this.sizeInfo.selectOffsetTop = pos.top - containerPos.top - $window.scrollTop();
+      this.sizeInfo.selectOffsetBot = $window.height() - this.sizeInfo.selectOffsetTop - this.sizeInfo.selectHeight - containerPos.top - winPad[2];
+      this.sizeInfo.selectOffsetLeft = pos.left - containerPos.left - $window.scrollLeft();
+      this.sizeInfo.selectOffsetRight = $window.width() - this.sizeInfo.selectOffsetLeft - this.sizeInfo.selectWidth - containerPos.left - winPad[1];
+      this.sizeInfo.selectOffsetTop -= winPad[0];
+      this.sizeInfo.selectOffsetLeft -= winPad[3];
+    },
+
+    setMenuSize: function (isAuto) {
+      this.getSelectPosition();
+
+      var selectWidth = this.sizeInfo.selectWidth,
+          liHeight = this.sizeInfo.liHeight,
+          headerHeight = this.sizeInfo.headerHeight,
+          searchHeight = this.sizeInfo.searchHeight,
+          actionsHeight = this.sizeInfo.actionsHeight,
+          doneButtonHeight = this.sizeInfo.doneButtonHeight,
+          divHeight = this.sizeInfo.dividerHeight,
+          menuPadding = this.sizeInfo.menuPadding,
+          menuInnerHeight,
+          menuHeight,
+          divLength = 0,
+          minHeight,
+          _minHeight,
+          maxHeight,
+          menuInnerMinHeight,
+          estimate,
+          isDropup;
+
+      if (this.options.dropupAuto) {
+        // Get the estimated height of the menu without scrollbars.
+        // This is useful for smaller menus, where there might be plenty of room
+        // below the button without setting dropup, but we can't know
+        // the exact height of the menu until createView is called later
+        estimate = liHeight * this.selectpicker.current.data.length + menuPadding.vert;
+
+        isDropup = this.sizeInfo.selectOffsetTop - this.sizeInfo.selectOffsetBot > this.sizeInfo.menuExtras.vert && estimate + this.sizeInfo.menuExtras.vert + 50 > this.sizeInfo.selectOffsetBot;
+
+        // ensure dropup doesn't change while searching (so menu doesn't bounce back and forth)
+        if (this.selectpicker.isSearching === true) {
+          isDropup = this.selectpicker.dropup;
+        }
+
+        this.$newElement.toggleClass(classNames.DROPUP, isDropup);
+        this.selectpicker.dropup = isDropup;
+      }
+
+      if (this.options.size === 'auto') {
+        _minHeight = this.selectpicker.current.data.length > 3 ? this.sizeInfo.liHeight * 3 + this.sizeInfo.menuExtras.vert - 2 : 0;
+        menuHeight = this.sizeInfo.selectOffsetBot - this.sizeInfo.menuExtras.vert;
+        minHeight = _minHeight + headerHeight + searchHeight + actionsHeight + doneButtonHeight;
+        menuInnerMinHeight = Math.max(_minHeight - menuPadding.vert, 0);
+
+        if (this.$newElement.hasClass(classNames.DROPUP)) {
+          menuHeight = this.sizeInfo.selectOffsetTop - this.sizeInfo.menuExtras.vert;
+        }
+
+        maxHeight = menuHeight;
+        menuInnerHeight = menuHeight - headerHeight - searchHeight - actionsHeight - doneButtonHeight - menuPadding.vert;
+      } else if (this.options.size && this.options.size != 'auto' && this.selectpicker.current.elements.length > this.options.size) {
+        for (var i = 0; i < this.options.size; i++) {
+          if (this.selectpicker.current.data[i].type === 'divider') divLength++;
+        }
+
+        menuHeight = liHeight * this.options.size + divLength * divHeight + menuPadding.vert;
+        menuInnerHeight = menuHeight - menuPadding.vert;
+        maxHeight = menuHeight + headerHeight + searchHeight + actionsHeight + doneButtonHeight;
+        minHeight = menuInnerMinHeight = '';
+      }
+
+      this.$menu.css({
+        'max-height': maxHeight + 'px',
+        'overflow': 'hidden',
+        'min-height': minHeight + 'px'
+      });
+
+      this.$menuInner.css({
+        'max-height': menuInnerHeight + 'px',
+        'overflow-y': 'auto',
+        'min-height': menuInnerMinHeight + 'px'
+      });
+
+      // ensure menuInnerHeight is always a positive number to prevent issues calculating chunkSize in createView
+      this.sizeInfo.menuInnerHeight = Math.max(menuInnerHeight, 1);
+
+      if (this.selectpicker.current.data.length && this.selectpicker.current.data[this.selectpicker.current.data.length - 1].position > this.sizeInfo.menuInnerHeight) {
+        this.sizeInfo.hasScrollBar = true;
+        this.sizeInfo.totalMenuWidth = this.sizeInfo.menuWidth + this.sizeInfo.scrollBarWidth;
+      }
+
+      if (this.options.dropdownAlignRight === 'auto') {
+        this.$menu.toggleClass(classNames.MENURIGHT, this.sizeInfo.selectOffsetLeft > this.sizeInfo.selectOffsetRight && this.sizeInfo.selectOffsetRight < (this.sizeInfo.totalMenuWidth - selectWidth));
+      }
+
+      if (this.dropdown && this.dropdown._popper) this.dropdown._popper.update();
+    },
+
+    setSize: function (refresh) {
+      this.liHeight(refresh);
+
+      if (this.options.header) this.$menu.css('padding-top', 0);
+
+      if (this.options.size !== false) {
+        var that = this,
+            $window = $(window);
+
+        this.setMenuSize();
+
+        if (this.options.liveSearch) {
+          this.$searchbox
+            .off('input.setMenuSize propertychange.setMenuSize')
+            .on('input.setMenuSize propertychange.setMenuSize', function () {
+              return that.setMenuSize();
+            });
+        }
+
+        if (this.options.size === 'auto') {
+          $window
+            .off('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize' + ' scroll' + EVENT_KEY + '.' + this.selectId + '.setMenuSize')
+            .on('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize' + ' scroll' + EVENT_KEY + '.' + this.selectId + '.setMenuSize', function () {
+              return that.setMenuSize();
+            });
+        } else if (this.options.size && this.options.size != 'auto' && this.selectpicker.current.elements.length > this.options.size) {
+          $window.off('resize' + EVENT_KEY + '.' + this.selectId + '.setMenuSize' + ' scroll' + EVENT_KEY + '.' + this.selectId + '.setMenuSize');
+        }
+      }
+
+      this.createView(false, true, refresh);
+    },
+
+    setWidth: function () {
+      var that = this;
+
+      if (this.options.width === 'auto') {
+        requestAnimationFrame(function () {
+          that.$menu.css('min-width', '0');
+
+          that.$element.on('loaded' + EVENT_KEY, function () {
+            that.liHeight();
+            that.setMenuSize();
+
+            // Get correct width if element is hidden
+            var $selectClone = that.$newElement.clone().appendTo('body'),
+                btnWidth = $selectClone.css('width', 'auto').children('button').outerWidth();
+
+            $selectClone.remove();
+
+            // Set width to whatever's larger, button title or longest option
+            that.sizeInfo.selectWidth = Math.max(that.sizeInfo.totalMenuWidth, btnWidth);
+            that.$newElement.css('width', that.sizeInfo.selectWidth + 'px');
+          });
+        });
+      } else if (this.options.width === 'fit') {
+        // Remove inline min-width so width can be changed from 'auto'
+        this.$menu.css('min-width', '');
+        this.$newElement.css('width', '').addClass('fit-width');
+      } else if (this.options.width) {
+        // Remove inline min-width so width can be changed from 'auto'
+        this.$menu.css('min-width', '');
+        this.$newElement.css('width', this.options.width);
+      } else {
+        // Remove inline min-width/width so width can be changed
+        this.$menu.css('min-width', '');
+        this.$newElement.css('width', '');
+      }
+      // Remove fit-width class if width is changed programmatically
+      if (this.$newElement.hasClass('fit-width') && this.options.width !== 'fit') {
+        this.$newElement[0].classList.remove('fit-width');
+      }
+    },
+
+    selectPosition: function () {
+      this.$bsContainer = $('<div class="bs-container" />');
+
+      var that = this,
+          $container = $(this.options.container),
+          pos,
+          containerPos,
+          actualHeight,
+          getPlacement = function ($element) {
+            var containerPosition = {},
+                // fall back to dropdown's default display setting if display is not manually set
+                display = that.options.display || (
+                  // Bootstrap 3 doesn't have $.fn.dropdown.Constructor.Default
+                  $.fn.dropdown.Constructor.Default ? $.fn.dropdown.Constructor.Default.display
+                  : false
+                );
+
+            that.$bsContainer.addClass($element.attr('class').replace(/form-control|fit-width/gi, '')).toggleClass(classNames.DROPUP, $element.hasClass(classNames.DROPUP));
+            pos = $element.offset();
+
+            if (!$container.is('body')) {
+              containerPos = $container.offset();
+              containerPos.top += parseInt($container.css('borderTopWidth')) - $container.scrollTop();
+              containerPos.left += parseInt($container.css('borderLeftWidth')) - $container.scrollLeft();
+            } else {
+              containerPos = { top: 0, left: 0 };
+            }
+
+            actualHeight = $element.hasClass(classNames.DROPUP) ? 0 : $element[0].offsetHeight;
+
+            // Bootstrap 4+ uses Popper for menu positioning
+            if (version.major < 4 || display === 'static') {
+              containerPosition.top = pos.top - containerPos.top + actualHeight;
+              containerPosition.left = pos.left - containerPos.left;
+            }
+
+            containerPosition.width = $element[0].offsetWidth;
+
+            that.$bsContainer.css(containerPosition);
+          };
+
+      this.$button.on('click.bs.dropdown.data-api', function () {
+        if (that.isDisabled()) {
+          return;
+        }
+
+        getPlacement(that.$newElement);
+
+        that.$bsContainer
+          .appendTo(that.options.container)
+          .toggleClass(classNames.SHOW, !that.$button.hasClass(classNames.SHOW))
+          .append(that.$menu);
+      });
+
+      $(window)
+        .off('resize' + EVENT_KEY + '.' + this.selectId + ' scroll' + EVENT_KEY + '.' + this.selectId)
+        .on('resize' + EVENT_KEY + '.' + this.selectId + ' scroll' + EVENT_KEY + '.' + this.selectId, function () {
+          var isActive = that.$newElement.hasClass(classNames.SHOW);
+
+          if (isActive) getPlacement(that.$newElement);
+        });
+
+      this.$element.on('hide' + EVENT_KEY, function () {
+        that.$menu.data('height', that.$menu.height());
+        that.$bsContainer.detach();
+      });
+    },
+
+    createOption: function (data, init) {
+      var optionData = !data.option ? data : data.option;
+
+      if (optionData && optionData.nodeType !== 1) {
+        var option = (init ? elementTemplates.selectedOption : elementTemplates.option).cloneNode(true);
+        if (optionData.value !== undefined) option.value = optionData.value;
+        option.textContent = optionData.text;
+
+        option.selected = true;
+
+        if (optionData.liIndex !== undefined) {
+          option.liIndex = optionData.liIndex;
+        } else if (!init) {
+          option.liIndex = data.index;
+        }
+
+        data.option = option;
+
+        this.selectpicker.main.optionQueue.appendChild(option);
+      }
+    },
+
+    setOptionStatus: function (selectedOnly) {
+      var that = this;
+
+      that.noScroll = false;
+
+      if (that.selectpicker.view.visibleElements && that.selectpicker.view.visibleElements.length) {
+        for (var i = 0; i < that.selectpicker.view.visibleElements.length; i++) {
+          var liData = that.selectpicker.current.data[i + that.selectpicker.view.position0],
+              option = liData.option;
+
+          if (option) {
+            if (selectedOnly !== true) {
+              that.setDisabled(liData);
+            }
+
+            that.setSelected(liData);
+          }
+        }
+
+        // append optionQueue (documentFragment with option elements for select options)
+        if (this.options.source.data) this.$element[0].appendChild(this.selectpicker.main.optionQueue);
+      }
+    },
+
+    /**
+     * @param {number} index - the index of the option that is being changed
+     * @param {boolean} selected - true if the option is being selected, false if being deselected
+     */
+    setSelected: function (liData, selected) {
+      selected = selected === undefined ? liData.selected : selected;
+
+      var index = liData.index,
+          li = liData.element,
+          activeIndexIsSet = this.activeIndex !== undefined,
+          thisIsActive = this.activeIndex === index,
+          prevActive,
+          a,
+          // if current option is already active
+          // OR
+          // if the current option is being selected, it's NOT multiple, and
+          // activeIndex is undefined:
+          //  - when the menu is first being opened, OR
+          //  - after a search has been performed, OR
+          //  - when retainActive is false when selecting a new option (i.e. index of the newly selected option is not the same as the current activeIndex)
+          keepActive = thisIsActive || (selected && !this.multiple && !activeIndexIsSet);
+
+      if (!li) return;
+
+      if (selected !== undefined) {
+        liData.selected = selected;
+        if (liData.option) liData.option.selected = selected;
+      }
+
+      if (selected && this.options.source.data) {
+        this.createOption(liData, false);
+      }
+
+      a = li.firstChild;
+
+      if (selected) {
+        this.selectedIndex = index;
+      }
+
+      li.classList.toggle('selected', selected);
+
+      if (keepActive) {
+        this.focusItem(li, liData);
+        this.selectpicker.view.currentActive = li;
+        this.activeIndex = index;
+      } else {
+        this.defocusItem(li);
+      }
+
+      if (a) {
+        a.classList.toggle('selected', selected);
+
+        if (selected) {
+          a.setAttribute('aria-selected', true);
+        } else {
+          if (this.multiple) {
+            a.setAttribute('aria-selected', false);
+          } else {
+            a.removeAttribute('aria-selected');
+          }
+        }
+      }
+
+      if (!keepActive && !activeIndexIsSet && selected && this.prevActiveIndex !== undefined) {
+        prevActive = this.selectpicker.main.elements[this.prevActiveIndex];
+
+        this.defocusItem(prevActive);
+      }
+    },
+
+    /**
+     * @param {number} index - the index of the option that is being disabled
+     * @param {boolean} disabled - true if the option is being disabled, false if being enabled
+     */
+    setDisabled: function (liData) {
+      var disabled = liData.disabled,
+          li = liData.element,
+          a;
+
+      if (!li) return;
+
+      a = li.firstChild;
+
+      li.classList.toggle(classNames.DISABLED, disabled);
+
+      if (a) {
+        if (version.major >= '4') a.classList.toggle(classNames.DISABLED, disabled);
+
+        if (disabled) {
+          a.setAttribute('aria-disabled', disabled);
+          a.setAttribute('tabindex', -1);
+        } else {
+          a.removeAttribute('aria-disabled');
+          a.setAttribute('tabindex', 0);
+        }
+      }
+    },
+
+    isDisabled: function () {
+      return this.$element[0].disabled;
+    },
+
+    checkDisabled: function () {
+      if (this.isDisabled()) {
+        this.$newElement[0].classList.add(classNames.DISABLED);
+        this.$button.addClass(classNames.DISABLED).attr('aria-disabled', true);
+      } else {
+        if (this.$button[0].classList.contains(classNames.DISABLED)) {
+          this.$newElement[0].classList.remove(classNames.DISABLED);
+          this.$button.removeClass(classNames.DISABLED).attr('aria-disabled', false);
+        }
+      }
+    },
+
+    clickListener: function () {
+      var that = this,
+          $document = $(document);
+
+      $document.data('spaceSelect', false);
+
+      this.$button.on('keyup', function (e) {
+        if (/(32)/.test(e.keyCode.toString(10)) && $document.data('spaceSelect')) {
+          e.preventDefault();
+          $document.data('spaceSelect', false);
+        }
+      });
+
+      this.$newElement.on('show.bs.dropdown', function () {
+        if (!that.dropdown && version.major === '4') {
+          that.dropdown = that.$button.data('bs.dropdown');
+          that.dropdown._menu = that.$menu[0];
+        }
+      });
+
+      function clearSelection (e) {
+        if (that.multiple) {
+          that.deselectAll();
+        } else {
+          var element = that.$element[0],
+              prevValue = element.value,
+              prevIndex = element.selectedIndex,
+              prevOption = element.options[prevIndex],
+              prevData = prevOption ? that.selectpicker.main.data[prevOption.liIndex] : false;
+
+          if (prevData) {
+            that.setSelected(prevData, false);
+          }
+
+          element.selectedIndex = 0;
+
+          changedArguments = [prevIndex, false, prevValue];
+          that.$element.triggerNative('change');
+        }
+
+        // remove selected styling if menu is open
+        if (that.$newElement.hasClass(classNames.SHOW)) {
+          if (that.options.liveSearch) {
+            that.$searchbox.trigger('focus');
+          }
+
+          that.createView(false);
+        }
+      }
+
+      this.$button.on('click.bs.dropdown.data-api', function (e) {
+        if (that.options.allowClear) {
+          var target = e.target,
+              clearButton = that.$clearButton[0];
+
+          // IE doesn't support event listeners on child elements of buttons
+          if (/MSIE|Trident/.test(window.navigator.userAgent)) {
+            target = document.elementFromPoint(e.clientX, e.clientY);
+          }
+
+          if (target === clearButton || target.parentElement === clearButton) {
+            e.stopImmediatePropagation();
+            clearSelection(e);
+          }
+        }
+
+        if (!that.$newElement.hasClass(classNames.SHOW)) {
+          that.setSize();
+        }
+      });
+
+      function setFocus () {
+        if (that.options.liveSearch) {
+          that.$searchbox.trigger('focus');
+        } else {
+          that.$menuInner.trigger('focus');
+        }
+      }
+
+      function checkPopperExists () {
+        if (that.dropdown && that.dropdown._popper && that.dropdown._popper.state) {
+          setFocus();
+        } else {
+          requestAnimationFrame(checkPopperExists);
+        }
+      }
+
+      this.$element.on('shown' + EVENT_KEY, function () {
+        if (that.$menuInner[0].scrollTop !== that.selectpicker.view.scrollTop) {
+          that.$menuInner[0].scrollTop = that.selectpicker.view.scrollTop;
+        }
+
+        if (version.major > 3) {
+          requestAnimationFrame(checkPopperExists);
+        } else {
+          setFocus();
+        }
+      });
+
+      // ensure posinset and setsize are correct before selecting an option via a click
+      this.$menuInner.on('mouseenter', 'li a', function (e) {
+        var hoverLi = this.parentElement,
+            position0 = that.isVirtual() ? that.selectpicker.view.position0 : 0,
+            index = Array.prototype.indexOf.call(hoverLi.parentElement.children, hoverLi),
+            hoverData = that.selectpicker.current.data[index + position0];
+
+        that.focusItem(hoverLi, hoverData, true);
+      });
+
+      this.$menuInner.on('click', 'li a', function (e, retainActive) {
+        var $this = $(this),
+            element = that.$element[0],
+            position0 = that.isVirtual() ? that.selectpicker.view.position0 : 0,
+            clickedData = that.selectpicker.current.data[$this.parent().index() + position0],
+            clickedIndex = clickedData.index,
+            prevValue = getSelectValues.call(that),
+            prevIndex = element.selectedIndex,
+            prevOption = element.options[prevIndex],
+            prevData = prevOption ? that.selectpicker.main.data[prevOption.liIndex] : false,
+            triggerChange = true;
+
+        // Don't close on multi choice menu
+        if (that.multiple && that.options.maxOptions !== 1) {
+          e.stopPropagation();
+        }
+
+        e.preventDefault();
+
+        // Don't run if the select is disabled
+        if (!that.isDisabled() && !$this.parent().hasClass(classNames.DISABLED)) {
+          var option = clickedData.option,
+              $option = $(option),
+              state = option.selected,
+              $optgroup = $option.parent('optgroup'),
+              $optgroupOptions = $optgroup.find('option'),
+              maxOptions = that.options.maxOptions,
+              maxOptionsGrp = $optgroup.data('maxOptions') || false;
+
+          if (clickedIndex === that.activeIndex) retainActive = true;
+
+          if (!retainActive) {
+            that.prevActiveIndex = that.activeIndex;
+            that.activeIndex = undefined;
+          }
+
+          if (!that.multiple) { // Deselect previous option if not multi select
+            if (prevData) that.setSelected(prevData, false);
+            that.setSelected(clickedData, true);
+          } else { // Toggle the clicked option if multi select.
+            that.setSelected(clickedData, !state);
+            that.focusedParent.focus();
+
+            if (maxOptions !== false || maxOptionsGrp !== false) {
+              var maxReached = maxOptions < getSelectedOptions.call(that).length,
+                  maxReachedGrp = maxOptionsGrp < $optgroup.find('option:selected').length;
+
+              if ((maxOptions && maxReached) || (maxOptionsGrp && maxReachedGrp)) {
+                if (maxOptions && maxOptions == 1) {
+                  element.selectedIndex = -1;
+                  option.selected = true;
+                  that.setOptionStatus(true);
+                } else if (maxOptionsGrp && maxOptionsGrp == 1) {
+                  for (var i = 0; i < $optgroupOptions.length; i++) {
+                    var _option = $optgroupOptions[i];
+                    _option.selected = false;
+                    that.setSelected(_option.liIndex, false);
+                  }
+
+                  option.selected = true;
+                  that.setSelected(clickedIndex, true);
+                } else {
+                  var maxOptionsText = typeof that.options.maxOptionsText === 'string' ? [that.options.maxOptionsText, that.options.maxOptionsText] : that.options.maxOptionsText,
+                      maxOptionsArr = typeof maxOptionsText === 'function' ? maxOptionsText(maxOptions, maxOptionsGrp) : maxOptionsText,
+                      maxTxt = maxOptionsArr[0].replace('{n}', maxOptions),
+                      maxTxtGrp = maxOptionsArr[1].replace('{n}', maxOptionsGrp),
+                      $notify = $('<div class="notify"></div>');
+                  // If {var} is set in array, replace it
+                  /** @deprecated */
+                  if (maxOptionsArr[2]) {
+                    maxTxt = maxTxt.replace('{var}', maxOptionsArr[2][maxOptions > 1 ? 0 : 1]);
+                    maxTxtGrp = maxTxtGrp.replace('{var}', maxOptionsArr[2][maxOptionsGrp > 1 ? 0 : 1]);
+                  }
+
+                  option.selected = false;
+
+                  that.$menu.append($notify);
+
+                  if (maxOptions && maxReached) {
+                    $notify.append($('<div>' + maxTxt + '</div>'));
+                    triggerChange = false;
+                    that.$element.trigger('maxReached' + EVENT_KEY);
+                  }
+
+                  if (maxOptionsGrp && maxReachedGrp) {
+                    $notify.append($('<div>' + maxTxtGrp + '</div>'));
+                    triggerChange = false;
+                    that.$element.trigger('maxReachedGrp' + EVENT_KEY);
+                  }
+
+                  setTimeout(function () {
+                    that.setSelected(clickedIndex, false);
+                  }, 10);
+
+                  $notify[0].classList.add('fadeOut');
+
+                  setTimeout(function () {
+                    $notify.remove();
+                  }, 1050);
+                }
+              }
+            }
+          }
+
+          if (that.options.source.data) that.$element[0].appendChild(that.selectpicker.main.optionQueue);
+
+          if (!that.multiple || (that.multiple && that.options.maxOptions === 1)) {
+            that.$button.trigger('focus');
+          } else if (that.options.liveSearch) {
+            that.$searchbox.trigger('focus');
+          }
+
+          // Trigger select 'change'
+          if (triggerChange) {
+            if (that.multiple || prevIndex !== element.selectedIndex) {
+              // $option.prop('selected') is current option state (selected/unselected). prevValue is the value of the select prior to being changed.
+              changedArguments = [option.index, $option.prop('selected'), prevValue];
+              that.$element
+                .triggerNative('change');
+            }
+          }
+        }
+      });
+
+      this.$menu.on('click', 'li.' + classNames.DISABLED + ' a, .' + classNames.POPOVERHEADER + ', .' + classNames.POPOVERHEADER + ' :not(.close)', function (e) {
+        if (e.currentTarget == this) {
+          e.preventDefault();
+          e.stopPropagation();
+          if (that.options.liveSearch && !$(e.target).hasClass('close')) {
+            that.$searchbox.trigger('focus');
+          } else {
+            that.$button.trigger('focus');
+          }
+        }
+      });
+
+      this.$menuInner.on('click', '.divider, .dropdown-header', function (e) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (that.options.liveSearch) {
+          that.$searchbox.trigger('focus');
+        } else {
+          that.$button.trigger('focus');
+        }
+      });
+
+      this.$menu.on('click', '.' + classNames.POPOVERHEADER + ' .close', function () {
+        that.$button.trigger('click');
+      });
+
+      this.$searchbox.on('click', function (e) {
+        e.stopPropagation();
+      });
+
+      this.$menu.on('click', '.actions-btn', function (e) {
+        if (that.options.liveSearch) {
+          that.$searchbox.trigger('focus');
+        } else {
+          that.$button.trigger('focus');
+        }
+
+        e.preventDefault();
+        e.stopPropagation();
+
+        if ($(this).hasClass('bs-select-all')) {
+          that.selectAll();
+        } else {
+          that.deselectAll();
+        }
+      });
+
+      this.$button
+        .on('focus' + EVENT_KEY, function (e) {
+          var tabindex = that.$element[0].getAttribute('tabindex');
+
+          // only change when button is actually focused
+          if (tabindex !== undefined && e.originalEvent && e.originalEvent.isTrusted) {
+            // apply select element's tabindex to ensure correct order is followed when tabbing to the next element
+            this.setAttribute('tabindex', tabindex);
+            // set element's tabindex to -1 to allow for reverse tabbing
+            that.$element[0].setAttribute('tabindex', -1);
+            that.selectpicker.view.tabindex = tabindex;
+          }
+        })
+        .on('blur' + EVENT_KEY, function (e) {
+          // revert everything to original tabindex
+          if (that.selectpicker.view.tabindex !== undefined && e.originalEvent && e.originalEvent.isTrusted) {
+            that.$element[0].setAttribute('tabindex', that.selectpicker.view.tabindex);
+            this.setAttribute('tabindex', -1);
+            that.selectpicker.view.tabindex = undefined;
+          }
+        });
+
+      this.$element
+        .on('change' + EVENT_KEY, function () {
+          that.render();
+          that.$element.trigger('changed' + EVENT_KEY, changedArguments);
+          changedArguments = null;
+        })
+        .on('focus' + EVENT_KEY, function () {
+          if (!that.options.mobile) that.$button[0].focus();
+        });
+    },
+
+    liveSearchListener: function () {
+      var that = this;
+
+      this.$button.on('click.bs.dropdown.data-api', function () {
+        if (!!that.$searchbox.val()) {
+          that.$searchbox.val('');
+          that.selectpicker.search.previousValue = undefined;
+        }
+      });
+
+      this.$searchbox.on('click.bs.dropdown.data-api focus.bs.dropdown.data-api touchend.bs.dropdown.data-api', function (e) {
+        e.stopPropagation();
+      });
+
+      this.$searchbox.on('input propertychange', function () {
+        var searchValue = that.$searchbox[0].value;
+
+        that.selectpicker.search.elements = [];
+        that.selectpicker.search.data = [];
+
+        if (searchValue) {
+          if (that.options.source.search) {
+            that.fetchData(function (builtData) {
+              that.render();
+              that.buildList(undefined, true);
+              that.createView(true);
+              showNoResults.call(that, builtData, searchValue);
+            }, 'search', 0, searchValue);
+          } else {
+            var i,
+                searchMatch = [],
+                q = searchValue.toUpperCase(),
+                cache = {},
+                cacheArr = [],
+                searchStyle = that._searchStyle(),
+                normalizeSearch = that.options.liveSearchNormalize;
+
+            if (normalizeSearch) q = normalizeToBase(q);
+
+            for (var i = 0; i < that.selectpicker.main.data.length; i++) {
+              var li = that.selectpicker.main.data[i];
+
+              if (!cache[i]) {
+                cache[i] = stringSearch(li, q, searchStyle, normalizeSearch);
+              }
+
+              if (cache[i] && li.headerIndex !== undefined && cacheArr.indexOf(li.headerIndex) === -1) {
+                if (li.headerIndex > 0) {
+                  cache[li.headerIndex - 1] = true;
+                  cacheArr.push(li.headerIndex - 1);
+                }
+
+                cache[li.headerIndex] = true;
+                cacheArr.push(li.headerIndex);
+
+                cache[li.lastIndex + 1] = true;
+              }
+
+              if (cache[i] && li.type !== 'optgroup-label') cacheArr.push(i);
+            }
+
+            for (var i = 0, cacheLen = cacheArr.length; i < cacheLen; i++) {
+              var index = cacheArr[i],
+                  prevIndex = cacheArr[i - 1],
+                  li = that.selectpicker.main.data[index],
+                  liPrev = that.selectpicker.main.data[prevIndex];
+
+              if (li.type !== 'divider' || (li.type === 'divider' && liPrev && liPrev.type !== 'divider' && cacheLen - 1 !== i)) {
+                that.selectpicker.search.data.push(li);
+                searchMatch.push(that.selectpicker.main.elements[index]);
+              }
+            }
+
+            that.activeIndex = undefined;
+            that.noScroll = true;
+            that.$menuInner.scrollTop(0);
+            that.selectpicker.search.elements = searchMatch;
+            that.createView(true);
+            showNoResults.call(that, searchMatch, searchValue);
+          }
+        } else if (that.selectpicker.search.previousValue) { // for IE11 (#2402)
+          that.$menuInner.scrollTop(0);
+          that.createView(false);
+        }
+
+        that.selectpicker.search.previousValue =  searchValue;
+      });
+    },
+
+    _searchStyle: function () {
+      return this.options.liveSearchStyle || 'contains';
+    },
+
+    val: function (value) {
+      var element = this.$element[0];
+
+      if (typeof value !== 'undefined') {
+        var selectedOptions = getSelectedOptions.call(this),
+            prevValue = getSelectValues.call(this, selectedOptions);
+
+        changedArguments = [null, null, prevValue];
+
+        if (!Array.isArray(value)) value = [ value ];
+
+        value.map(String);
+
+        for (var i = 0; i < selectedOptions.length; i++) {
+          var item = selectedOptions[i];
+
+          if (item && value.indexOf(String(item.value)) === -1) {
+            this.setSelected(item, false);
+          }
+        }
+
+        // only update selected value if it matches an existing option
+        this.selectpicker.main.data.filter(function (item) {
+          if (value.indexOf(String(item.value)) !== -1) {
+            this.setSelected(item, true);
+            return true;
+          }
+
+          return false;
+        }, this);
+
+        if (this.options.source.data) element.appendChild(this.selectpicker.main.optionQueue);
+
+        this.$element.trigger('changed' + EVENT_KEY, changedArguments);
+
+        if (this.$newElement.hasClass(classNames.SHOW)) {
+          if (this.multiple) {
+            this.setOptionStatus(true);
+          } else {
+            var liSelectedIndex = (element.options[element.selectedIndex] || {}).liIndex;
+
+            if (typeof liSelectedIndex === 'number') {
+              this.setSelected(this.selectedIndex, false);
+              this.setSelected(liSelectedIndex, true);
+            }
+          }
+        }
+
+        this.render();
+
+        changedArguments = null;
+
+        return this.$element;
+      } else {
+        return this.$element.val();
+      }
+    },
+
+    changeAll: function (status) {
+      if (!this.multiple) return;
+      if (typeof status === 'undefined') status = true;
+
+      var element = this.$element[0],
+          previousSelected = 0,
+          currentSelected = 0,
+          prevValue = getSelectValues.call(this);
+
+      element.classList.add('bs-select-hidden');
+
+      for (var i = 0, data = this.selectpicker.current.data, len = data.length; i < len; i++) {
+        var liData = data[i],
+            option = liData.option;
+
+        if (option && !liData.disabled && liData.type !== 'divider') {
+          if (liData.selected) previousSelected++;
+          option.selected = status;
+          liData.selected = status;
+          if (status === true) currentSelected++;
+        }
+      }
+
+      element.classList.remove('bs-select-hidden');
+
+      if (previousSelected === currentSelected) return;
+
+      this.setOptionStatus();
+
+      changedArguments = [null, null, prevValue];
+
+      this.$element
+        .triggerNative('change');
+    },
+
+    selectAll: function () {
+      return this.changeAll(true);
+    },
+
+    deselectAll: function () {
+      return this.changeAll(false);
+    },
+
+    toggle: function (e, state) {
+      var isActive,
+          triggerClick = state === undefined;
+
+      e = e || window.event;
+
+      if (e) e.stopPropagation();
+
+      if (triggerClick === false) {
+        isActive = this.$newElement[0].classList.contains(classNames.SHOW);
+        triggerClick = state === true && isActive === false || state === false && isActive === true;
+      }
+
+      if (triggerClick) this.$button.trigger('click.bs.dropdown.data-api');
+    },
+
+    open: function (e) {
+      this.toggle(e, true);
+    },
+
+    close: function (e) {
+      this.toggle(e, false);
+    },
+
+    keydown: function (e) {
+      var $this = $(this),
+          isToggle = $this.hasClass('dropdown-toggle'),
+          $parent = isToggle ? $this.closest('.dropdown') : $this.closest(Selector.MENU),
+          that = $parent.data('this'),
+          $items = that.findLis(),
+          index,
+          isActive,
+          liActive,
+          activeLi,
+          offset,
+          updateScroll = false,
+          downOnTab = e.which === keyCodes.TAB && !isToggle && !that.options.selectOnTab,
+          isArrowKey = REGEXP_ARROW.test(e.which) || downOnTab,
+          scrollTop = that.$menuInner[0].scrollTop,
+          isVirtual = that.isVirtual(),
+          position0 = isVirtual === true ? that.selectpicker.view.position0 : 0;
+
+      // do nothing if a function key is pressed
+      if (e.which >= 112 && e.which <= 123) return;
+
+      isActive = that.$menu.hasClass(classNames.SHOW);
+
+      if (
+        !isActive &&
+        (
+          isArrowKey ||
+          (e.which >= 48 && e.which <= 57) ||
+          (e.which >= 96 && e.which <= 105) ||
+          (e.which >= 65 && e.which <= 90)
+        )
+      ) {
+        that.$button.trigger('click.bs.dropdown.data-api');
+
+        if (that.options.liveSearch) {
+          that.$searchbox.trigger('focus');
+          return;
+        }
+      }
+
+      if (e.which === keyCodes.ESCAPE && isActive) {
+        e.preventDefault();
+        that.$button.trigger('click.bs.dropdown.data-api').trigger('focus');
+      }
+
+      if (isArrowKey) { // if up or down
+        if (!$items.length) return;
+
+        liActive = that.selectpicker.main.elements[that.activeIndex];
+        index = liActive ? Array.prototype.indexOf.call(liActive.parentElement.children, liActive) : -1;
+
+        if (index !== -1) {
+          that.defocusItem(liActive);
+        }
+
+        if (e.which === keyCodes.ARROW_UP) { // up
+          if (index !== -1) index--;
+          if (index + position0 < 0) index += $items.length;
+
+          if (!that.selectpicker.view.canHighlight[index + position0]) {
+            index = that.selectpicker.view.canHighlight.slice(0, index + position0).lastIndexOf(true) - position0;
+            if (index === -1) index = $items.length - 1;
+          }
+        } else if (e.which === keyCodes.ARROW_DOWN || downOnTab) { // down
+          index++;
+          if (index + position0 >= that.selectpicker.view.canHighlight.length) index = that.selectpicker.view.firstHighlightIndex;
+
+          if (!that.selectpicker.view.canHighlight[index + position0]) {
+            index = index + 1 + that.selectpicker.view.canHighlight.slice(index + position0 + 1).indexOf(true);
+          }
+        }
+
+        e.preventDefault();
+
+        var liActiveIndex = position0 + index;
+
+        if (e.which === keyCodes.ARROW_UP) { // up
+          // scroll to bottom and highlight last option
+          if (position0 === 0 && index === $items.length - 1) {
+            that.$menuInner[0].scrollTop = that.$menuInner[0].scrollHeight;
+
+            liActiveIndex = that.selectpicker.current.elements.length - 1;
+          } else {
+            activeLi = that.selectpicker.current.data[liActiveIndex];
+            offset = activeLi.position - activeLi.height;
+
+            updateScroll = offset < scrollTop;
+          }
+        } else if (e.which === keyCodes.ARROW_DOWN || downOnTab) { // down
+          // scroll to top and highlight first option
+          if (index === that.selectpicker.view.firstHighlightIndex) {
+            that.$menuInner[0].scrollTop = 0;
+
+            liActiveIndex = that.selectpicker.view.firstHighlightIndex;
+          } else {
+            activeLi = that.selectpicker.current.data[liActiveIndex];
+            offset = activeLi.position - that.sizeInfo.menuInnerHeight;
+
+            updateScroll = offset > scrollTop;
+          }
+        }
+
+        liActive = that.selectpicker.current.elements[liActiveIndex];
+
+        that.activeIndex = that.selectpicker.current.data[liActiveIndex].index;
+
+        that.focusItem(liActive);
+
+        that.selectpicker.view.currentActive = liActive;
+
+        if (updateScroll) that.$menuInner[0].scrollTop = offset;
+
+        if (that.options.liveSearch) {
+          that.$searchbox.trigger('focus');
+        } else {
+          $this.trigger('focus');
+        }
+      } else if (
+        (!$this.is('input') && !REGEXP_TAB_OR_ESCAPE.test(e.which)) ||
+        (e.which === keyCodes.SPACE && that.selectpicker.keydown.keyHistory)
+      ) {
+        var searchMatch,
+            matches = [],
+            keyHistory;
+
+        e.preventDefault();
+
+        that.selectpicker.keydown.keyHistory += keyCodeMap[e.which];
+
+        if (that.selectpicker.keydown.resetKeyHistory.cancel) clearTimeout(that.selectpicker.keydown.resetKeyHistory.cancel);
+        that.selectpicker.keydown.resetKeyHistory.cancel = that.selectpicker.keydown.resetKeyHistory.start();
+
+        keyHistory = that.selectpicker.keydown.keyHistory;
+
+        // if all letters are the same, set keyHistory to just the first character when searching
+        if (/^(.)\1+$/.test(keyHistory)) {
+          keyHistory = keyHistory.charAt(0);
+        }
+
+        // find matches
+        for (var i = 0; i < that.selectpicker.current.data.length; i++) {
+          var li = that.selectpicker.current.data[i],
+              hasMatch;
+
+          hasMatch = stringSearch(li, keyHistory, 'startsWith', true);
+
+          if (hasMatch && that.selectpicker.view.canHighlight[i]) {
+            matches.push(li.index);
+          }
+        }
+
+        if (matches.length) {
+          var matchIndex = 0;
+
+          $items.removeClass('active').find('a').removeClass('active');
+
+          // either only one key has been pressed or they are all the same key
+          if (keyHistory.length === 1) {
+            matchIndex = matches.indexOf(that.activeIndex);
+
+            if (matchIndex === -1 || matchIndex === matches.length - 1) {
+              matchIndex = 0;
+            } else {
+              matchIndex++;
+            }
+          }
+
+          searchMatch = matches[matchIndex];
+
+          activeLi = that.selectpicker.main.data[searchMatch];
+
+          if (scrollTop - activeLi.position > 0) {
+            offset = activeLi.position - activeLi.height;
+            updateScroll = true;
+          } else {
+            offset = activeLi.position - that.sizeInfo.menuInnerHeight;
+            // if the option is already visible at the current scroll position, just keep it the same
+            updateScroll = activeLi.position > scrollTop + that.sizeInfo.menuInnerHeight;
+          }
+
+          liActive = that.selectpicker.main.elements[searchMatch];
+
+          that.activeIndex = matches[matchIndex];
+
+          that.focusItem(liActive);
+
+          if (liActive) liActive.firstChild.focus();
+
+          if (updateScroll) that.$menuInner[0].scrollTop = offset;
+
+          $this.trigger('focus');
+        }
+      }
+
+      // Select focused option if "Enter", "Spacebar" or "Tab" (when selectOnTab is true) are pressed inside the menu.
+      if (
+        isActive &&
+        (
+          (e.which === keyCodes.SPACE && !that.selectpicker.keydown.keyHistory) ||
+          e.which === keyCodes.ENTER ||
+          (e.which === keyCodes.TAB && that.options.selectOnTab)
+        )
+      ) {
+        if (e.which !== keyCodes.SPACE) e.preventDefault();
+
+        if (!that.options.liveSearch || e.which !== keyCodes.SPACE) {
+          that.$menuInner.find('.active a').trigger('click', true); // retain active class
+          $this.trigger('focus');
+
+          if (!that.options.liveSearch) {
+            // Prevent screen from scrolling if the user hits the spacebar
+            e.preventDefault();
+            // Fixes spacebar selection of dropdown items in FF & IE
+            $(document).data('spaceSelect', true);
+          }
+        }
+      }
+    },
+
+    mobile: function () {
+      // ensure mobile is set to true if mobile function is called after init
+      this.options.mobile = true;
+      this.$element[0].classList.add('mobile-device');
+    },
+
+    refresh: function () {
+      var that = this;
+      // update options if data attributes have been changed
+      var config = $.extend({}, this.options, getAttributesObject(this.$element), this.$element.data()); // in this order on refresh, as user may change attributes on select, and options object is not passed on refresh
+      this.options = config;
+
+      if (this.options.source.data) {
+        this.render();
+        this.buildList();
+      } else {
+        this.fetchData(function () {
+          that.render();
+          that.buildList();
+        });
+      }
+
+      this.checkDisabled();
+      this.setStyle();
+      this.setWidth();
+
+      this.setSize(true);
+
+      this.$element.trigger('refreshed' + EVENT_KEY);
+    },
+
+    hide: function () {
+      this.$newElement.hide();
+    },
+
+    show: function () {
+      this.$newElement.show();
+    },
+
+    remove: function () {
+      this.$newElement.remove();
+      this.$element.remove();
+    },
+
+    destroy: function () {
+      this.$newElement.before(this.$element).remove();
+
+      if (this.$bsContainer) {
+        this.$bsContainer.remove();
+      } else {
+        this.$menu.remove();
+      }
+
+      if (this.selectpicker.view.titleOption && this.selectpicker.view.titleOption.parentNode) {
+        this.selectpicker.view.titleOption.parentNode.removeChild(this.selectpicker.view.titleOption);
+      }
+
+      this.$element
+        .off(EVENT_KEY)
+        .removeData('selectpicker')
+        .removeClass('bs-select-hidden selectpicker');
+
+      $(window).off(EVENT_KEY + '.' + this.selectId);
+    }
+  };
+
+  // SELECTPICKER PLUGIN DEFINITION
+  // ==============================
+  function Plugin (option) {
+    // get the args of the outer function..
+    var args = arguments;
+    // The arguments of the function are explicitly re-defined from the argument list, because the shift causes them
+    // to get lost/corrupted in android 2.3 and IE9 #715 #775
+    var _option = option;
+
+    [].shift.apply(args);
+
+    // if the version was not set successfully
+    if (!version.success) {
+      // try to retreive it again
+      try {
+        version.full = (getVersion() || '').split(' ')[0].split('.');
+      } catch (err) {
+        // fall back to use BootstrapVersion if set
+        if (Selectpicker.BootstrapVersion) {
+          version.full = Selectpicker.BootstrapVersion.split(' ')[0].split('.');
+        } else {
+          version.full = [version.major, '0', '0'];
+
+          console.warn(
+            'There was an issue retrieving Bootstrap\'s version. ' +
+            'Ensure Bootstrap is being loaded before bootstrap-select and there is no namespace collision. ' +
+            'If loading Bootstrap asynchronously, the version may need to be manually specified via $.fn.selectpicker.Constructor.BootstrapVersion.',
+            err
+          );
+        }
+      }
+
+      version.major = version.full[0];
+      version.success = true;
+    }
+
+    if (version.major >= '4') {
+      // some defaults need to be changed if using Bootstrap 4
+      // check to see if they have already been manually changed before forcing them to update
+      var toUpdate = [];
+
+      if (Selectpicker.DEFAULTS.style === classNames.BUTTONCLASS) toUpdate.push({ name: 'style', className: 'BUTTONCLASS' });
+      if (Selectpicker.DEFAULTS.iconBase === classNames.ICONBASE) toUpdate.push({ name: 'iconBase', className: 'ICONBASE' });
+      if (Selectpicker.DEFAULTS.tickIcon === classNames.TICKICON) toUpdate.push({ name: 'tickIcon', className: 'TICKICON' });
+
+      classNames.DIVIDER = 'dropdown-divider';
+      classNames.SHOW = 'show';
+      classNames.BUTTONCLASS = 'btn-light';
+      classNames.POPOVERHEADER = 'popover-header';
+      classNames.ICONBASE = '';
+      classNames.TICKICON = 'bs-ok-default';
+
+      for (var i = 0; i < toUpdate.length; i++) {
+        var option = toUpdate[i];
+        Selectpicker.DEFAULTS[option.name] = classNames[option.className];
+      }
+    }
+
+    if (version.major > '4') {
+      Selector.DATA_TOGGLE = 'data-bs-toggle="dropdown"'
+    }
+
+    var value;
+    var chain = this.each(function () {
+      var $this = $(this);
+      if ($this.is('select')) {
+        var data = $this.data('selectpicker'),
+            options = typeof _option == 'object' && _option;
+
+        // for backwards compatibility
+        // (using title as placeholder is deprecated - remove in v2.0.0)
+        if (options.title) options.placeholder = options.title;
+
+        if (!data) {
+          var dataAttributes = $this.data();
+
+          for (var dataAttr in dataAttributes) {
+            if (Object.prototype.hasOwnProperty.call(dataAttributes, dataAttr) && $.inArray(dataAttr, DISALLOWED_ATTRIBUTES) !== -1) {
+              delete dataAttributes[dataAttr];
+            }
+          }
+
+          var config = $.extend({}, Selectpicker.DEFAULTS, $.fn.selectpicker.defaults || {}, getAttributesObject($this), dataAttributes, options); // this is correct order on initial render
+          config.template = $.extend({}, Selectpicker.DEFAULTS.template, ($.fn.selectpicker.defaults ? $.fn.selectpicker.defaults.template : {}), dataAttributes.template, options.template);
+          $this.data('selectpicker', (data = new Selectpicker(this, config)));
+        } else if (options) {
+          for (var i in options) {
+            if (Object.prototype.hasOwnProperty.call(options, i)) {
+              data.options[i] = options[i];
+            }
+          }
+        }
+
+        if (typeof _option == 'string') {
+          if (data[_option] instanceof Function) {
+            value = data[_option].apply(data, args);
+          } else {
+            value = data.options[_option];
+          }
+        }
+      }
+    });
+
+    if (typeof value !== 'undefined') {
+      // noinspection JSUnusedAssignment
+      return value;
+    } else {
+      return chain;
+    }
+  }
+
+  var old = $.fn.selectpicker;
+  $.fn.selectpicker = Plugin;
+  $.fn.selectpicker.Constructor = Selectpicker;
+
+  // SELECTPICKER NO CONFLICT
+  // ========================
+  $.fn.selectpicker.noConflict = function () {
+    $.fn.selectpicker = old;
+    return this;
+  };
+
+  // get Bootstrap's keydown event handler for either Bootstrap 4 or Bootstrap 3
+  function keydownHandler () {
+    if (version.major < 5) {
+      if ($.fn.dropdown) {
+        // wait to define until function is called in case Bootstrap isn't loaded yet
+        var bootstrapKeydown = $.fn.dropdown.Constructor._dataApiKeydownHandler || $.fn.dropdown.Constructor.prototype.keydown;
+        return bootstrapKeydown.apply(this, arguments);
+      }
+    } else {
+      return Dropdown.dataApiKeydownHandler;
+    }
+  }
+
+  $(document)
+    .off('keydown.bs.dropdown.data-api')
+    .on('keydown.bs.dropdown.data-api', ':not(.bootstrap-select) > [' + Selector.DATA_TOGGLE + ']', keydownHandler)
+    .on('keydown.bs.dropdown.data-api', ':not(.bootstrap-select) > .dropdown-menu', keydownHandler)
+    .on('keydown' + EVENT_KEY, '.bootstrap-select [' + Selector.DATA_TOGGLE + '], .bootstrap-select [role="listbox"], .bootstrap-select .bs-searchbox input', Selectpicker.prototype.keydown)
+    .on('focusin.modal', '.bootstrap-select [' + Selector.DATA_TOGGLE + '], .bootstrap-select [role="listbox"], .bootstrap-select .bs-searchbox input', function (e) {
+      e.stopPropagation();
+    });
+
+  // SELECTPICKER DATA-API
+  // =====================
+  document.addEventListener('DOMContentLoaded', function () {
+    $('.selectpicker').each(function () {
+      var $selectpicker = $(this);
+      Plugin.call($selectpicker, $selectpicker.data());
+    })
+  });
+})(jQuery);
+
+
+}));
+//# sourceMappingURL=bootstrap-select.js.map
 
 /***/ }),
 
@@ -12640,87 +16302,6 @@ module.exports = __nested_webpack_require_158389__(/*! /home/travis/build/feathe
 /******/ });
 });
 //# sourceMappingURL=feather.js.map
-
-/***/ }),
-
-/***/ "./node_modules/feather/config/featherProperties.js":
-/*!**********************************************************!*\
-  !*** ./node_modules/feather/config/featherProperties.js ***!
-  \**********************************************************/
-/***/ ((module) => {
-
-module.exports = {
-  "timestampFormat" : "dddd, MMMM Do YYYY, h:mm:ss a",
-  "level" : "Info"
-}
-
-/***/ }),
-
-/***/ "./node_modules/feather/config/index.js":
-/*!**********************************************!*\
-  !*** ./node_modules/feather/config/index.js ***!
-  \**********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__(/*! ./featherProperties */ "./node_modules/feather/config/featherProperties.js");
-
-/***/ }),
-
-/***/ "./node_modules/feather/index.js":
-/*!***************************************!*\
-  !*** ./node_modules/feather/index.js ***!
-  \***************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-module.exports = __webpack_require__(/*! ./lib/logger */ "./node_modules/feather/lib/logger.js");
-
-/***/ }),
-
-/***/ "./node_modules/feather/lib/logger.js":
-/*!********************************************!*\
-  !*** ./node_modules/feather/lib/logger.js ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
-var Logger = exports;
-var util   = __webpack_require__(/*! util */ "./node_modules/util/util.js");
-var moment = __webpack_require__(/*! moment */ "./node_modules/moment/moment.js");
-var config = __webpack_require__(/*! ../config */ "./node_modules/feather/config/index.js")
-
-Logger.LEVELS = [
-  'Emergency',
-  'Alert',
-  'Critical',
-  'Error',
-  'Warn',
-  'Notice',
-  'Info',
-  'Debug'
-];
-
-Logger.LEVEL = Logger.LEVELS.indexOf(config.level);
-
-Logger.LEVELS.forEach(function(level, index) {
-  var method = level.toLowerCase();
-  var target = (index > Logger.LEVELS.indexOf('Error'))
-      ? 'stdout'
-      : 'stderr';
-
-  Logger[method] = function() {
-    if (index > Logger.LEVEL) return;
-
-    var message = Logger.format.apply(Logger, arguments);
-    process[target].write('[' + level + '] ' + message);
-  };
-});
-
-Logger.format = function(/* template, arg1, arg2, ... */) {
-  var message = util.format.apply(util, arguments);
-  var timestamp = moment().format(config.timestampFormat);
-  message = timestamp + ': ' + message + '\n';
-  return message;
-};
 
 /***/ }),
 
@@ -24125,6521 +27706,6 @@ __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
 
-/***/ }),
-
-/***/ "./node_modules/moment/lang/da.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/da.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "Januar_Februar_Marts_April_Maj_Juni_Juli_August_September_Oktober_November_December".split("_"),
-            monthsShort : "Jan_Feb_Mar_Apr_Maj_Jun_Jul_Aug_Sep_Okt_Nov_Dec".split("_"),
-            weekdays : "Søndag_Mandag_Tirsdag_Onsdag_Torsdag_Fredag_Lørdag".split("_"),
-            weekdaysShort : "Søn_Man_Tir_Ons_Tor_Fre_Lør".split("_"),
-            longDateFormat : {
-                L : "DD/MM/YYYY",
-                LL : "D MMMM YYYY",
-                LLL : "D MMMM YYYY h:mm A",
-                LLLL : "dddd D. MMMM, YYYY h:mm A"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay : '[I dag kl.] LT',
-                nextDay : '[I morgen kl.] LT',
-                nextWeek : 'dddd [kl.] LT',
-                lastDay : '[I går kl.] LT',
-                lastWeek : '[sidste] dddd [kl] LT',
-                sameElse : 'L'
-            },
-            relativeTime : {
-                future : "om %s",
-                past : "%s siden",
-                s : "få sekunder",
-                m : "minut",
-                mm : "minutter",
-                h : "time",
-                hh : "%d timer",
-                d : "dag",
-                dd : "%d dage",
-                M : "månede",
-                MM : "%d måneder",
-                y : "år",
-                yy : "%d år"
-            },
-            ordinal : function (number) {
-                    return '.';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('da', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/de.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/de.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),
-            monthsShort : "Jan._Febr._Mrz._Apr._Mai_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),
-            weekdays : "Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),
-            weekdaysShort : "So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),
-            longDateFormat : {
-                LT: "H:mm U\\hr",
-                L : "DD.MM.YYYY",
-                LL : "D. MMMM YYYY",
-                LLL : "D. MMMM YYYY LT",
-                LLLL : "dddd, D. MMMM YYYY LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay: "[Heute um] LT",
-                sameElse: "L",
-                nextDay: '[Morgen um] LT',
-                nextWeek: 'dddd [um] LT',
-                lastDay: '[Gestern um] LT',
-                lastWeek: '[letzten] dddd [um] LT'
-            },
-            relativeTime : {
-                future : "in %s",
-                past : "vor %s",
-                s : "ein paar Sekunden",
-                m : "einer Minute",
-                mm : "%d Minuten",
-                h : "einer Stunde",
-                hh : "%d Stunden",
-                d : "einem Tag",
-                dd : "%d Tagen",
-                M : "einem Monat",
-                MM : "%d Monaten",
-                y : "einem Jahr",
-                yy : "%d Jahren"
-            },
-            ordinal : function (number) {
-                return '.';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('de', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/en-GB.js":
-/*!*******************************************!*\
-  !*** ./node_modules/moment/lang/en-GB.js ***!
-  \*******************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
-            monthsShort : "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
-            weekdays : "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
-            weekdaysShort : "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
-            longDateFormat : {
-                LT : "h:mm A",
-                L : "DD/MM/YYYY",
-                LL : "D MMMM YYYY",
-                LLL : "D MMMM YYYY LT",
-                LLLL : "dddd, D MMMM YYYY LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay : '[Today at] LT',
-                nextDay : '[Tomorrow at] LT',
-                nextWeek : 'dddd [at] LT', 
-                lastDay : '[Yesterday at] LT',
-                lastWeek : '[last] dddd [at] LT', 
-                sameElse : 'L'
-            },
-            relativeTime : {
-                future : "in %s",
-                past : "%s ago",
-                s : "a few seconds",
-                m : "a minute",
-                mm : "%d minutes",
-                h : "an hour",
-                hh : "%d hours",
-                d : "a day",
-                dd : "%d days",
-                M : "a month",
-                MM : "%d months",
-                y : "a year",
-                yy : "%d years"
-            },
-            ordinal : function (number) {
-                var b = number % 10;
-                return (~~ (number % 100 / 10) === 1) ? 'th' :
-                    (b === 1) ? 'st' :
-                    (b === 2) ? 'nd' :
-                    (b === 3) ? 'rd' : 'th';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('en-gb', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/es.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/es.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre".split("_"),
-            monthsShort : "Ene._Feb._Mar._Abr._May._Jun._Jul._Ago._Sep._Oct._Nov._Dic.".split("_"),
-            weekdays : "Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado".split("_"),
-            weekdaysShort : "Dom._Lun._Mar._Mié._Jue._Vie._Sáb.".split("_"),
-            longDateFormat : {
-                LT : "H:mm",
-                L : "DD/MM/YYYY",
-                LL : "D MMMM YYYY",
-                LLL : "D MMMM YYYY LT",
-                LLLL : "dddd D MMMM YYYY LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay : function () {
-                    return '[hoy a la' + ((this.hours() !== 1) ? 's' : '') + '] LT';
-                },
-                nextDay : function () {
-                    return '[mañana a la' + ((this.hours() !== 1) ? 's' : '') + '] LT';
-                },
-                nextWeek : function () {
-                    return 'dddd [a la' + ((this.hours() !== 1) ? 's' : '') + '] LT';
-                },
-                lastDay : function () {
-                    return '[ayer a la' + ((this.hours() !== 1) ? 's' : '') + '] LT';
-                },
-                lastWeek : function () {
-                    return '[el] dddd [pasado a la' + ((this.hours() !== 1) ? 's' : '') + '] LT';
-                },
-                sameElse : 'L'
-            },
-            relativeTime : {
-                future : "en %s",
-                past : "hace %s",
-                s : "unos segundos",
-                m : "un minuto",
-                mm : "%d minutos",
-                h : "una hora",
-                hh : "%d horas",
-                d : "un día",
-                dd : "%d días",
-                M : "un mes",
-                MM : "%d meses",
-                y : "un año",
-                yy : "%d años"
-            },
-            ordinal : function (number) {
-                return 'º';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('es', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/eu.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/eu.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "urtarrila_otsaila_martxoa_apirila_maiatza_ekaina_uztaila_abuztua_iraila_urria_azaroa_abendua".split("_"),
-            monthsShort : "urt._ots._mar._api._mai._eka._uzt._abu._ira._urr._aza._abe.".split("_"),
-            weekdays : "igandea_astelehena_asteartea_asteazkena_osteguna_ostirala_larunbata".split("_"),
-            weekdaysShort : "ig._al._ar._az._og._ol._lr.".split("_"),
-            longDateFormat : {
-                LT : "HH:mm",
-                L : "YYYY-MM-DD",
-                LL : "YYYYko MMMMren D[a]",
-                LLL : "YYYYko MMMMren D[a] LT",
-                LLLL : "dddd, YYYYko MMMMren D[a] LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay : '[gaur] LT[etan]',
-                nextDay : '[bihar] LT[etan]',
-                nextWeek : 'dddd LT[etan]',
-                lastDay : '[atzo] LT[etan]',
-                lastWeek : '[aurreko] dddd LT[etan]',
-                sameElse : 'L'
-            },
-            relativeTime : {
-                future : "%s barru",
-                past : "duela %s",
-                s : "segundo batzuk",
-                m : "minutu bat",
-                mm : "%d minutu",
-                h : "ordu bat",
-                hh : "%d ordu",
-                d : "egun bat",
-                dd : "%d egun",
-                M : "hilabete bat",
-                MM : "%d hilabete",
-                y : "urte bat",
-                yy : "%d urte"
-            },
-            ordinal : function (number) {
-                return '.';
-            }
-        };
-    
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('eu', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/fr.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/fr.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),
-            monthsShort : "janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),
-            weekdays : "dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),
-            weekdaysShort : "dim._lun._mar._mer._jeu._ven._sam.".split("_"),
-            longDateFormat : {
-                LT : "HH:mm",
-                L : "DD/MM/YYYY",
-                LL : "D MMMM YYYY",
-                LLL : "D MMMM YYYY LT",
-                LLLL : "dddd D MMMM YYYY LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay: "[Ajourd'hui à] LT",
-                nextDay: '[Demain à] LT',
-                nextWeek: 'dddd [à] LT',
-                lastDay: '[Hier à] LT',
-                lastWeek: 'dddd [denier à] LT',
-                sameElse: 'L'
-            },
-            relativeTime : {
-                future : "dans %s",
-                past : "il y a %s",
-                s : "quelques secondes",
-                m : "une minute",
-                mm : "%d minutes",
-                h : "une heure",
-                hh : "%d heures",
-                d : "un jour",
-                dd : "%d jours",
-                M : "un mois",
-                MM : "%d mois",
-                y : "une année",
-                yy : "%d années"
-            },
-            ordinal : function (number) {
-                return number === 1 ? 'er' : 'ème';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('fr', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/gl.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/gl.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "Xaneiro_Febreiro_Marzo_Abril_Maio_Xuño_Xullo_Agosto_Setembro_Octubro_Novembro_Decembro".split("_"),
-            monthsShort : "Xan._Feb._Mar._Abr._Mai._Xuñ._Xul._Ago._Set._Out._Nov._Dec.".split("_"),
-            weekdays : "Domingo_Luns_Martes_Mércores_Xoves_Venres_Sábado".split("_"),
-            weekdaysShort : "Dom._Lun._Mar._Mér._Xov._Ven._Sáb.".split("_"),
-            longDateFormat : {
-                LT : "H:mm",
-                L : "DD/MM/YYYY",
-                LL : "D MMMM YYYY",
-                LLL : "D MMMM YYYY LT",
-                LLLL : "dddd D MMMM YYYY LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay : function () {
-                    return '[hoxe ' + ((this.hours() !== 1) ? 'ás' : 'a') + '] LT';
-                },
-                nextDay : function () {
-                    return '[mañá ' + ((this.hours() !== 1) ? 'ás' : 'a') + '] LT';
-                },
-                nextWeek : function () {
-                    return 'dddd [' + ((this.hours() !== 1) ? 'ás' : 'a') + '] LT';
-                },
-                lastDay : function () {
-                    return '[onte ' + ((this.hours() !== 1) ? 'á' : 'a') + '] LT';
-                },
-                lastWeek : function () {
-                    return '[o] dddd [pasado ' + ((this.hours() !== 1) ? 'ás' : '') + '] LT';
-                },
-                sameElse : 'L'
-            },
-            relativeTime : {
-                future : "en %s",
-                past : "fai %s",
-                s : "uns segundo",
-                m : "un minuto",
-                mm : "%d minutos",
-                h : "unha hora",
-                hh : "%d horas",
-                d : "un día",
-                dd : "%d días",
-                M : "un mes",
-                MM : "%d meses",
-                y : "un ano",
-                yy : "%d anos"
-            },
-            ordinal : function (number) {
-                return 'º';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('gl', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/it.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/it.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "Gennaio_Febbraio_Marzo_Aprile_Maggio_Giugno_Luglio_Agosto_Settebre_Ottobre_Novembre_Dicembre".split("_"),
-            monthsShort : "Gen_Feb_Mar_Apr_Mag_Giu_Lug_Ago_Set_Ott_Nov_Dic".split("_"),
-            weekdays : "Domenica_Lunedi_Martedi_Mercoledi_Giovedi_Venerdi_Sabato".split("_"),
-            weekdaysShort : "Dom_Lun_Mar_Mer_Gio_Ven_Sab".split("_"),
-            longDateFormat : { 
-                LT : "HH:mm",
-                L : "DD/MM/YYYY",
-                LL : "D MMMM YYYY",
-                LLL : "D MMMM YYYY LT",
-                LLLL : "dddd, D MMMM YYYY LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay: '[Oggi alle] LT',
-                nextDay: '[Domani alle] LT',
-                nextWeek: 'dddd [alle] LT',
-                lastDay: '[Ieri alle] LT',
-                lastWeek: '[lo scorso] dddd [alle] LT',
-                sameElse: 'L'
-            },
-            relativeTime : {
-                future : "in %s",
-                past : "%s fa",
-                s : "secondi",
-                m : "un minuto",
-                mm : "%d minuti",
-                h : "un ora",
-                hh : "%d ore",
-                d : "un giorno",
-                dd : "%d giorni",
-                M : "un mese",
-                MM : "%d mesi",
-                y : "un anno",
-                yy : "%d anni"
-            },
-            ordinal: function () {
-                return 'º';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('it', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/kr.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/kr.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),
-            monthsShort : "1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),
-            weekdays : "일요일_월요일_화요일_수요일_목요일_금요일_토요일".split("_"),
-            weekdaysShort : "일_월_화_수_목_금_토".split("_"),
-            longDateFormat : {
-                LT : "A h시 mm분",
-                L : "YYYY.MM.DD",
-                LL : "YYYY년 MMMM D일",
-                LLL : "YYYY년 MMMM D일 LT",
-                LLLL : "YYYY년 MMMM D일 dddd LT"
-            },
-			meridiem : {
-				AM : '오전',
-				am : '오전',
-				PM : '오후',
-				pm : '오후'
-			},
-            calendar : {
-                sameDay : '오늘 LT',
-                nextDay : '내일 LT',
-                nextWeek : 'dddd LT',
-                lastDay : '어제 LT',
-                lastWeek : '지난주 dddd LT',
-                sameElse : 'L'
-            },
-            relativeTime : {
-                future : "%s 후",
-                past : "%s 전",
-                s : "몇초",
-                ss : "%d초",
-                m : "일분",
-                mm : "%d분",
-                h : "한시간",
-                hh : "%d시간",
-                d : "하루",
-                dd : "%d일",
-                M : "한달",
-                MM : "%d달",
-                y : "일년",
-                yy : "%d년"
-            },
-            ordinal : function (number) {
-                return '일';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('kr', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/all.min.js":
-/*!*************************************************!*\
-  !*** ./node_modules/moment/lang/min/all.min.js ***!
-  \*************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),monthsShort:"Jan._Febr._Mrz._Apr._Mai_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),weekdays:"Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),weekdaysShort:"So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),longDateFormat:{LT:"H:mm U\\hr",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Heute um] LT",sameElse:"L",nextDay:"[Morgen um] LT",nextWeek:"dddd [um] LT",lastDay:"[Gestern um] LT",lastWeek:"[letzten] dddd [um] LT"},relativeTime:{future:"in %s",past:"vor %s",s:"ein paar Sekunden",m:"einer Minute",mm:"%d Minuten",h:"einer Stunde",hh:"%d Stunden",d:"einem Tag",dd:"%d Tagen",M:"einem Monat",MM:"%d Monaten",y:"einem Jahr",yy:"%d Jahren"},ordinal:function(a){return"."}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("de",a)})(),function(){var a={months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),longDateFormat:{LT:"h:mm A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},ordinal:function(a){var b=a%10;return~~(a%100/10)===1?"th":b===1?"st":b===2?"nd":b===3?"rd":"th"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("en-gb",a)}(),function(){var a={months:"Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre".split("_"),monthsShort:"Ene._Feb._Mar._Abr._May._Jun._Jul._Ago._Sep._Oct._Nov._Dic.".split("_"),weekdays:"Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado".split("_"),weekdaysShort:"Dom._Lun._Mar._Mié._Jue._Vie._Sáb.".split("_"),longDateFormat:{LT:"H:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:function(){return"[hoy a la"+(this.hours()!==1?"s":"")+"] LT"},nextDay:function(){return"[mañana a la"+(this.hours()!==1?"s":"")+"] LT"},nextWeek:function(){return"dddd [a la"+(this.hours()!==1?"s":"")+"] LT"},lastDay:function(){return"[ayer a la"+(this.hours()!==1?"s":"")+"] LT"},lastWeek:function(){return"[el] dddd [pasado a la"+(this.hours()!==1?"s":"")+"] LT"},sameElse:"L"},relativeTime:{future:"en %s",past:"hace %s",s:"unos segundos",m:"un minuto",mm:"%d minutos",h:"una hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un año",yy:"%d años"},ordinal:function(a){return"º"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("es",a)}(),function(){var a={months:"Xaneiro_Febreiro_Marzo_Abril_Maio_Xuño_Xullo_Agosto_Setembro_Octubro_Novembro_Decembro".split("_"),monthsShort:"Xan._Feb._Mar._Abr._Mai._Xuñ._Xul._Ago._Set._Out._Nov._Dec.".split("_"),weekdays:"Domingo_Luns_Martes_Mércores_Xoves_Venres_Sábado".split("_"),weekdaysShort:"Dom._Lun._Mar._Mér._Xov._Ven._Sáb.".split("_"),longDateFormat:{LT:"H:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:function(){return"[hoxe "+(this.hours()!==1?"ás":"a")+"] LT"},nextDay:function(){return"[mañá "+(this.hours()!==1?"ás":"a")+"] LT"},nextWeek:function(){return"dddd ["+(this.hours()!==1?"ás":"a")+"] LT"},lastDay:function(){return"[onte "+(this.hours()!==1?"á":"a")+"] LT"},lastWeek:function(){return"[o] dddd [pasado "+(this.hours()!==1?"ás":"")+"] LT"},sameElse:"L"},relativeTime:{future:"en %s",past:"fai %s",s:"uns segundo",m:"un minuto",mm:"%d minutos",h:"unha hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un ano",yy:"%d anos"},ordinal:function(a){return"º"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("gl",a)}(),function(){var a={months:"urtarrila_otsaila_martxoa_apirila_maiatza_ekaina_uztaila_abuztua_iraila_urria_azaroa_abendua".split("_"),monthsShort:"urt._ots._mar._api._mai._eka._uzt._abu._ira._urr._aza._abe.".split("_"),weekdays:"igandea_astelehena_asteartea_asteazkena_osteguna_ostirala_larunbata".split("_"),weekdaysShort:"ig._al._ar._az._og._ol._lr.".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"YYYYko MMMMren D[a]",LLL:"YYYYko MMMMren D[a] LT",LLLL:"dddd, YYYYko MMMMren D[a] LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[gaur] LT[etan]",nextDay:"[bihar] LT[etan]",nextWeek:"dddd LT[etan]",lastDay:"[atzo] LT[etan]",lastWeek:"[aurreko] dddd LT[etan]",sameElse:"L"},relativeTime:{future:"%s barru",past:"duela %s",s:"segundo batzuk",m:"minutu bat",mm:"%d minutu",h:"ordu bat",hh:"%d ordu",d:"egun bat",dd:"%d egun",M:"hilabete bat",MM:"%d hilabete",y:"urte bat",yy:"%d urte"},ordinal:function(a){return"."}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("eu",a)}(),function(){var a={months:"janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),monthsShort:"janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),weekdays:"dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),weekdaysShort:"dim._lun._mar._mer._jeu._ven._sam.".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Ajourd'hui à] LT",nextDay:"[Demain à] LT",nextWeek:"dddd [à] LT",lastDay:"[Hier à] LT",lastWeek:"dddd [denier à] LT",sameElse:"L"},relativeTime:{future:"dans %s",past:"il y a %s",s:"quelques secondes",m:"une minute",mm:"%d minutes",h:"une heure",hh:"%d heures",d:"un jour",dd:"%d jours",M:"un mois",MM:"%d mois",y:"une année",yy:"%d années"},ordinal:function(a){return a===1?"er":"ème"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("fr",a)}(),function(){var a={months:"Gennaio_Febbraio_Marzo_Aprile_Maggio_Giugno_Luglio_Agosto_Settebre_Ottobre_Novembre_Dicembre".split("_"),monthsShort:"Gen_Feb_Mar_Apr_Mag_Giu_Lug_Ago_Set_Ott_Nov_Dic".split("_"),weekdays:"Domenica_Lunedi_Martedi_Mercoledi_Giovedi_Venerdi_Sabato".split("_"),weekdaysShort:"Dom_Lun_Mar_Mer_Gio_Ven_Sab".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Oggi alle] LT",nextDay:"[Domani alle] LT",nextWeek:"dddd [alle] LT",lastDay:"[Ieri alle] LT",lastWeek:"[lo scorso] dddd [alle] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s fa",s:"secondi",m:"un minuto",mm:"%d minuti",h:"un ora",hh:"%d ore",d:"un giorno",dd:"%d giorni",M:"un mese",MM:"%d mesi",y:"un anno",yy:"%d anni"},ordinal:function(){return"º"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("it",a)}(),function(){var a={months:"1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),monthsShort:"1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),weekdays:"일요일_월요일_화요일_수요일_목요일_금요일_토요일".split("_"),weekdaysShort:"일_월_화_수_목_금_토".split("_"),longDateFormat:{LT:"A h시 mm분",L:"YYYY.MM.DD",LL:"YYYY년 MMMM D일",LLL:"YYYY년 MMMM D일 LT",LLLL:"YYYY년 MMMM D일 dddd LT"},meridiem:{AM:"오전",am:"오전",PM:"오후",pm:"오후"},calendar:{sameDay:"오늘 LT",nextDay:"내일 LT",nextWeek:"dddd LT",lastDay:"어제 LT",lastWeek:"지난주 dddd LT",sameElse:"L"},relativeTime:{future:"%s 후",past:"%s 전",s:"몇초",ss:"%d초",m:"일분",mm:"%d분",h:"한시간",hh:"%d시간",d:"하루",dd:"%d일",M:"한달",MM:"%d달",y:"일년",yy:"%d년"},ordinal:function(a){return"일"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("kr",a)}(),function(){var a={months:"januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),weekdays:"søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag".split("_"),weekdaysShort:"søn_man_tir_ons_tor_fre_lør".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[I dag klokken] LT",nextDay:"[I morgen klokken] LT",nextWeek:"dddd [klokken] LT",lastDay:"[I går klokken] LT",lastWeek:"[Forrige] dddd [klokken] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"for %s siden",s:"noen sekunder",m:"ett minutt",mm:"%d minutter",h:"en time",hh:"%d timer",d:"en dag",dd:"%d dager",M:"en måned",MM:"%d måneder",y:"ett år",yy:"%d år"},ordinal:function(a){return"."}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("nb",a)}(),function(){var a={months:"januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split("_"),monthsShort:"jan._feb._mar._apr._mei._jun._jul._aug._sep._okt._nov._dec.".split("_"),weekdays:"zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),weekdaysShort:"zo._ma._di._wo._do._vr._za.".split("_"),longDateFormat:{LT:"HH:mm",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Vandaag om] LT",nextDay:"[Morgen om] LT",nextWeek:"dddd [om] LT",lastDay:"[Gisteren om] LT",lastWeek:"[afgelopen] dddd [om] LT",sameElse:"L"},relativeTime:{future:"over %s",past:"%s geleden",s:"een paar seconden",m:"één minuut",mm:"%d minuten",h:"één uur",hh:"%d uur",d:"één dag",dd:"%d dagen",M:"één maand",MM:"%d maanden",y:"één jaar",yy:"%d jaar"},ordinal:function(a){return a===1||a===8||a>=20?"ste":"de"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("nl",a)}(),function(){var a=function(a){return a%10<5&&a%10>1&&~~(a/10)!==1},b=function(b,c,d){var e=b+" ";switch(d){case"m":return c?"minuta":"minutę";case"mm":return e+(a(b)?"minuty":"minut");case"h":return c?"godzina":"godzinę";case"hh":return e+(a(b)?"godziny":"godzin");case"MM":return e+(a(b)?"miesiące":"miesięcy");case"yy":return e+(a(b)?"lata":"lat")}},c={months:"styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień".split("_"),monthsShort:"sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru".split("_"),weekdays:"niedziela_poniedziałek_wtorek_środa_czwartek_piątek_sobota".split("_"),weekdaysShort:"nie_pon_wt_śr_czw_pt_sb".split("_"),longDateFormat:{LT:"HH:mm",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Dziś o] LT",nextDay:"[Jutro o] LT",nextWeek:"[W] dddd [o] LT",lastDay:"[Wczoraj o] LT",lastWeek:"[W zeszły/łą] dddd [o] LT",sameElse:"L"},relativeTime:{future:"za %s",past:"%s temu",s:"kilka sekund",m:b,mm:b,h:b,hh:b,d:"1 dzień",dd:"%d dni",M:"miesiąc",MM:b,y:"rok",yy:b},ordinal:function(a){return"."}}; true&&(module.exports=c),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("pl",c)}(),function(){var a={months:"Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro".split("_"),monthsShort:"Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez".split("_"),weekdays:"Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado".split("_"),weekdaysShort:"Dom_Seg_Ter_Qua_Qui_Sex_Sáb".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D \\de MMMM \\de YYYY",LLL:"D \\de MMMM \\de YYYY LT",LLLL:"dddd, D \\de MMMM \\de YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Hoje às] LT",nextDay:"[Amanhã às] LT",nextWeek:"dddd [às] LT",lastDay:"[Ontem às] LT",lastWeek:function(){return this.day()===0||this.day()===6?"[Último] dddd [às] LT":"[Última] dddd [às] LT"},sameElse:"L"},relativeTime:{future:"em %s",past:"%s atrás",s:"segundos",m:"um minuto",mm:"%d minutos",h:"uma hora",hh:"%d horas",d:"um dia",dd:"%d dias",M:"um mês",MM:"%d meses",y:"um ano",yy:"%d anos"},ordinal:function(a){return"º"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("pt",a)}(),function(){var a={months:"январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split("_"),monthsShort:"янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек".split("_"),weekdays:"воскресенье_понедельник_вторник_среда_четверг_пятница_суббота".split("_"),weekdaysShort:"вск_пнд_втр_срд_чтв_птн_суб".split("_"),longDateFormat:{LT:"HH:mm",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Сегодня в] LT",nextDay:"[Завтра в] LT",lastDay:"[Вчера в] LT",nextWeek:function(){return this.day()===1?"[Во] dddd [в] LT":"[В] dddd [в] LT"},lastWeek:function(){switch(this.day()){case 0:case 1:case 3:return"[В прошлый] dddd [в] LT";case 6:return"[В прошлое] dddd [в] LT";default:return"[В прошлую] dddd [в] LT"}},sameElse:"L"},relativeTime:{future:"через %s",past:"%s назад",s:"несколько секунд",m:"минут",mm:"%d минут",h:"часа",hh:"%d часов",d:"1 день",dd:"%d дней",M:"месяц",MM:"%d месяцев",y:"год",yy:"%d лет"},ordinal:function(a){return"."}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("ru",a)}(),function(){var a={months:"januari_februari_mars_april_maj_juni_juli_augusti_september_oktober_november_december".split("_"),monthsShort:"jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec".split("_"),weekdays:"söndag_måndag_tisdag_onsdag_torsdag_fredag_lördag".split("_"),weekdaysShort:"sön_mån_tis_ons_tor_fre_lör".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Idag klockan] LT",nextDay:"[Imorgon klockan] LT",lastDay:"[Igår klockan] LT",nextWeek:"dddd [klockan] LT",lastWeek:"[Förra] dddd [en klockan] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"för %s sen",s:"några sekunder",m:"en minut",mm:"%d minuter",h:"en timme",hh:"%d timmar",d:"en dag",dd:"%d dagar",M:"en månad",MM:"%d månader",y:"ett år",yy:"%d år"},ordinal:function(a){var b=a%10;return~~(a%100/10)===1?"e":b===1?"a":b===2?"a":b===3?"e":"e"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("sv",a)}()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/de.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/de.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"Januar_Februar_März_April_Mai_Juni_Juli_August_September_Oktober_November_Dezember".split("_"),monthsShort:"Jan._Febr._Mrz._Apr._Mai_Jun._Jul._Aug._Sept._Okt._Nov._Dez.".split("_"),weekdays:"Sonntag_Montag_Dienstag_Mittwoch_Donnerstag_Freitag_Samstag".split("_"),weekdaysShort:"So._Mo._Di._Mi._Do._Fr._Sa.".split("_"),longDateFormat:{LT:"H:mm U\\hr",L:"DD.MM.YYYY",LL:"D. MMMM YYYY",LLL:"D. MMMM YYYY LT",LLLL:"dddd, D. MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Heute um] LT",sameElse:"L",nextDay:"[Morgen um] LT",nextWeek:"dddd [um] LT",lastDay:"[Gestern um] LT",lastWeek:"[letzten] dddd [um] LT"},relativeTime:{future:"in %s",past:"vor %s",s:"ein paar Sekunden",m:"einer Minute",mm:"%d Minuten",h:"einer Stunde",hh:"%d Stunden",d:"einem Tag",dd:"%d Tagen",M:"einem Monat",MM:"%d Monaten",y:"einem Jahr",yy:"%d Jahren"},ordinal:function(a){return"."}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("de",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/en-gb.min.js":
-/*!***************************************************!*\
-  !*** ./node_modules/moment/lang/min/en-gb.min.js ***!
-  \***************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"January_February_March_April_May_June_July_August_September_October_November_December".split("_"),monthsShort:"Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),weekdays:"Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),weekdaysShort:"Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),longDateFormat:{LT:"h:mm A",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Today at] LT",nextDay:"[Tomorrow at] LT",nextWeek:"dddd [at] LT",lastDay:"[Yesterday at] LT",lastWeek:"[last] dddd [at] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s ago",s:"a few seconds",m:"a minute",mm:"%d minutes",h:"an hour",hh:"%d hours",d:"a day",dd:"%d days",M:"a month",MM:"%d months",y:"a year",yy:"%d years"},ordinal:function(a){var b=a%10;return~~(a%100/10)===1?"th":b===1?"st":b===2?"nd":b===3?"rd":"th"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("en-gb",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/es.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/es.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"Enero_Febrero_Marzo_Abril_Mayo_Junio_Julio_Agosto_Septiembre_Octubre_Noviembre_Diciembre".split("_"),monthsShort:"Ene._Feb._Mar._Abr._May._Jun._Jul._Ago._Sep._Oct._Nov._Dic.".split("_"),weekdays:"Domingo_Lunes_Martes_Miércoles_Jueves_Viernes_Sábado".split("_"),weekdaysShort:"Dom._Lun._Mar._Mié._Jue._Vie._Sáb.".split("_"),longDateFormat:{LT:"H:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:function(){return"[hoy a la"+(this.hours()!==1?"s":"")+"] LT"},nextDay:function(){return"[mañana a la"+(this.hours()!==1?"s":"")+"] LT"},nextWeek:function(){return"dddd [a la"+(this.hours()!==1?"s":"")+"] LT"},lastDay:function(){return"[ayer a la"+(this.hours()!==1?"s":"")+"] LT"},lastWeek:function(){return"[el] dddd [pasado a la"+(this.hours()!==1?"s":"")+"] LT"},sameElse:"L"},relativeTime:{future:"en %s",past:"hace %s",s:"unos segundos",m:"un minuto",mm:"%d minutos",h:"una hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un año",yy:"%d años"},ordinal:function(a){return"º"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("es",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/eu.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/eu.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"urtarrila_otsaila_martxoa_apirila_maiatza_ekaina_uztaila_abuztua_iraila_urria_azaroa_abendua".split("_"),monthsShort:"urt._ots._mar._api._mai._eka._uzt._abu._ira._urr._aza._abe.".split("_"),weekdays:"igandea_astelehena_asteartea_asteazkena_osteguna_ostirala_larunbata".split("_"),weekdaysShort:"ig._al._ar._az._og._ol._lr.".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"YYYYko MMMMren D[a]",LLL:"YYYYko MMMMren D[a] LT",LLLL:"dddd, YYYYko MMMMren D[a] LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[gaur] LT[etan]",nextDay:"[bihar] LT[etan]",nextWeek:"dddd LT[etan]",lastDay:"[atzo] LT[etan]",lastWeek:"[aurreko] dddd LT[etan]",sameElse:"L"},relativeTime:{future:"%s barru",past:"duela %s",s:"segundo batzuk",m:"minutu bat",mm:"%d minutu",h:"ordu bat",hh:"%d ordu",d:"egun bat",dd:"%d egun",M:"hilabete bat",MM:"%d hilabete",y:"urte bat",yy:"%d urte"},ordinal:function(a){return"."}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("eu",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/fr.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/fr.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"janvier_février_mars_avril_mai_juin_juillet_août_septembre_octobre_novembre_décembre".split("_"),monthsShort:"janv._févr._mars_avr._mai_juin_juil._août_sept._oct._nov._déc.".split("_"),weekdays:"dimanche_lundi_mardi_mercredi_jeudi_vendredi_samedi".split("_"),weekdaysShort:"dim._lun._mar._mer._jeu._ven._sam.".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Ajourd'hui à] LT",nextDay:"[Demain à] LT",nextWeek:"dddd [à] LT",lastDay:"[Hier à] LT",lastWeek:"dddd [denier à] LT",sameElse:"L"},relativeTime:{future:"dans %s",past:"il y a %s",s:"quelques secondes",m:"une minute",mm:"%d minutes",h:"une heure",hh:"%d heures",d:"un jour",dd:"%d jours",M:"un mois",MM:"%d mois",y:"une année",yy:"%d années"},ordinal:function(a){return a===1?"er":"ème"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("fr",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/gl.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/gl.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"Xaneiro_Febreiro_Marzo_Abril_Maio_Xuño_Xullo_Agosto_Setembro_Octubro_Novembro_Decembro".split("_"),monthsShort:"Xan._Feb._Mar._Abr._Mai._Xuñ._Xul._Ago._Set._Out._Nov._Dec.".split("_"),weekdays:"Domingo_Luns_Martes_Mércores_Xoves_Venres_Sábado".split("_"),weekdaysShort:"Dom._Lun._Mar._Mér._Xov._Ven._Sáb.".split("_"),longDateFormat:{LT:"H:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:function(){return"[hoxe "+(this.hours()!==1?"ás":"a")+"] LT"},nextDay:function(){return"[mañá "+(this.hours()!==1?"ás":"a")+"] LT"},nextWeek:function(){return"dddd ["+(this.hours()!==1?"ás":"a")+"] LT"},lastDay:function(){return"[onte "+(this.hours()!==1?"á":"a")+"] LT"},lastWeek:function(){return"[o] dddd [pasado "+(this.hours()!==1?"ás":"")+"] LT"},sameElse:"L"},relativeTime:{future:"en %s",past:"fai %s",s:"uns segundo",m:"un minuto",mm:"%d minutos",h:"unha hora",hh:"%d horas",d:"un día",dd:"%d días",M:"un mes",MM:"%d meses",y:"un ano",yy:"%d anos"},ordinal:function(a){return"º"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("gl",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/it.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/it.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"Gennaio_Febbraio_Marzo_Aprile_Maggio_Giugno_Luglio_Agosto_Settebre_Ottobre_Novembre_Dicembre".split("_"),monthsShort:"Gen_Feb_Mar_Apr_Mag_Giu_Lug_Ago_Set_Ott_Nov_Dic".split("_"),weekdays:"Domenica_Lunedi_Martedi_Mercoledi_Giovedi_Venerdi_Sabato".split("_"),weekdaysShort:"Dom_Lun_Mar_Mer_Gio_Ven_Sab".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Oggi alle] LT",nextDay:"[Domani alle] LT",nextWeek:"dddd [alle] LT",lastDay:"[Ieri alle] LT",lastWeek:"[lo scorso] dddd [alle] LT",sameElse:"L"},relativeTime:{future:"in %s",past:"%s fa",s:"secondi",m:"un minuto",mm:"%d minuti",h:"un ora",hh:"%d ore",d:"un giorno",dd:"%d giorni",M:"un mese",MM:"%d mesi",y:"un anno",yy:"%d anni"},ordinal:function(){return"º"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("it",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/kr.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/kr.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),monthsShort:"1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월".split("_"),weekdays:"일요일_월요일_화요일_수요일_목요일_금요일_토요일".split("_"),weekdaysShort:"일_월_화_수_목_금_토".split("_"),longDateFormat:{LT:"A h시 mm분",L:"YYYY.MM.DD",LL:"YYYY년 MMMM D일",LLL:"YYYY년 MMMM D일 LT",LLLL:"YYYY년 MMMM D일 dddd LT"},meridiem:{AM:"오전",am:"오전",PM:"오후",pm:"오후"},calendar:{sameDay:"오늘 LT",nextDay:"내일 LT",nextWeek:"dddd LT",lastDay:"어제 LT",lastWeek:"지난주 dddd LT",sameElse:"L"},relativeTime:{future:"%s 후",past:"%s 전",s:"몇초",ss:"%d초",m:"일분",mm:"%d분",h:"한시간",hh:"%d시간",d:"하루",dd:"%d일",M:"한달",MM:"%d달",y:"일년",yy:"%d년"},ordinal:function(a){return"일"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("kr",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/nb.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/nb.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split("_"),monthsShort:"jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),weekdays:"søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag".split("_"),weekdaysShort:"søn_man_tir_ons_tor_fre_lør".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[I dag klokken] LT",nextDay:"[I morgen klokken] LT",nextWeek:"dddd [klokken] LT",lastDay:"[I går klokken] LT",lastWeek:"[Forrige] dddd [klokken] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"for %s siden",s:"noen sekunder",m:"ett minutt",mm:"%d minutter",h:"en time",hh:"%d timer",d:"en dag",dd:"%d dager",M:"en måned",MM:"%d måneder",y:"ett år",yy:"%d år"},ordinal:function(a){return"."}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("nb",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/nl.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/nl.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split("_"),monthsShort:"jan._feb._mar._apr._mei._jun._jul._aug._sep._okt._nov._dec.".split("_"),weekdays:"zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),weekdaysShort:"zo._ma._di._wo._do._vr._za.".split("_"),longDateFormat:{LT:"HH:mm",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Vandaag om] LT",nextDay:"[Morgen om] LT",nextWeek:"dddd [om] LT",lastDay:"[Gisteren om] LT",lastWeek:"[afgelopen] dddd [om] LT",sameElse:"L"},relativeTime:{future:"over %s",past:"%s geleden",s:"een paar seconden",m:"één minuut",mm:"%d minuten",h:"één uur",hh:"%d uur",d:"één dag",dd:"%d dagen",M:"één maand",MM:"%d maanden",y:"één jaar",yy:"%d jaar"},ordinal:function(a){return a===1||a===8||a>=20?"ste":"de"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("nl",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/pl.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/pl.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a=function(a){return a%10<5&&a%10>1&&~~(a/10)!==1},b=function(b,c,d){var e=b+" ";switch(d){case"m":return c?"minuta":"minutę";case"mm":return e+(a(b)?"minuty":"minut");case"h":return c?"godzina":"godzinę";case"hh":return e+(a(b)?"godziny":"godzin");case"MM":return e+(a(b)?"miesiące":"miesięcy");case"yy":return e+(a(b)?"lata":"lat")}},c={months:"styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień".split("_"),monthsShort:"sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru".split("_"),weekdays:"niedziela_poniedziałek_wtorek_środa_czwartek_piątek_sobota".split("_"),weekdaysShort:"nie_pon_wt_śr_czw_pt_sb".split("_"),longDateFormat:{LT:"HH:mm",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Dziś o] LT",nextDay:"[Jutro o] LT",nextWeek:"[W] dddd [o] LT",lastDay:"[Wczoraj o] LT",lastWeek:"[W zeszły/łą] dddd [o] LT",sameElse:"L"},relativeTime:{future:"za %s",past:"%s temu",s:"kilka sekund",m:b,mm:b,h:b,hh:b,d:"1 dzień",dd:"%d dni",M:"miesiąc",MM:b,y:"rok",yy:b},ordinal:function(a){return"."}}; true&&(module.exports=c),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("pl",c)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/pt.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/pt.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro".split("_"),monthsShort:"Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez".split("_"),weekdays:"Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado".split("_"),weekdaysShort:"Dom_Seg_Ter_Qua_Qui_Sex_Sáb".split("_"),longDateFormat:{LT:"HH:mm",L:"DD/MM/YYYY",LL:"D \\de MMMM \\de YYYY",LLL:"D \\de MMMM \\de YYYY LT",LLLL:"dddd, D \\de MMMM \\de YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Hoje às] LT",nextDay:"[Amanhã às] LT",nextWeek:"dddd [às] LT",lastDay:"[Ontem às] LT",lastWeek:function(){return this.day()===0||this.day()===6?"[Último] dddd [às] LT":"[Última] dddd [às] LT"},sameElse:"L"},relativeTime:{future:"em %s",past:"%s atrás",s:"segundos",m:"um minuto",mm:"%d minutos",h:"uma hora",hh:"%d horas",d:"um dia",dd:"%d dias",M:"um mês",MM:"%d meses",y:"um ano",yy:"%d anos"},ordinal:function(a){return"º"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("pt",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/ru.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/ru.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split("_"),monthsShort:"янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек".split("_"),weekdays:"воскресенье_понедельник_вторник_среда_четверг_пятница_суббота".split("_"),weekdaysShort:"вск_пнд_втр_срд_чтв_птн_суб".split("_"),longDateFormat:{LT:"HH:mm",L:"DD-MM-YYYY",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd, D MMMM YYYY LT"},calendar:{sameDay:"[Сегодня в] LT",nextDay:"[Завтра в] LT",lastDay:"[Вчера в] LT",nextWeek:function(){return this.day()===1?"[Во] dddd [в] LT":"[В] dddd [в] LT"},lastWeek:function(){switch(this.day()){case 0:case 1:case 3:return"[В прошлый] dddd [в] LT";case 6:return"[В прошлое] dddd [в] LT";default:return"[В прошлую] dddd [в] LT"}},sameElse:"L"},relativeTime:{future:"через %s",past:"%s назад",s:"несколько секунд",m:"минут",mm:"%d минут",h:"часа",hh:"%d часов",d:"1 день",dd:"%d дней",M:"месяц",MM:"%d месяцев",y:"год",yy:"%d лет"},ordinal:function(a){return"."}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("ru",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/min/sv.min.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/min/sv.min.js ***!
-  \************************************************/
-/***/ ((module) => {
-
-(function(){var a={months:"januari_februari_mars_april_maj_juni_juli_augusti_september_oktober_november_december".split("_"),monthsShort:"jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec".split("_"),weekdays:"söndag_måndag_tisdag_onsdag_torsdag_fredag_lördag".split("_"),weekdaysShort:"sön_mån_tis_ons_tor_fre_lör".split("_"),longDateFormat:{LT:"HH:mm",L:"YYYY-MM-DD",LL:"D MMMM YYYY",LLL:"D MMMM YYYY LT",LLLL:"dddd D MMMM YYYY LT"},meridiem:{AM:"AM",am:"am",PM:"PM",pm:"pm"},calendar:{sameDay:"[Idag klockan] LT",nextDay:"[Imorgon klockan] LT",lastDay:"[Igår klockan] LT",nextWeek:"dddd [klockan] LT",lastWeek:"[Förra] dddd [en klockan] LT",sameElse:"L"},relativeTime:{future:"om %s",past:"för %s sen",s:"några sekunder",m:"en minut",mm:"%d minuter",h:"en timme",hh:"%d timmar",d:"en dag",dd:"%d dagar",M:"en månad",MM:"%d månader",y:"ett år",yy:"%d år"},ordinal:function(a){var b=a%10;return~~(a%100/10)===1?"e":b===1?"a":b===2?"a":b===3?"e":"e"}}; true&&(module.exports=a),typeof window!="undefined"&&this.moment&&this.moment.lang&&this.moment.lang("sv",a)})()
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/nb.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/nb.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "januar_februar_mars_april_mai_juni_juli_august_september_oktober_november_desember".split("_"),
-            monthsShort : "jan_feb_mar_apr_mai_jun_jul_aug_sep_okt_nov_des".split("_"),
-            weekdays : "søndag_mandag_tirsdag_onsdag_torsdag_fredag_lørdag".split("_"),
-            weekdaysShort : "søn_man_tir_ons_tor_fre_lør".split("_"),
-            longDateFormat : {
-                LT : "HH:mm",
-                L : "YYYY-MM-DD",
-                LL : "D MMMM YYYY",
-                LLL : "D MMMM YYYY LT",
-                LLLL : "dddd D MMMM YYYY LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay: '[I dag klokken] LT',
-                nextDay: '[I morgen klokken] LT',
-                nextWeek: 'dddd [klokken] LT',
-                lastDay: '[I går klokken] LT',
-                lastWeek: '[Forrige] dddd [klokken] LT',
-                sameElse: 'L'
-            },
-            relativeTime : {
-                future : "om %s",
-                past : "for %s siden",
-                s : "noen sekunder",
-                m : "ett minutt",
-                mm : "%d minutter",
-                h : "en time",
-                hh : "%d timer",
-                d : "en dag",
-                dd : "%d dager",
-                M : "en måned",
-                MM : "%d måneder",
-                y : "ett år",
-                yy : "%d år"
-            },
-            ordinal : function (number) {
-                return '.';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('nb', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/nl.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/nl.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "januari_februari_maart_april_mei_juni_juli_augustus_september_oktober_november_december".split("_"),
-            monthsShort : "jan._feb._mar._apr._mei._jun._jul._aug._sep._okt._nov._dec.".split("_"),
-            weekdays : "zondag_maandag_dinsdag_woensdag_donderdag_vrijdag_zaterdag".split("_"),
-            weekdaysShort : "zo._ma._di._wo._do._vr._za.".split("_"),
-            longDateFormat : { 
-                LT : "HH:mm",
-                L : "DD-MM-YYYY",
-                LL : "D MMMM YYYY",
-                LLL : "D MMMM YYYY LT",
-                LLLL : "dddd D MMMM YYYY LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay: '[Vandaag om] LT',
-                nextDay: '[Morgen om] LT',
-                nextWeek: 'dddd [om] LT',
-                lastDay: '[Gisteren om] LT',
-                lastWeek: '[afgelopen] dddd [om] LT',
-                sameElse: 'L'
-            },
-            relativeTime : {
-                future : "over %s",
-                past : "%s geleden",
-                s : "een paar seconden",
-                m : "één minuut",
-                mm : "%d minuten",
-                h : "één uur",
-                hh : "%d uur",
-                d : "één dag",
-                dd : "%d dagen",
-                M : "één maand",
-                MM : "%d maanden",
-                y : "één jaar",
-                yy : "%d jaar"
-            },
-            ordinal : function (number) {
-                return (number === 1 || number === 8 || number >= 20) ? 'ste' : 'de';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('nl', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/pl.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/pl.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var plural = function (n) { 
-        return (n % 10 < 5) && (n % 10 > 1) && (~~(n / 10) !== 1);
-    },
-    
-    translate = function (number, withoutSuffix, key) {
-        var result = number + " ";
-        switch (key) {
-        case 'm': 
-            return withoutSuffix ? 'minuta' : 'minutę';
-        case 'mm': 
-            return result + (plural(number) ? 'minuty' : 'minut');
-        case 'h': 
-            return withoutSuffix  ? 'godzina'  : 'godzinę';
-        case 'hh': 
-            return result + (plural(number) ? 'godziny' : 'godzin');
-        case 'MM': 
-            return result + (plural(number) ? 'miesiące' : 'miesięcy');
-        case 'yy': 
-            return result + (plural(number) ? 'lata' : 'lat');
-        }
-    },
-  
-    lang = {
-        months : "styczeń_luty_marzec_kwiecień_maj_czerwiec_lipiec_sierpień_wrzesień_październik_listopad_grudzień".split("_"),
-        monthsShort : "sty_lut_mar_kwi_maj_cze_lip_sie_wrz_paź_lis_gru".split("_"),
-        weekdays : "niedziela_poniedziałek_wtorek_środa_czwartek_piątek_sobota".split("_"),
-        weekdaysShort : "nie_pon_wt_śr_czw_pt_sb".split("_"),
-        longDateFormat : {
-            LT : "HH:mm",
-            L : "DD-MM-YYYY",
-            LL : "D MMMM YYYY",
-            LLL : "D MMMM YYYY LT",
-            LLLL : "dddd, D MMMM YYYY LT"
-        },
-        meridiem : {
-            AM : 'AM',
-            am : 'am',
-            PM : 'PM',
-            pm : 'pm'
-        },
-        calendar : {
-            sameDay: '[Dziś o] LT',
-            nextDay: '[Jutro o] LT',
-            nextWeek: '[W] dddd [o] LT',
-            lastDay: '[Wczoraj o] LT',
-            lastWeek: '[W zeszły/łą] dddd [o] LT',
-            sameElse: 'L'
-        },
-        relativeTime : {
-            future : "za %s",
-            past : "%s temu",
-            s : "kilka sekund",
-            m : translate,
-            mm : translate,
-            h : translate,
-            hh : translate,
-            d : "1 dzień",
-            dd : '%d dni',
-            M : "miesiąc",
-            MM : translate,
-            y : "rok",
-            yy : translate
-        },
-        ordinal : function (number) {
-            return '.';
-        }
-    };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('pl', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/pt.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/pt.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "Janeiro_Fevereiro_Março_Abril_Maio_Junho_Julho_Agosto_Setembro_Outubro_Novembro_Dezembro".split("_"),
-            monthsShort : "Jan_Fev_Mar_Abr_Mai_Jun_Jul_Ago_Set_Out_Nov_Dez".split("_"),
-            weekdays : "Domingo_Segunda-feira_Terça-feira_Quarta-feira_Quinta-feira_Sexta-feira_Sábado".split("_"),
-            weekdaysShort : "Dom_Seg_Ter_Qua_Qui_Sex_Sáb".split("_"),
-            longDateFormat : { 
-                LT : "HH:mm",
-                L : "DD/MM/YYYY",
-                LL : "D \\de MMMM \\de YYYY",
-                LLL : "D \\de MMMM \\de YYYY LT",
-                LLLL : "dddd, D \\de MMMM \\de YYYY LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay: '[Hoje às] LT',
-                nextDay: '[Amanhã às] LT',
-                nextWeek: 'dddd [às] LT',
-                lastDay: '[Ontem às] LT',
-                lastWeek: function () {
-                    return (this.day() === 0 || this.day() === 6) ? 
-                        '[Último] dddd [às] LT' : // Saturday + Sunday
-                        '[Última] dddd [às] LT'; // Monday - Friday
-                },
-                sameElse: 'L'
-            },
-            relativeTime : {
-                future : "em %s",
-                past : "%s atrás",
-                s : "segundos",
-                m : "um minuto",
-                mm : "%d minutos",
-                h : "uma hora",
-                hh : "%d horas",
-                d : "um dia",
-                dd : "%d dias",
-                M : "um mês",
-                MM : "%d meses",
-                y : "um ano",
-                yy : "%d anos"
-            },
-            ordinal : function (number) {
-                return 'º';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('pt', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/ru.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/ru.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "январь_февраль_март_апрель_май_июнь_июль_август_сентябрь_октябрь_ноябрь_декабрь".split("_"),
-            monthsShort : "янв_фев_мар_апр_май_июн_июл_авг_сен_окт_ноя_дек".split("_"),
-            weekdays : "воскресенье_понедельник_вторник_среда_четверг_пятница_суббота".split("_"),
-            weekdaysShort : "вск_пнд_втр_срд_чтв_птн_суб".split("_"),
-            longDateFormat : {
-                LT : "HH:mm",
-                L : "DD-MM-YYYY",
-                LL : "D MMMM YYYY",
-                LLL : "D MMMM YYYY LT",
-                LLLL : "dddd, D MMMM YYYY LT"
-            }, 
-            calendar : {
-                sameDay: '[Сегодня в] LT',
-                nextDay: '[Завтра в] LT',
-                lastDay: '[Вчера в] LT',
-                nextWeek: function () {
-                    return this.day() === 1 ? '[Во] dddd [в] LT' : '[В] dddd [в] LT';
-                },
-                lastWeek: function () {
-                    switch (this.day()) {
-                    case 0:
-                    case 1:
-                    case 3:
-                        return '[В прошлый] dddd [в] LT';
-                    case 6:
-                        return '[В прошлое] dddd [в] LT';
-                    default:
-                        return '[В прошлую] dddd [в] LT';
-                    }
-                },
-                sameElse: 'L'
-            },
-            // It needs checking (adding) russian plurals and cases.
-            relativeTime : {
-                future : "через %s",
-                past : "%s назад",
-                s : "несколько секунд",
-                m : "минут",
-                mm : "%d минут",
-                h : "часа",
-                hh : "%d часов",
-                d : "1 день",
-                dd : "%d дней",
-                M : "месяц",
-                MM : "%d месяцев",
-                y : "год",
-                yy : "%d лет"
-            },
-            ordinal : function (number) {
-                return '.';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('ru', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/sv.js":
-/*!****************************************!*\
-  !*** ./node_modules/moment/lang/sv.js ***!
-  \****************************************/
-/***/ ((module) => {
-
-(function () {
-    var lang = {
-            months : "januari_februari_mars_april_maj_juni_juli_augusti_september_oktober_november_december".split("_"),
-            monthsShort : "jan_feb_mar_apr_maj_jun_jul_aug_sep_okt_nov_dec".split("_"),
-            weekdays : "söndag_måndag_tisdag_onsdag_torsdag_fredag_lördag".split("_"),
-            weekdaysShort : "sön_mån_tis_ons_tor_fre_lör".split("_"),
-            longDateFormat : {
-                LT : "HH:mm",
-                L : "YYYY-MM-DD",
-                LL : "D MMMM YYYY",
-                LLL : "D MMMM YYYY LT",
-                LLLL : "dddd D MMMM YYYY LT"
-            },
-            meridiem : {
-                AM : 'AM',
-                am : 'am',
-                PM : 'PM',
-                pm : 'pm'
-            },
-            calendar : {
-                sameDay: '[Idag klockan] LT',
-                nextDay: '[Imorgon klockan] LT',
-                lastDay: '[Igår klockan] LT',
-                nextWeek: 'dddd [klockan] LT',
-                lastWeek: '[Förra] dddd [en klockan] LT',
-                sameElse: 'L'
-            },
-            relativeTime : {
-                future : "om %s",
-                past : "för %s sen",
-                s : "några sekunder",
-                m : "en minut",
-                mm : "%d minuter",
-                h : "en timme",
-                hh : "%d timmar",
-                d : "en dag",
-                dd : "%d dagar",
-                M : "en månad",
-                MM : "%d månader",
-                y : "ett år",
-                yy : "%d år"
-            },
-            ordinal : function (number) {
-                var b = number % 10;
-                return (~~ (number % 100 / 10) === 1) ? 'e' :
-                    (b === 1) ? 'a' :
-                    (b === 2) ? 'a' :
-                    (b === 3) ? 'e' : 'e';
-            }
-        };
-
-    // Node
-    if (true) {
-        module.exports = lang;
-    }
-    // Browser
-    if (typeof window !== 'undefined' && this.moment && this.moment.lang) {
-        this.moment.lang('sv', lang);
-    }
-}());
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/da.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/da.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Danish
- *************************************************/
-
-module("lang:da");
-
-test("parse", 96, function() {
-    moment.lang('da');
-    var tests = 'Januar Jan_Februar Feb_Marts Mar_April Apr_Maj Maj_Juni Jun_Juli Jul_August Aug_September Sep_Oktober Okt_November Nov_December Dec'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('da');
-    var a = [
-            ['dddd \\den MMMM Do YYYY, h:mm:ss a', 'Søndag den Februar 14. 2010, 3:25:50 pm'],
-            ['ddd hA',                             'Søn 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2. 02 Februar Feb'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14. 14'],
-            ['d do dddd ddd',                      '0 0. Søndag Søn'],
-            ['DDD DDDo DDDD',                      '45 45. 045'],
-            ['w wo ww',                            '8 8. 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['den DDDo \\d\\ag på året',           'the 45. dag på året'],
-            ['L',                                  '14/02/2010'],
-            ['LL',                                 '14 Februar 2010'],
-            ['LLL',                                '14 Februar 2010 3:25 PM'],
-            ['LLLL',                               'Søndag d. 14 Februar 2010 3:25 PM']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('da');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1.', '1.');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2.', '2.');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3.', '3.');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4.', '4.');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5.', '5.');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6.', '6.');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7.', '7.');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8.', '8.');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9.', '9.');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10.', '10.');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11.', '11.');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12.', '12.');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13.', '13.');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14.', '14.');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15.', '15.');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16.', '16.');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17.', '17.');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18.', '18.');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19.', '19.');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20.', '20.');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21.', '21.');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22.', '22.');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23.', '23.');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24.', '24.');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25.', '25.');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26.', '26.');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27.', '27.');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28.', '28.');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29.', '29.');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30.', '30.');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31.', '31.');
-});
-
-test("format month", 12, function() {
-    moment.lang('da');
-    var expected = 'Januar Jan_Februar Feb_Marts Mar_April Apr_Maj Maj_Juni Jun_Juli Jul_August Aug_September Sep_Oktober Okt_November Nov_December Dec'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('da');
-    var expected = 'Søndag Søn_Mandag Man_Tirsdag Tir_Onsdag Ons_Torsdag Tor_Fredag Fre_Lørdag Lør'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('da');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "få sekunder", "44 seconds = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "minut",       "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "minut",       "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minutter",  "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minutter", "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "time",        "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "time",        "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 timer",     "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 timer",     "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 timer",    "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "dag",         "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "dag",         "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 dage",      "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "a dage",      "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 dage",      "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 dage",     "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "månede",      "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "månede",      "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "månede",      "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 måneder",   "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 måneder",   "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 måneder",   "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "månede",      "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 måneder",   "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 måneder",  "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "år",          "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "år",          "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 år",        "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "år",          "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 år",        "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('da');
-    equal(moment(30000).from(0), "om få sekunder",  "prefix");
-    equal(moment(0).from(30000), "for få sekunder siden", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('da');
-    equal(moment().fromNow(), "for få sekunder siden",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 2, function() {
-    moment.lang('da');
-    equal(moment().add({s:30}).fromNow(), "om få sekunder", "in a few seconds");
-    equal(moment().add({d:5}).fromNow(), "om 5 dage", "in 5 days");
-});
-
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/de.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/de.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  German
- *************************************************/
-
-module("lang:de");
-
-test("parse", 96, function() {
-    moment.lang('de');
-    var tests = 'Januar Jan._Februar Febr._März Mrz._April Apr._Mai Mai_Juni Jun._Juli Jul._August Aug._September Sept._Oktober Okt._November Nov._Dezember Dez.'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('de');
-    var a = [
-            ['dddd, Do MMMM YYYY, h:mm:ss a',      'Sonntag, 14. Februar 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'So., 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2. 02 Februar Febr.'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14. 14'],
-            ['d do dddd ddd',                      '0 0. Sonntag So.'],
-            ['DDD DDDo DDDD',                      '45 45. 045'],
-            ['w wo ww',                            '8 8. 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45. day of the year'],
-            ['L',                                  '14.02.2010'],
-            ['LL',                                 '14. Februar 2010'],
-            ['LLL',                                '14. Februar 2010 15:25 Uhr'],
-            ['LLLL',                               'Sonntag, 14. Februar 2010 15:25 Uhr']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('de');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1.', '1.');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2.', '2.');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3.', '3.');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4.', '4.');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5.', '5.');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6.', '6.');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7.', '7.');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8.', '8.');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9.', '9.');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10.', '10.');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11.', '11.');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12.', '12.');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13.', '13.');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14.', '14.');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15.', '15.');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16.', '16.');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17.', '17.');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18.', '18.');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19.', '19.');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20.', '20.');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21.', '21.');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22.', '22.');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23.', '23.');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24.', '24.');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25.', '25.');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26.', '26.');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27.', '27.');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28.', '28.');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29.', '29.');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30.', '30.');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31.', '31.');
-});
-
-test("format month", 12, function() {
-    moment.lang('de');
-    var expected = 'Januar Jan._Februar Febr._März Mrz._April Apr._Mai Mai_Juni Jun._Juli Jul._August Aug._September Sept._Oktober Okt._November Nov._Dezember Dez.'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('de');
-    var expected = 'Sonntag So._Montag Mo._Dienstag Di._Mittwoch Mi._Donnerstag Do._Freitag Fr._Samstag Sa.'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('de');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "ein paar Sekunden",  "44 seconds = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "einer Minute",       "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "einer Minute",       "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 Minuten",          "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 Minuten",         "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "einer Stunde",       "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "einer Stunde",       "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 Stunden",          "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 Stunden",          "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 Stunden",         "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "einem Tag",          "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "einem Tag",          "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 Tagen",            "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "einem Tag",          "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 Tagen",            "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 Tagen",           "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "einem Monat",        "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "einem Monat",        "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "einem Monat",        "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 Monaten",          "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 Monaten",          "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 Monaten",          "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "einem Monat",        "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 Monaten",          "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 Monaten",         "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "einem Jahr",         "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "einem Jahr",         "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 Jahren",           "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "einem Jahr",         "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 Jahren",           "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('de');
-    equal(moment(30000).from(0), "in ein paar Sekunden", "prefix");
-    equal(moment(0).from(30000), "vor ein paar Sekunden", "suffix");
-});
-
-test("fromNow", 2, function() {
-    moment.lang('de');
-    equal(moment().add({s:30}).fromNow(), "in ein paar Sekunden", "in a few seconds");
-    equal(moment().add({d:5}).fromNow(), "in 5 Tagen", "in 5 days");
-});
-
-test("calendar day", 6, function() {
-    moment.lang('de');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "Heute um 2:00 Uhr",   "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "Heute um 2:25 Uhr",   "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "Heute um 3:00 Uhr",   "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "Morgen um 2:00 Uhr",  "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "Heute um 1:00 Uhr",   "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "Gestern um 2:00 Uhr", "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('de');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [um] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [um] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [um] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('de');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[letzten] dddd [um] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[letzten] dddd [um] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[letzten] dddd [um] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('de');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/en-gb.js":
-/*!************************************************!*\
-  !*** ./node_modules/moment/lang/test/en-gb.js ***!
-  \************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  English
- *************************************************/
-
-module("lang:en-gb");
-
-test("parse", 96, function() {
-    moment.lang('en-gb');
-    var tests = 'January Jan_February Feb_March Mar_April Apr_May May_June Jun_July Jul_August Aug_September Sep_October Oct_November Nov_December Dec'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('en-gb');
-    var a = [
-            ['dddd, MMMM Do YYYY, h:mm:ss a',      'Sunday, February 14th 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'Sun, 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2nd 02 February Feb'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14th 14'],
-            ['d do dddd ddd',                      '0 0th Sunday Sun'],
-            ['DDD DDDo DDDD',                      '45 45th 045'],
-            ['w wo ww',                            '8 8th 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45th day of the year'],
-            ['L',                                  '14/02/2010'],
-            ['LL',                                 '14 February 2010'],
-            ['LLL',                                '14 February 2010 3:25 PM'],
-            ['LLLL',                               'Sunday, 14 February 2010 3:25 PM']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('en-gb');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1st', '1st');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2nd', '2nd');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3rd', '3rd');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4th', '4th');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5th', '5th');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6th', '6th');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7th', '7th');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8th', '8th');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9th', '9th');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10th', '10th');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11th', '11th');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12th', '12th');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13th', '13th');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14th', '14th');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15th', '15th');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16th', '16th');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17th', '17th');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18th', '18th');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19th', '19th');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20th', '20th');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21st', '21st');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22nd', '22nd');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23rd', '23rd');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24th', '24th');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25th', '25th');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26th', '26th');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27th', '27th');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28th', '28th');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29th', '29th');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30th', '30th');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31st', '31st');
-});
-
-test("format month", 12, function() {
-    moment.lang('en-gb');
-    var expected = 'January Jan_February Feb_March Mar_April Apr_May May_June Jun_July Jul_August Aug_September Sep_October Oct_November Nov_December Dec'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('en-gb');
-    var expected = 'Sunday Sun_Monday Mon_Tuesday Tue_Wednesday Wed_Thursday Thu_Friday Fri_Saturday Sat'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('en-gb');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "a few seconds", "44 seconds = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "a minute",      "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "a minute",      "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minutes",     "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minutes",    "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "an hour",       "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "an hour",       "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 hours",       "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 hours",       "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 hours",      "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "a day",         "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "a day",         "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 days",        "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "a day",         "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 days",        "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 days",       "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "a month",       "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "a month",       "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "a month",       "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 months",      "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 months",      "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 months",      "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "a month",       "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 months",      "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 months",     "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "a year",        "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "a year",        "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 years",       "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "a year",        "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 years",       "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('en-gb');
-    equal(moment(30000).from(0), "in a few seconds",  "prefix");
-    equal(moment(0).from(30000), "a few seconds ago", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('en-gb');
-    equal(moment().fromNow(), "a few seconds ago",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 2, function() {
-    moment.lang('en-gb');
-    equal(moment().add({s:30}).fromNow(), "in a few seconds", "in a few seconds");
-    equal(moment().add({d:5}).fromNow(), "in 5 days", "in 5 days");
-});
-
-
-test("calendar day", 6, function() {
-    moment.lang('en-gb');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "Today at 2:00 AM",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "Today at 2:25 AM",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "Today at 3:00 AM",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "Tomorrow at 2:00 AM",  "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "Today at 1:00 AM",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "Yesterday at 2:00 AM", "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('en-gb');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [at] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [at] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [at] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('en-gb');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[last] dddd [at] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[last] dddd [at] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[last] dddd [at] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('en-gb');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/en.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/en.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  English
- *************************************************/
-
-module("lang:en");
-
-test("parse", 96, function() {
-    moment.lang('en');
-    var tests = 'January Jan_February Feb_March Mar_April Apr_May May_June Jun_July Jul_August Aug_September Sep_October Oct_November Nov_December Dec'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('en');
-    var a = [
-            ['dddd, MMMM Do YYYY, h:mm:ss a',      'Sunday, February 14th 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'Sun, 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2nd 02 February Feb'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14th 14'],
-            ['d do dddd ddd',                      '0 0th Sunday Sun'],
-            ['DDD DDDo DDDD',                      '45 45th 045'],
-            ['w wo ww',                            '8 8th 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45th day of the year'],
-            ['L',                                  '02/14/2010'],
-            ['LL',                                 'February 14 2010'],
-            ['LLL',                                'February 14 2010 3:25 PM'],
-            ['LLLL',                               'Sunday, February 14 2010 3:25 PM']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('en');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1st', '1st');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2nd', '2nd');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3rd', '3rd');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4th', '4th');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5th', '5th');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6th', '6th');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7th', '7th');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8th', '8th');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9th', '9th');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10th', '10th');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11th', '11th');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12th', '12th');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13th', '13th');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14th', '14th');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15th', '15th');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16th', '16th');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17th', '17th');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18th', '18th');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19th', '19th');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20th', '20th');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21st', '21st');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22nd', '22nd');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23rd', '23rd');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24th', '24th');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25th', '25th');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26th', '26th');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27th', '27th');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28th', '28th');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29th', '29th');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30th', '30th');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31st', '31st');
-});
-
-test("format month", 12, function() {
-    moment.lang('en');
-    var expected = 'January Jan_February Feb_March Mar_April Apr_May May_June Jun_July Jul_August Aug_September Sep_October Oct_November Nov_December Dec'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('en');
-    var expected = 'Sunday Sun_Monday Mon_Tuesday Tue_Wednesday Wed_Thursday Thu_Friday Fri_Saturday Sat'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('en');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "a few seconds", "44 seconds = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "a minute",      "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "a minute",      "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minutes",     "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minutes",    "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "an hour",       "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "an hour",       "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 hours",       "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 hours",       "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 hours",      "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "a day",         "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "a day",         "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 days",        "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "a day",         "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 days",        "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 days",       "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "a month",       "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "a month",       "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "a month",       "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 months",      "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 months",      "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 months",      "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "a month",       "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 months",      "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 months",     "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "a year",        "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "a year",        "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 years",       "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "a year",        "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 years",       "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('en');
-    equal(moment(30000).from(0), "in a few seconds",  "prefix");
-    equal(moment(0).from(30000), "a few seconds ago", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('en');
-    equal(moment().fromNow(), "a few seconds ago",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 2, function() {
-    moment.lang('en');
-    equal(moment().add({s:30}).fromNow(), "in a few seconds", "in a few seconds");
-    equal(moment().add({d:5}).fromNow(), "in 5 days", "in 5 days");
-});
-
-test("calendar day", 6, function() {
-    moment.lang('en');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "Today at 2:00 AM",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "Today at 2:25 AM",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "Today at 3:00 AM",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "Tomorrow at 2:00 AM",  "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "Today at 1:00 AM",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "Yesterday at 2:00 AM", "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('en');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [at] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [at] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [at] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('en');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[last] dddd [at] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[last] dddd [at] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[last] dddd [at] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('en');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/es.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/es.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Spanish
- *************************************************/
-
-module("lang:es");
-
-test("parse", 96, function() {
-    moment.lang('es');
-    var tests = 'Enero Ene._Febrero Feb._Marzo Mar._Abril Abr._Mayo May._Junio Jun._Julio Jul._Agosto Ago._Septiembre Sep._Octubre Oct._Noviembre Nov._Diciembre Dic.'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('es');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1º', '1º');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2º', '2º');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3º', '3º');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4º', '4º');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5º', '5º');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6º', '6º');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7º', '7º');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8º', '8º');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9º', '9º');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10º', '10º');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11º', '11º');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12º', '12º');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13º', '13º');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14º', '14º');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15º', '15º');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16º', '16º');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17º', '17º');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18º', '18º');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19º', '19º');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20º', '20º');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21º', '21º');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22º', '22º');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23º', '23º');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24º', '24º');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25º', '25º');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26º', '26º');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27º', '27º');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28º', '28º');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29º', '29º');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30º', '30º');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31º', '31º');
-});
-
-test("format month", 12, function() {
-    moment.lang('es');
-    var expected = 'Enero Ene._Febrero Feb._Marzo Mar._Abril Abr._Mayo May._Junio Jun._Julio Jul._Agosto Ago._Septiembre Sep._Octubre Oct._Noviembre Nov._Diciembre Dic.'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('es');
-    var expected = 'Domingo Dom._Lunes Lun._Martes Mar._Miércoles Mié._Jueves Jue._Viernes Vie._Sábado Sáb.'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('es');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "unos segundos", "44 seconds = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "un minuto",      "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "un minuto",      "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minutos",     "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minutos",    "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "una hora",       "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "una hora",       "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 horas",       "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 horas",       "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 horas",      "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "un día",         "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "un día",         "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 días",        "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "un día",         "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 días",        "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 días",       "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "un mes",       "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "un mes",       "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "un mes",       "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 meses",      "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 meses",      "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 meses",      "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "un mes",       "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 meses",      "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 meses",     "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "un año",        "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "un año",        "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 años",       "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "un año",        "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 años",       "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('es');
-    equal(moment(30000).from(0), "en unos segundos",  "prefix");
-    equal(moment(0).from(30000), "hace unos segundos", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('es');
-    equal(moment().fromNow(), "hace unos segundos",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 2, function() {
-    moment.lang('es');
-    equal(moment().add({s:30}).fromNow(), "en unos segundos", "en unos segundos");
-    equal(moment().add({d:5}).fromNow(), "en 5 días", "en 5 días");
-});
-
-
-test("calendar day", 7, function() {
-    moment.lang('es');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                         "hoy a las 2:00",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),          "hoy a las 2:25",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),           "hoy a las 3:00",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),           "mañana a las 2:00",  "tomorrow at the same time");
-    equal(moment(a).add({ d: 1, h : -1 }).calendar(),   "mañana a la 1:00",   "tomorrow minus 1 hour");
-    equal(moment(a).subtract({ h: 1 }).calendar(),      "hoy a la 1:00",      "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),      "ayer a las 2:00",    "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('es');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [a la' + ((m.hours() !== 1) ? 's' : '') + '] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [a la' + ((m.hours() !== 1) ? 's' : '') + '] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [a la' + ((m.hours() !== 1) ? 's' : '') + '] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('es');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[el] dddd [pasado a la' + ((m.hours() !== 1) ? 's' : '') + '] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[el] dddd [pasado a la' + ((m.hours() !== 1) ? 's' : '') + '] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[el] dddd [pasado a la' + ((m.hours() !== 1) ? 's' : '') + '] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('es');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/eu.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/eu.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Euskara
- *************************************************/
-
-module("lang:eu");
-
-test("parse", 96, function() {
-    moment.lang('eu');
-    var tests = 'urtarrila urt._otsaila ots._martxoa mar._apirila api._maiatza mai._ekaina eka._uztaila uzt._abuztua abu._iraila ira._urria urr._azaroa aza._abendua abe.'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('eu');
-    var a = [
-            ['dddd, MMMM Do YYYY, h:mm:ss a',      'igandea, otsaila 14. 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'ig., 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2. 02 otsaila ots.'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14. 14'],
-            ['d do dddd ddd',                      '0 0. igandea ig.'],
-            ['DDD DDDo DDDD',                      '45 45. 045'],
-            ['w wo ww',                            '8 8. 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45. day of the year'],
-            ['L',                                  '2010-02-14'],
-            ['LL',                                 '2010ko otsailaren 14a'],
-            ['LLL',                                '2010ko otsailaren 14a 15:25'],
-            ['LLLL',                               'igandea, 2010ko otsailaren 14a 15:25']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('eu');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1.', '1.');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2.', '2.');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3.', '3.');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4.', '4.');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5.', '5.');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6.', '6.');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7.', '7.');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8.', '8.');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9.', '9.');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10.', '10.');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11.', '11.');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12.', '12.');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13.', '13.');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14.', '14.');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15.', '15.');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16.', '16.');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17.', '17.');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18.', '18.');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19.', '19.');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20.', '20.');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21.', '21.');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22.', '22.');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23.', '23.');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24.', '24.');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25.', '25.');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26.', '26.');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27.', '27.');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28.', '28.');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29.', '29.');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30.', '30.');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31.', '31.');
-});
-
-test("format month", 12, function() {
-    moment.lang('eu');
-    var expected = 'urtarrila urt._otsaila ots._martxoa mar._apirila api._maiatza mai._ekaina eka._uztaila uzt._abuztua abu._iraila ira._urria urr._azaroa aza._abendua abe.'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('eu');
-    var expected = 'igandea ig._astelehena al._asteartea ar._asteazkena az._osteguna og._ostirala ol._larunbata lr.'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('eu');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "segundo batzuk", "44 seconds = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "minutu bat",     "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "minutu bat",     "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minutu",       "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minutu",      "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "ordu bat",       "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "ordu bat",       "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 ordu",         "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 ordu",         "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 ordu",        "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "egun bat",       "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "egun bat",       "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 egun",         "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "egun bat",       "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 egun",         "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 egun",        "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "hilabete bat",   "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "hilabete bat",   "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "hilabete bat",   "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 hilabete",     "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 hilabete",     "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 hilabete",     "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "hilabete bat",   "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 hilabete",     "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 hilabete",    "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "urte bat",       "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "urte bat",       "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 urte",         "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "urte bat",       "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 urte",         "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('eu');
-    equal(moment(30000).from(0), "segundo batzuk barru",  "prefix");
-    equal(moment(0).from(30000), "duela segundo batzuk", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('eu');
-    equal(moment().fromNow(), "duela segundo batzuk",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 2, function() {
-    moment.lang('eu');
-    equal(moment().add({s:30}).fromNow(), "segundo batzuk barru", "in seconds");
-    equal(moment().add({d:5}).fromNow(), "5 egun barru", "in 5 days");
-});
-
-test("calendar day", 6, function() {
-    moment.lang('eu');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "gaur 02:00etan",  "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "gaur 02:25etan",  "now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "gaur 03:00etan",  "now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "bihar 02:00etan", "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "gaur 01:00etan",  "now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "atzo 02:00etan",  "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('eu');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd LT[etan]'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd LT[etan]'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd LT[etan]'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('eu');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[aurreko] dddd LT[etan]'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[aurreko] dddd LT[etan]'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[aurreko] dddd LT[etan]'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('eu');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/fr.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/fr.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  French
- *************************************************/
-
-module("lang:fr");
-
-test("parse", 96, function() {
-    moment.lang('fr');
-    var tests = 'janvier janv._février févr._mars mars_avril avr._mai mai_juin juin_juillet juil._août août_septembre sept._octobre oct._novembre nov._décembre déc.'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('fr');
-    var a = [
-            ['dddd, MMMM Do YYYY, h:mm:ss a',      'dimanche, février 14ème 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'dim., 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2ème 02 février févr.'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14ème 14'],
-            ['d do dddd ddd',                      '0 0ème dimanche dim.'],
-            ['DDD DDDo DDDD',                      '45 45ème 045'],
-            ['w wo ww',                            '8 8ème 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45ème day of the year'],
-            ['L',                                  '14/02/2010'],
-            ['LL',                                 '14 février 2010'],
-            ['LLL',                                '14 février 2010 15:25'],
-            ['LLLL',                               'dimanche 14 février 2010 15:25']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('fr');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1er', '1er');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2ème', '2ème');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3ème', '3ème');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4ème', '4ème');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5ème', '5ème');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6ème', '6ème');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7ème', '7ème');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8ème', '8ème');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9ème', '9ème');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10ème', '10ème');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11ème', '11ème');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12ème', '12ème');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13ème', '13ème');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14ème', '14ème');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15ème', '15ème');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16ème', '16ème');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17ème', '17ème');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18ème', '18ème');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19ème', '19ème');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20ème', '20ème');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21ème', '21ème');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22ème', '22ème');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23ème', '23ème');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24ème', '24ème');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25ème', '25ème');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26ème', '26ème');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27ème', '27ème');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28ème', '28ème');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29ème', '29ème');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30ème', '30ème');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31ème', '31ème');
-});
-
-test("format month", 12, function() {
-    moment.lang('fr');
-    var expected = 'janvier janv._février févr._mars mars_avril avr._mai mai_juin juin_juillet juil._août août_septembre sept._octobre oct._novembre nov._décembre déc.'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('fr');
-    var expected = 'dimanche dim._lundi lun._mardi mar._mercredi mer._jeudi jeu._vendredi ven._samedi sam.'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('fr');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "quelques secondes", "44 seconds = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "une minute",   "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "une minute",   "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minutes",  "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minutes", "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "une heure",    "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "une heure",    "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 heures",    "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 heures",    "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 heures",   "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "un jour",      "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "un jour",      "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 jours",     "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "un jour",      "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 jours",     "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 jours",    "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "un mois",    "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "un mois",    "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "un mois",    "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 mois",   "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 mois",   "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 mois",   "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "un mois",    "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 mois",   "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 mois",  "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "une année",     "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "une année",     "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 années",    "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "une année",     "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 années",    "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('fr');
-    equal(moment(30000).from(0), "dans quelques secondes", "prefix");
-    equal(moment(0).from(30000), "il y a quelques secondes", "suffix");
-});
-
-test("fromNow", 2, function() {
-    moment.lang('fr');
-    equal(moment().add({s:30}).fromNow(), "dans quelques secondes", "in a few seconds");
-    equal(moment().add({d:5}).fromNow(), "dans 5 jours", "in 5 days");
-});
-
-
-test("same day", 6, function() {
-    moment.lang('fr');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "Ajourd'hui à 02:00",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "Ajourd'hui à 02:25",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "Ajourd'hui à 03:00",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "Demain à 02:00",         "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "Ajourd'hui à 01:00",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "Hier à 02:00",           "yesterday at the same time");
-});
-
-test("same next week", 15, function() {
-    moment.lang('fr');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [à] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [à] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [à] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("same last week", 15, function() {
-    moment.lang('fr');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('dddd [denier à] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [denier à] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [denier à] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("same all else", 4, function() {
-    moment.lang('fr');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/gl.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/gl.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Galego
- *************************************************/
-
-module("lang:gl");
-
-test("parse", 96, function() {
-    moment.lang('gl');
-    var tests = "Xaneiro Xan._Febreiro Feb._Marzo Mar._Abril Abr._Maio Mai._Xuño Xuñ._Xullo Xul._Agosto Ago._Setembro Set._Octubro Out._Novembro Nov._Decembro Dec.".split("_");
-
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('es');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1º', '1º');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2º', '2º');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3º', '3º');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4º', '4º');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5º', '5º');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6º', '6º');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7º', '7º');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8º', '8º');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9º', '9º');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10º', '10º');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11º', '11º');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12º', '12º');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13º', '13º');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14º', '14º');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15º', '15º');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16º', '16º');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17º', '17º');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18º', '18º');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19º', '19º');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20º', '20º');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21º', '21º');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22º', '22º');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23º', '23º');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24º', '24º');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25º', '25º');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26º', '26º');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27º', '27º');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28º', '28º');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29º', '29º');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30º', '30º');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31º', '31º');
-});
-
-test("format month", 12, function() {
-    moment.lang('gl');
-    var expected = "Xaneiro Xan._Febreiro Feb._Marzo Mar._Abril Abr._Maio Mai._Xuño Xuñ._Xullo Xul._Agosto Ago._Setembro Set._Octubro Out._Novembro Nov._Decembro Dec.".split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('gl');
-    var expected = "Domingo Dom._Luns Lun._Martes Mar._Mércores Mér._Xoves Xov._Venres Ven._Sábado Sáb.".split("_");
-
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('gl');
-    var start = moment([2007, 1, 28]);
-
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "uns segundo", "44 seconds = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "un minuto",      "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "un minuto",      "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minutos",     "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minutos",    "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "unha hora",       "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "unha hora",       "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 horas",       "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 horas",       "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 horas",      "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "un día",         "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "un día",         "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 días",        "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "un día",         "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 días",        "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 días",       "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "un mes",       "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "un mes",       "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "un mes",       "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 meses",      "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 meses",      "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 meses",      "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "un mes",       "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 meses",      "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 meses",     "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "un ano",        "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "un ano",        "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 anos",       "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "un ano",        "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 anos",       "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('gl');
-    equal(moment(30000).from(0), "en uns segundo",  "prefix");
-    equal(moment(0).from(30000), "fai uns segundo", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('gl');
-    equal(moment().fromNow(), "fai uns segundo",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 2, function() {
-    moment.lang('gl');
-    equal(moment().add({s:30}).fromNow(), "en uns segundo", "en unos segundos");
-    equal(moment().add({d:5}).fromNow(), "en 5 días", "en 5 días");
-});
-
-
-test("calendar day", 7, function() {
-    moment.lang('gl');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                         "hoxe ás 2:00",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),          "hoxe ás 2:25",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),           "hoxe ás 3:00",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),           "mañá ás 2:00",  "tomorrow at the same time");
-    equal(moment(a).add({ d: 1, h : -1 }).calendar(),   "mañá a 1:00",   "tomorrow minus 1 hour");
-    equal(moment(a).subtract({ h: 1 }).calendar(),      "hoxe a 1:00",      "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),      "onte á 2:00",    "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('gl');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [' + ((m.hours() !== 1) ? 'ás' : 'a') + '] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [' + ((m.hours() !== 1) ? 'ás' : 'a') + '] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [' + ((m.hours() !== 1) ? 'ás' : 'a') + '] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('gl');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[o] dddd [pasado ' + ((m.hours() !== 1) ? 'ás' : 'a') + '] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[o] dddd [pasado ' + ((m.hours() !== 1) ? 'ás' : 'a') + '] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[o] dddd [pasado ' + ((m.hours() !== 1) ? 'ás' : 'a') + '] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('gl');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/it.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/it.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Italian
- *************************************************/
-
-module("lang:it");
-
-test("parse", 96, function() {
-    moment.lang('it');
-    var tests = 'Gennaio Gen_Febbraio Feb_Marzo Mar_Aprile Apr_Maggio Mag_Giugno Giu_Luglio Lug_Agosto Ago_Settebre Set_Ottobre Ott_Novembre Nov_Dicembre Dic'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('it');
-    var a = [
-            ['dddd, MMMM Do YYYY, h:mm:ss a',      'Domenica, Febbraio 14º 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'Dom, 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2º 02 Febbraio Feb'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14º 14'],
-            ['d do dddd ddd',                      '0 0º Domenica Dom'],
-            ['DDD DDDo DDDD',                      '45 45º 045'],
-            ['w wo ww',                            '8 8º 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45º day of the year'],
-            ['L',                                  '14/02/2010'],
-            ['LL',                                 '14 Febbraio 2010'],
-            ['LLL',                                '14 Febbraio 2010 15:25'],
-            ['LLLL',                               'Domenica, 14 Febbraio 2010 15:25']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('it');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1º', '1º');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2º', '2º');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3º', '3º');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4º', '4º');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5º', '5º');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6º', '6º');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7º', '7º');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8º', '8º');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9º', '9º');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10º', '10º');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11º', '11º');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12º', '12º');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13º', '13º');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14º', '14º');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15º', '15º');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16º', '16º');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17º', '17º');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18º', '18º');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19º', '19º');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20º', '20º');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21º', '21º');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22º', '22º');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23º', '23º');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24º', '24º');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25º', '25º');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26º', '26º');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27º', '27º');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28º', '28º');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29º', '29º');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30º', '30º');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31º', '31º');
-});
-
-test("format month", 12, function() {
-    moment.lang('it');
-    var expected = 'Gennaio Gen_Febbraio Feb_Marzo Mar_Aprile Apr_Maggio Mag_Giugno Giu_Luglio Lug_Agosto Ago_Settebre Set_Ottobre Ott_Novembre Nov_Dicembre Dic'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('it');
-    var expected = 'Domenica Dom_Lunedi Lun_Martedi Mar_Mercoledi Mer_Giovedi Gio_Venerdi Ven_Sabato Sab'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('it');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "secondi",    "44 seconds = seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "un minuto",   "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "un minuto",   "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minuti",  "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minuti", "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "un ora",    "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "un ora",    "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 ore",    "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 ore",    "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 ore",   "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "un giorno",      "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "un giorno",      "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 giorni",     "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "un giorno",      "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 giorni",     "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 giorni",    "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "un mese",    "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "un mese",    "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "un mese",    "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 mesi",   "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 mesi",   "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 mesi",   "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "un mese",    "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 mesi",   "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 mesi",  "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "un anno",     "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "un anno",     "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 anni",    "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "un anno",     "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 anni",    "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('it');
-    equal(moment(30000).from(0), "in secondi", "prefix");
-    equal(moment(0).from(30000), "secondi fa", "suffix");
-});
-
-test("fromNow", 2, function() {
-    moment.lang('it');
-    equal(moment().add({s:30}).fromNow(), "in secondi", "in seconds");
-    equal(moment().add({d:5}).fromNow(), "in 5 giorni", "in 5 days");
-});
-
-
-test("calendar day", 6, function() {
-    moment.lang('it');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "Oggi alle 02:00",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "Oggi alle 02:25",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "Oggi alle 03:00",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "Domani alle 02:00",   "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "Oggi alle 01:00",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "Ieri alle 02:00",     "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('it');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [alle] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [alle] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [alle] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('it');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[lo scorso] dddd [alle] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[lo scorso] dddd [alle] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[lo scorso] dddd [alle] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('it');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/kr.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/kr.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Korean
- *************************************************/
-
-module("lang:kr");
-
-test("format", 18, function() {
-    moment.lang('kr');
-    var a = [
-            ['YYYY년 MMMM Do dddd a h:mm:ss',      '2010년 2월 14일 일요일 오후 3:25:50'],
-            ['ddd A h',                            '일 오후 3'],
-            ['M Mo MM MMMM MMM',                   '2 2일 02 2월 2월'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14일 14'],
-            ['d do dddd ddd',                      '0 0일 일요일 일'],
-            ['DDD DDDo DDDD',                      '45 45일 045'],
-            ['w wo ww',                            '8 8일 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                '오후 오후'],
-            ['일년 중 DDDo째 되는 날', '일년 중 45일째 되는 날'],
-            ['L',                                  '2010.02.14'],
-            ['LL',                                 '2010년 2월 14일'],
-            ['LLL',                                '2010년 2월 14일 오후 3시 25분'],
-            ['LLLL',                               '2010년 2월 14일 일요일 오후 3시 25분']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('kr');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1일', '1일');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2일', '2일');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3일', '3일');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4일', '4일');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5일', '5일');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6일', '6일');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7일', '7일');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8일', '8일');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9일', '9일');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10일', '10일');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11일', '11일');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12일', '12일');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13일', '13일');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14일', '14일');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15일', '15일');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16일', '16일');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17일', '17일');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18일', '18일');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19일', '19일');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20일', '20일');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21일', '21일');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22일', '22일');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23일', '23일');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24일', '24일');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25일', '25일');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26일', '26일');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27일', '27일');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28일', '28일');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29일', '29일');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30일', '30일');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31일', '31일');
-});
-
-test("format month", 12, function() {
-    moment.lang('kr');
-    var expected = '1월 1월_2월 2월_3월 3월_4월 4월_5월 5월_6월 6월_7월 7월_8월 8월_9월 9월_10월 10월_11월 11월_12월 12월'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('kr');
-    var expected = '일요일 일_월요일 월_화요일 화_수요일 수_목요일 목_금요일 금_토요일 토'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('kr');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "몇초", "44초 = 몇초");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "일분",      "45초 = 일분");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "일분",      "89초 = 일분");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2분",     "90초 = 2분");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44분",    "44분 = 44분");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "한시간",       "45분 = 한시간");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "한시간",       "89분 = 한시간");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2시간",       "90분 = 2시간");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5시간",       "5시간 = 5시간");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21시간",      "21시간 = 21시간");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "하루",         "22시간 = 하루");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "하루",         "35시간 = 하루");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2일",        "36시간 = 2일");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "하루",         "하루 = 하루");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5일",        "5일 = 5일");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25일",       "25일 = 25일");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "한달",       "26일 = 한달");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "한달",       "30일 = 한달");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "한달",       "45일 = 한달");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2달",      "46일 = 2달");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2달",      "75일 = 2달");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3달",      "76일 = 3달");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "한달",       "1달 = 한달");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5달",      "5달 = 5달");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11달",     "344일 = 11달");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "일년",        "345일 = 일년");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "일년",        "547일 = 일년");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2년",       "548일 = 2년");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "일년",        "일년 = 일년");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5년",       "5년 = 5년");
-});
-
-test("suffix", 2, function() {
-    moment.lang('kr');
-    equal(moment(30000).from(0), "몇초 후",  "prefix");
-    equal(moment(0).from(30000), "몇초 전", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('kr');
-    equal(moment().fromNow(), "몇초 전",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 2, function() {
-    moment.lang('kr');
-    equal(moment().add({s:30}).fromNow(), "몇초 후", "in a few seconds");
-    equal(moment().add({d:5}).fromNow(), "5일 후", "in 5 days");
-});
-
-
-test("calendar day", 6, function() {
-    moment.lang('kr');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "오늘 오전 2시 00분",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "오늘 오전 2시 25분",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "오늘 오전 3시 00분",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "내일 오전 2시 00분",     "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "오늘 오전 1시 00분",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "어제 오전 2시 00분",     "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('kr');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('kr');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('지난주 dddd LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('지난주 dddd LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('지난주 dddd LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('kr');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/nb.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/nb.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Norwegian bokmål
- *************************************************/
-
-module("lang:nb");
-
-test("parse", 96, function() {
-    moment.lang('nb');
-    var tests = 'januar jan_februar feb_mars mar_april apr_mai mai_juni jun_juli jul_august aug_september sep_oktober okt_november nov_desember des'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('nb');
-    var a = [
-            ['dddd, MMMM Do YYYY, h:mm:ss a',      'søndag, februar 14. 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'søn, 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2. 02 februar feb'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14. 14'],
-            ['d do dddd ddd',                      '0 0. søndag søn'],
-            ['DDD DDDo DDDD',                      '45 45. 045'],
-            ['w wo ww',                            '8 8. 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45. day of the year'],
-            ['L',                                  '2010-02-14'],
-            ['LL',                                 '14 februar 2010'],
-            ['LLL',                                '14 februar 2010 15:25'],
-            ['LLLL',                               'søndag 14 februar 2010 15:25']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('nb');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1.', '1.');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2.', '2.');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3.', '3.');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4.', '4.');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5.', '5.');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6.', '6.');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7.', '7.');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8.', '8.');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9.', '9.');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10.', '10.');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11.', '11.');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12.', '12.');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13.', '13.');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14.', '14.');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15.', '15.');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16.', '16.');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17.', '17.');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18.', '18.');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19.', '19.');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20.', '20.');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21.', '21.');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22.', '22.');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23.', '23.');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24.', '24.');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25.', '25.');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26.', '26.');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27.', '27.');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28.', '28.');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29.', '29.');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30.', '30.');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31.', '31.');
-});
-
-test("format month", 12, function() {
-    moment.lang('nb');
-	var expected = 'januar jan_februar feb_mars mar_april apr_mai mai_juni jun_juli jul_august aug_september sep_oktober okt_november nov_desember des'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('nb');
-    var expected = 'søndag søn_mandag man_tirsdag tir_onsdag ons_torsdag tor_fredag fre_lørdag lør'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('nb');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "noen sekunder", "44 sekunder = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "ett minutt",      "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "ett minutt",      "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minutter",     "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minutter",    "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "en time",       "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "en time",       "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 timer",       "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 timer",       "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 timer",      "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "en dag",         "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "en dag",         "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 dager",        "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "en dag",         "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 dager",        "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 dager",       "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "en måned",       "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "en måned",       "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "en måned",       "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 måneder",      "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 måneder",      "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 måneder",      "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "en måned",       "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 måneder",      "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 måneder",     "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "ett år",        "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "ett år",        "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 år",       "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "ett år",        "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 år",       "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('nb');
-    equal(moment(30000).from(0), "om noen sekunder",  "prefix");
-    equal(moment(0).from(30000), "for noen sekunder siden", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('nb');
-    equal(moment().fromNow(), "for noen sekunder siden",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 2, function() {
-    moment.lang('nb');
-    equal(moment().add({s:30}).fromNow(), "om noen sekunder", "in a few seconds");
-    equal(moment().add({d:5}).fromNow(), "om 5 dager", "in 5 days");
-});
-
-
-
-test("calendar day", 6, function() {
-    moment.lang('nb');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "I dag klokken 02:00",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "I dag klokken 02:25",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "I dag klokken 03:00",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "I morgen klokken 02:00",  "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "I dag klokken 01:00",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "I går klokken 02:00",     "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('nb');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [klokken] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [klokken] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [klokken] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('nb');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[Forrige] dddd [klokken] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[Forrige] dddd [klokken] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[Forrige] dddd [klokken] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('nb');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/nl.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/nl.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Dutch
- *************************************************/
-
-module("lang:nl");
-
-test("parse", 96, function() {
-    moment.lang('nl');
-    var tests = 'januari jan._februari feb._maart mar._april apr._mei mei._juni jun._juli jul._augustus aug._september sep._oktober okt._november nov._december dec.'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('nl');
-    var a = [
-            ['dddd, MMMM Do YYYY, HH:mm:ss',       'zondag, februari 14de 2010, 15:25:50'],
-            ['ddd, HH',                            'zo., 15'],
-            ['M Mo MM MMMM MMM',                   '2 2de 02 februari feb.'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14de 14'],
-            ['d do dddd ddd',                      '0 0de zondag zo.'],
-            ['DDD DDDo DDDD',                      '45 45ste 045'],
-            ['w wo ww',                            '8 8ste 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45ste day of the year'],
-            ['L',                                  '14-02-2010'],
-            ['LL',                                 '14 februari 2010'],
-            ['LLL',                                '14 februari 2010 15:25'],
-            ['LLLL',                               'zondag 14 februari 2010 15:25']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('nl');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1ste', '1ste');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2de', '2de');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3de', '3de');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4de', '4de');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5de', '5de');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6de', '6de');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7de', '7de');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8ste', '8ste');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9de', '9de');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10de', '10de');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11de', '11de');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12de', '12de');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13de', '13de');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14de', '14de');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15de', '15de');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16de', '16de');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17de', '17de');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18de', '18de');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19de', '19de');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20ste', '20ste');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21ste', '21ste');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22ste', '22ste');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23ste', '23ste');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24ste', '24ste');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25ste', '25ste');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26ste', '26ste');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27ste', '27ste');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28ste', '28ste');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29ste', '29ste');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30ste', '30ste');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31ste', '31ste');
-});
-
-test("format month", 12, function() {
-    moment.lang('nl');
-    var expected = 'januari jan._februari feb._maart mar._april apr._mei mei._juni jun._juli jul._augustus aug._september sep._oktober okt._november nov._december dec.'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('nl');
-    var expected = 'zondag zo._maandag ma._dinsdag di._woensdag wo._donderdag do._vrijdag vr._zaterdag za.'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('nl');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "een paar seconden", "44 seconds = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "één minuut",      "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "één minuut",      "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minuten",     "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minuten",    "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "één uur",       "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "één uur",       "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 uur",       "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 uur",       "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 uur",      "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "één dag",         "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "één dag",         "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 dagen",        "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "één dag",         "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 dagen",        "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 dagen",       "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "één maand",       "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "één maand",       "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "één maand",       "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 maanden",      "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 maanden",      "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 maanden",      "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "één maand",       "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 maanden",      "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 maanden",     "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "één jaar",        "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "één jaar",        "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 jaar",       "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "één jaar",        "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 jaar",       "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('nl');
-    equal(moment(30000).from(0), "over een paar seconden",  "prefix");
-    equal(moment(0).from(30000), "een paar seconden geleden", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('nl');
-    equal(moment().fromNow(), "een paar seconden geleden",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 2, function() {
-    moment.lang('nl');
-    equal(moment().add({s:30}).fromNow(), "over een paar seconden", "in a few seconds");
-    equal(moment().add({d:5}).fromNow(), "over 5 dagen", "in 5 days");
-});
-
-
-
-test("calendar day", 6, function() {
-    moment.lang('nl');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "Vandaag om 02:00",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "Vandaag om 02:25",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "Vandaag om 03:00",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "Morgen om 02:00",    "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "Vandaag om 01:00",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "Gisteren om 02:00",   "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('nl');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [om] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [om] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [om] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('nl');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[afgelopen] dddd [om] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[afgelopen] dddd [om] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[afgelopen] dddd [om] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('nl');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/pl.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/pl.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Polish
- *************************************************/
-
-module("lang:pl");
-
-test("parse", 96, function() {
-    moment.lang('pl');
-    var tests = 'styczeń sty_luty lut_marzec mar_kwiecień kwi_maj maj_czerwiec cze_lipiec lip_sierpień sie_wrzesień wrz_październik paź_listopad lis_grudzień gru'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('pl');
-    var a = [
-            ['dddd, MMMM Do YYYY, h:mm:ss a',      'niedziela, luty 14. 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'nie, 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2. 02 luty lut'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14. 14'],
-            ['d do dddd ddd',                      '0 0. niedziela nie'],
-            ['DDD DDDo DDDD',                      '45 45. 045'],
-            ['w wo ww',                            '8 8. 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45. day of the year'],
-            ['L',                                  '14-02-2010'],
-            ['LL',                                 '14 luty 2010'],
-            ['LLL',                                '14 luty 2010 15:25'],
-            ['LLLL',                               'niedziela, 14 luty 2010 15:25']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('pl');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1.', '1.');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2.', '2.');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3.', '3.');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4.', '4.');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5.', '5.');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6.', '6.');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7.', '7.');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8.', '8.');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9.', '9.');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10.', '10.');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11.', '11.');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12.', '12.');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13.', '13.');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14.', '14.');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15.', '15.');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16.', '16.');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17.', '17.');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18.', '18.');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19.', '19.');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20.', '20.');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21.', '21.');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22.', '22.');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23.', '23.');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24.', '24.');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25.', '25.');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26.', '26.');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27.', '27.');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28.', '28.');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29.', '29.');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30.', '30.');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31.', '31.');
-});
-
-test("format month", 12, function() {
-    moment.lang('pl');
-    var expected = 'styczeń sty_luty lut_marzec mar_kwiecień kwi_maj maj_czerwiec cze_lipiec lip_sierpień sie_wrzesień wrz_październik paź_listopad lis_grudzień gru'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('pl');
-    var expected = 'niedziela nie_poniedziałek pon_wtorek wt_środa śr_czwartek czw_piątek pt_sobota sb'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('pl');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "kilka sekund",  "44 seconds = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "minuta",        "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "minuta",        "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minuty",      "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minuty",     "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "godzina",       "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "godzina",       "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 godziny",     "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 godzin",      "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 godzin",     "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "1 dzień",       "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "1 dzień",       "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 dni",         "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "1 dzień",       "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 dni",         "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 dni",        "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "miesiąc",       "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "miesiąc",       "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "miesiąc",       "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 miesiące",    "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 miesiące",    "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 miesiące",    "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "miesiąc",       "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 miesięcy",    "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 miesięcy",   "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "rok",           "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "rok",           "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 lata",        "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "rok",           "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 lat",         "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('pl');
-    equal(moment(30000).from(0), "za kilka sekund",  "prefix");
-    equal(moment(0).from(30000), "kilka sekund temu", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('pl');
-    equal(moment().fromNow(), "kilka sekund temu",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 3, function() {
-    moment.lang('pl');
-    equal(moment().add({s:30}).fromNow(), "za kilka sekund", "in a few seconds");
-    equal(moment().add({h:1}).fromNow(), "za godzinę", "in an hour");
-    equal(moment().add({d:5}).fromNow(), "za 5 dni", "in 5 days");
-});
-
-
-
-test("calendar day", 6, function() {
-    moment.lang('pl');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "Dziś o 02:00",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "Dziś o 02:25",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "Dziś o 03:00",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "Jutro o 02:00",  "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "Dziś o 01:00",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "Wczoraj o 02:00",     "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('pl');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('[W] dddd [o] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[W] dddd [o] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[W] dddd [o] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('pl');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[W zeszły/łą] dddd [o] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[W zeszły/łą] dddd [o] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[W zeszły/łą] dddd [o] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('pl');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/pt.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/pt.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Portuguese
- *************************************************/
-
-module("lang:pt");
-
-test("parse", 96, function() {
-    moment.lang('pt');
-    var tests = 'Janeiro Jan_Fevereiro Fev_Março Mar_Abril Abr_Maio Mai_Junho Jun_Julho Jul_Agosto Ago_Setembro Set_Outubro Out_Novembro Nov_Dezembro Dez'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('pt');
-    var a = [
-            ['dddd, MMMM Do YYYY, h:mm:ss a',      'Domingo, Fevereiro 14º 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'Dom, 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2º 02 Fevereiro Fev'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14º 14'],
-            ['d do dddd ddd',                      '0 0º Domingo Dom'],
-            ['DDD DDDo DDDD',                      '45 45º 045'],
-            ['w wo ww',                            '8 8º 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45º day of the year'],
-            ['L',                                  '14/02/2010'],
-            ['LL',                                 '14 de Fevereiro de 2010'],
-            ['LLL',                                '14 de Fevereiro de 2010 15:25'],
-            ['LLLL',                               'Domingo, 14 de Fevereiro de 2010 15:25']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('pt');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1º', '1º');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2º', '2º');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3º', '3º');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4º', '4º');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5º', '5º');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6º', '6º');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7º', '7º');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8º', '8º');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9º', '9º');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10º', '10º');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11º', '11º');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12º', '12º');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13º', '13º');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14º', '14º');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15º', '15º');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16º', '16º');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17º', '17º');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18º', '18º');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19º', '19º');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20º', '20º');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21º', '21º');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22º', '22º');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23º', '23º');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24º', '24º');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25º', '25º');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26º', '26º');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27º', '27º');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28º', '28º');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29º', '29º');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30º', '30º');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31º', '31º');
-});
-
-test("format month", 12, function() {
-    moment.lang('pt');
-    var expected = 'Janeiro Jan_Fevereiro Fev_Março Mar_Abril Abr_Maio Mai_Junho Jun_Julho Jul_Agosto Ago_Setembro Set_Outubro Out_Novembro Nov_Dezembro Dez'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('pt');
-    var expected = 'Domingo Dom_Segunda-feira Seg_Terça-feira Ter_Quarta-feira Qua_Quinta-feira Qui_Sexta-feira Sex_Sábado Sáb'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('pt');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "segundos",    "44 seconds = seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "um minuto",   "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "um minuto",   "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minutos",  "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minutos", "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "uma hora",    "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "uma hora",    "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 horas",    "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 horas",    "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 horas",   "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "um dia",      "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "um dia",      "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 dias",     "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "um dia",      "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 dias",     "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 dias",    "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "um mês",    "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "um mês",    "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "um mês",    "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 meses",   "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 meses",   "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 meses",   "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "um mês",    "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 meses",   "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 meses",  "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "um ano",     "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "um ano",     "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 anos",    "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "um ano",     "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 anos",    "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('pt');
-    equal(moment(30000).from(0), "em segundos", "prefix");
-    equal(moment(0).from(30000), "segundos atrás", "suffix");
-});
-
-test("fromNow", 2, function() {
-    moment.lang('pt');
-    equal(moment().add({s:30}).fromNow(), "em segundos", "in seconds");
-    equal(moment().add({d:5}).fromNow(), "em 5 dias", "in 5 days");
-});
-
-
-test("calendar day", 6, function() {
-    moment.lang('pt');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "Hoje às 02:00",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "Hoje às 02:25",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "Hoje às 03:00",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "Amanhã às 02:00",  "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "Hoje às 01:00",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "Ontem às 02:00",     "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('pt');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [às] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [às] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [às] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('pt');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format((m.day() === 0 || m.day() === 6) ? '[Último] dddd [às] LT' : '[Última] dddd [às] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format((m.day() === 0 || m.day() === 6) ? '[Último] dddd [às] LT' : '[Última] dddd [às] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format((m.day() === 0 || m.day() === 6) ? '[Último] dddd [às] LT' : '[Última] dddd [às] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('pt');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/ru.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/ru.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  Russian
- *************************************************/
-
-module("lang:ru");
-
-test("parse", 96, function() {
-    moment.lang('ru');
-    var tests = 'январь янв_февраль фев_март мар_апрель апр_май май_июнь июн_июль июл_август авг_сентябрь сен_октябрь окт_ноябрь ноя_декабрь дек'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('ru');
-    var a = [
-            ['dddd, MMMM Do YYYY, h:mm:ss a',      'воскресенье, февраль 14. 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'вск, 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2. 02 февраль фев'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14. 14'],
-            ['d do dddd ddd',                      '0 0. воскресенье вск'],
-            ['DDD DDDo DDDD',                      '45 45. 045'],
-            ['w wo ww',                            '8 8. 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45. day of the year'],
-            ['L',                                  '14-02-2010'],
-            ['LL',                                 '14 февраль 2010'],
-            ['LLL',                                '14 февраль 2010 15:25'],
-            ['LLLL',                               'воскресенье, 14 февраль 2010 15:25']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('ru');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1.', '1.');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2.', '2.');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3.', '3.');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4.', '4.');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5.', '5.');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6.', '6.');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7.', '7.');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8.', '8.');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9.', '9.');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10.', '10.');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11.', '11.');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12.', '12.');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13.', '13.');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14.', '14.');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15.', '15.');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16.', '16.');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17.', '17.');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18.', '18.');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19.', '19.');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20.', '20.');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21.', '21.');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22.', '22.');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23.', '23.');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24.', '24.');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25.', '25.');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26.', '26.');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27.', '27.');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28.', '28.');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29.', '29.');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30.', '30.');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31.', '31.');
-});
-
-test("format month", 12, function() {
-    moment.lang('ru');
-    var expected = 'январь янв_февраль фев_март мар_апрель апр_май май_июнь июн_июль июл_август авг_сентябрь сен_октябрь окт_ноябрь ноя_декабрь дек'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('ru');
-    var expected = 'воскресенье вск_понедельник пнд_вторник втр_среда срд_четверг чтв_пятница птн_суббота суб'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('ru');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "несколько секунд",    "44 seconds = seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "минут",   "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "минут",   "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 минут",  "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 минут", "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "часа",    "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "часа",    "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 часов",    "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 часов",    "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 часов",   "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "1 день",      "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "1 день",      "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 дней",     "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "1 день",      "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 дней",     "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 дней",    "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "месяц",    "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "месяц",    "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "месяц",    "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 месяцев",   "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 месяцев",   "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 месяцев",   "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "месяц",    "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 месяцев",   "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 месяцев",  "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "год",     "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "год",     "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 лет",    "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "год",     "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 лет",    "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('ru');
-    equal(moment(30000).from(0), "через несколько секунд", "prefix");
-    equal(moment(0).from(30000), "несколько секунд назад", "suffix");
-});
-
-test("fromNow", 2, function() {
-    moment.lang('ru');
-    equal(moment().add({s:30}).fromNow(), "через несколько секунд", "in seconds");
-    equal(moment().add({d:5}).fromNow(), "через 5 дней", "in 5 days");
-});
-
-
-test("calendar day", 6, function() {
-    moment.lang('ru');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "Сегодня в 02:00",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "Сегодня в 02:25",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "Сегодня в 03:00",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "Завтра в 02:00",      "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "Сегодня в 01:00",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "Вчера в 02:00",       "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('ru');
-
-    var i;
-    var m;
-
-    function makeFormat(d) {
-        return d.day() === 1 ? '[Во] dddd [в] LT' : '[В] dddd [в] LT';
-    }
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format(makeFormat(m)),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format(makeFormat(m)),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format(makeFormat(m)),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('ru');
-
-    var i;
-    var m;
-
-    function makeFormat(d) {
-        switch (d.day()) {
-        case 0:
-        case 1:
-        case 3:
-            return '[В прошлый] dddd [в] LT';
-        case 6:
-            return '[В прошлое] dddd [в] LT';
-        default:
-            return '[В прошлую] dddd [в] LT';
-        }
-    }
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format(makeFormat(m)),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format(makeFormat(m)),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format(makeFormat(m)),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('ru');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang/test/sv.js":
-/*!*********************************************!*\
-  !*** ./node_modules/moment/lang/test/sv.js ***!
-  \*********************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-/* module decorator */ module = __webpack_require__.nmd(module);
-
-/**************************************************
-  English
- *************************************************/
-
-module("lang:sv");
-
-test("parse", 96, function() {
-    moment.lang('sv');
-    var tests = 'januari jan_februari feb_mars mar_april apr_maj maj_juni jun_juli jul_augusti aug_september sep_oktober okt_november nov_december dec'.split("_");
-    var i;
-    function equalTest(input, mmm, i) {
-        equal(moment(input, mmm).month(), i, input + ' should be month ' + (i + 1));
-    }
-    for (i = 0; i < 12; i++) {
-        tests[i] = tests[i].split(' ');
-        equalTest(tests[i][0], 'MMM', i);
-        equalTest(tests[i][1], 'MMM', i);
-        equalTest(tests[i][0], 'MMMM', i);
-        equalTest(tests[i][1], 'MMMM', i);
-        equalTest(tests[i][0].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleLowerCase(), 'MMMM', i);
-        equalTest(tests[i][0].toLocaleUpperCase(), 'MMMM', i);
-        equalTest(tests[i][1].toLocaleUpperCase(), 'MMMM', i);
-    }
-});
-
-test("format", 18, function() {
-    moment.lang('sv');
-    var a = [
-            ['dddd, MMMM Do YYYY, h:mm:ss a',      'söndag, februari 14e 2010, 3:25:50 pm'],
-            ['ddd, hA',                            'sön, 3PM'],
-            ['M Mo MM MMMM MMM',                   '2 2a 02 februari feb'],
-            ['YYYY YY',                            '2010 10'],
-            ['D Do DD',                            '14 14e 14'],
-            ['d do dddd ddd',                      '0 0e söndag sön'],
-            ['DDD DDDo DDDD',                      '45 45e 045'],
-            ['w wo ww',                            '8 8e 08'],
-            ['h hh',                               '3 03'],
-            ['H HH',                               '15 15'],
-            ['m mm',                               '25 25'],
-            ['s ss',                               '50 50'],
-            ['a A',                                'pm PM'],
-            ['t\\he DDDo \\d\\ay of t\\he ye\\ar', 'the 45e day of the year'],
-            ['L',                                  '2010-02-14'],
-            ['LL',                                 '14 februari 2010'],
-            ['LLL',                                '14 februari 2010 15:25'],
-            ['LLLL',                               'söndag 14 februari 2010 15:25']
-        ],
-        b = moment(new Date(2010, 1, 14, 15, 25, 50, 125)),
-        i;
-    for (i = 0; i < a.length; i++) {
-        equal(b.format(a[i][0]), a[i][1], a[i][0] + ' ---> ' + a[i][1]);
-    }
-});
-
-test("format ordinal", 31, function() {
-    moment.lang('sv');
-    equal(moment([2011, 0, 1]).format('DDDo'), '1a', '1a');
-    equal(moment([2011, 0, 2]).format('DDDo'), '2a', '2a');
-    equal(moment([2011, 0, 3]).format('DDDo'), '3e', '3e');
-    equal(moment([2011, 0, 4]).format('DDDo'), '4e', '4e');
-    equal(moment([2011, 0, 5]).format('DDDo'), '5e', '5e');
-    equal(moment([2011, 0, 6]).format('DDDo'), '6e', '6e');
-    equal(moment([2011, 0, 7]).format('DDDo'), '7e', '7e');
-    equal(moment([2011, 0, 8]).format('DDDo'), '8e', '8e');
-    equal(moment([2011, 0, 9]).format('DDDo'), '9e', '9e');
-    equal(moment([2011, 0, 10]).format('DDDo'), '10e', '10e');
-
-    equal(moment([2011, 0, 11]).format('DDDo'), '11e', '11e');
-    equal(moment([2011, 0, 12]).format('DDDo'), '12e', '12e');
-    equal(moment([2011, 0, 13]).format('DDDo'), '13e', '13e');
-    equal(moment([2011, 0, 14]).format('DDDo'), '14e', '14e');
-    equal(moment([2011, 0, 15]).format('DDDo'), '15e', '15e');
-    equal(moment([2011, 0, 16]).format('DDDo'), '16e', '16e');
-    equal(moment([2011, 0, 17]).format('DDDo'), '17e', '17e');
-    equal(moment([2011, 0, 18]).format('DDDo'), '18e', '18e');
-    equal(moment([2011, 0, 19]).format('DDDo'), '19e', '19e');
-    equal(moment([2011, 0, 20]).format('DDDo'), '20e', '20e');
-
-    equal(moment([2011, 0, 21]).format('DDDo'), '21a', '21a');
-    equal(moment([2011, 0, 22]).format('DDDo'), '22a', '22a');
-    equal(moment([2011, 0, 23]).format('DDDo'), '23e', '23e');
-    equal(moment([2011, 0, 24]).format('DDDo'), '24e', '24e');
-    equal(moment([2011, 0, 25]).format('DDDo'), '25e', '25e');
-    equal(moment([2011, 0, 26]).format('DDDo'), '26e', '26e');
-    equal(moment([2011, 0, 27]).format('DDDo'), '27e', '27e');
-    equal(moment([2011, 0, 28]).format('DDDo'), '28e', '28e');
-    equal(moment([2011, 0, 29]).format('DDDo'), '29e', '29e');
-    equal(moment([2011, 0, 30]).format('DDDo'), '30e', '30e');
-
-    equal(moment([2011, 0, 31]).format('DDDo'), '31a', '31a');
-});
-
-test("format month", 12, function() {
-    moment.lang('sv');
-	var expected = 'januari jan_februari feb_mars mar_april apr_maj maj_juni jun_juli jul_augusti aug_september sep_oktober okt_november nov_december dec'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, i, 0]).format('MMMM MMM'), expected[i], expected[i]);
-    }
-});
-
-test("format week", 7, function() {
-    moment.lang('sv');
-    var expected = 'söndag sön_måndag mån_tisdag tis_onsdag ons_torsdag tor_fredag fre_lördag lör'.split("_");
-    var i;
-    for (i = 0; i < expected.length; i++) {
-        equal(moment([2011, 0, 2 + i]).format('dddd ddd'), expected[i], expected[i]);
-    }
-});
-
-test("from", 30, function() {
-    moment.lang('sv');
-    var start = moment([2007, 1, 28]);
-    equal(start.from(moment([2007, 1, 28]).add({s:44}), true),  "några sekunder", "44 sekunder = a few seconds");
-    equal(start.from(moment([2007, 1, 28]).add({s:45}), true),  "en minut",      "45 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:89}), true),  "en minut",      "89 seconds = a minute");
-    equal(start.from(moment([2007, 1, 28]).add({s:90}), true),  "2 minuter",     "90 seconds = 2 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:44}), true),  "44 minuter",    "44 minutes = 44 minutes");
-    equal(start.from(moment([2007, 1, 28]).add({m:45}), true),  "en timme",       "45 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:89}), true),  "en timme",       "89 minutes = an hour");
-    equal(start.from(moment([2007, 1, 28]).add({m:90}), true),  "2 timmar",       "90 minutes = 2 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:5}), true),   "5 timmar",       "5 hours = 5 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:21}), true),  "21 timmar",      "21 hours = 21 hours");
-    equal(start.from(moment([2007, 1, 28]).add({h:22}), true),  "en dag",         "22 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:35}), true),  "en dag",         "35 hours = a day");
-    equal(start.from(moment([2007, 1, 28]).add({h:36}), true),  "2 dagar",        "36 hours = 2 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:1}), true),   "en dag",         "1 day = a day");
-    equal(start.from(moment([2007, 1, 28]).add({d:5}), true),   "5 dagar",        "5 days = 5 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:25}), true),  "25 dagar",       "25 days = 25 days");
-    equal(start.from(moment([2007, 1, 28]).add({d:26}), true),  "en månad",       "26 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:30}), true),  "en månad",       "30 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:45}), true),  "en månad",       "45 days = a month");
-    equal(start.from(moment([2007, 1, 28]).add({d:46}), true),  "2 månader",      "46 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:74}), true),  "2 månader",      "75 days = 2 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:76}), true),  "3 månader",      "76 days = 3 months");
-    equal(start.from(moment([2007, 1, 28]).add({M:1}), true),   "en månad",       "1 month = a month");
-    equal(start.from(moment([2007, 1, 28]).add({M:5}), true),   "5 månader",      "5 months = 5 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:344}), true), "11 månader",     "344 days = 11 months");
-    equal(start.from(moment([2007, 1, 28]).add({d:345}), true), "ett år",        "345 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:547}), true), "ett år",        "547 days = a year");
-    equal(start.from(moment([2007, 1, 28]).add({d:548}), true), "2 år",       "548 days = 2 years");
-    equal(start.from(moment([2007, 1, 28]).add({y:1}), true),   "ett år",        "1 year = a year");
-    equal(start.from(moment([2007, 1, 28]).add({y:5}), true),   "5 år",       "5 years = 5 years");
-});
-
-test("suffix", 2, function() {
-    moment.lang('sv');
-    equal(moment(30000).from(0), "om några sekunder",  "prefix");
-    equal(moment(0).from(30000), "för några sekunder sen", "suffix");
-});
-
-
-test("now from now", 1, function() {
-    moment.lang('sv');
-    equal(moment().fromNow(), "för några sekunder sen",  "now from now should display as in the past");
-});
-
-
-test("fromNow", 2, function() {
-    moment.lang('sv');
-    equal(moment().add({s:30}).fromNow(), "om några sekunder", "in a few seconds");
-    equal(moment().add({d:5}).fromNow(), "om 5 dagar", "in 5 days");
-});
-
-test("calendar day", 6, function() {
-    moment.lang('sv');
-
-    var a = moment().hours(2).minutes(0).seconds(0);
-
-    equal(moment(a).calendar(),                     "Idag klockan 02:00",     "today at the same time");
-    equal(moment(a).add({ m: 25 }).calendar(),      "Idag klockan 02:25",     "Now plus 25 min");
-    equal(moment(a).add({ h: 1 }).calendar(),       "Idag klockan 03:00",     "Now plus 1 hour");
-    equal(moment(a).add({ d: 1 }).calendar(),       "Imorgon klockan 02:00",  "tomorrow at the same time");
-    equal(moment(a).subtract({ h: 1 }).calendar(),  "Idag klockan 01:00",     "Now minus 1 hour");
-    equal(moment(a).subtract({ d: 1 }).calendar(),  "Igår klockan 02:00",     "yesterday at the same time");
-});
-
-test("calendar next week", 15, function() {
-    moment.lang('sv');
-
-    var i;
-    var m;
-
-    for (i = 2; i < 7; i++) {
-        m = moment().add({ d: i });
-        equal(m.calendar(),       m.format('dddd [klockan] LT'),  "Today + " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('dddd [klockan] LT'),  "Today + " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('dddd [klockan] LT'),  "Today + " + i + " days end of day");
-    }
-});
-
-test("calendar last week", 15, function() {
-    moment.lang('sv');
-
-    for (i = 2; i < 7; i++) {
-        m = moment().subtract({ d: i });
-        equal(m.calendar(),       m.format('[Förra] dddd [en klockan] LT'),  "Today - " + i + " days current time");
-        m.hours(0).minutes(0).seconds(0).milliseconds(0);
-        equal(m.calendar(),       m.format('[Förra] dddd [en klockan] LT'),  "Today - " + i + " days beginning of day");
-        m.hours(23).minutes(59).seconds(59).milliseconds(999);
-        equal(m.calendar(),       m.format('[Förra] dddd [en klockan] LT'),  "Today - " + i + " days end of day");
-    }
-});
-
-test("calendar all else", 4, function() {
-    moment.lang('sv');
-    var weeksAgo = moment().subtract({ w: 1 });
-    var weeksFromNow = moment().add({ w: 1 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "1 week ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 1 week");
-
-    weeksAgo = moment().subtract({ w: 2 });
-    weeksFromNow = moment().add({ w: 2 });
-    
-    equal(weeksAgo.calendar(),       weeksAgo.format('L'),  "2 weeks ago");
-    equal(weeksFromNow.calendar(),   weeksFromNow.format('L'),  "in 2 weeks");
-});
-
-/***/ }),
-
-/***/ "./node_modules/moment/lang sync recursive ^\\.\\/.*$":
-/*!*************************************************!*\
-  !*** ./node_modules/moment/lang/ sync ^\.\/.*$ ***!
-  \*************************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-var map = {
-	"./da": "./node_modules/moment/lang/da.js",
-	"./da.js": "./node_modules/moment/lang/da.js",
-	"./de": "./node_modules/moment/lang/de.js",
-	"./de.js": "./node_modules/moment/lang/de.js",
-	"./en-GB": "./node_modules/moment/lang/en-GB.js",
-	"./en-GB.js": "./node_modules/moment/lang/en-GB.js",
-	"./es": "./node_modules/moment/lang/es.js",
-	"./es.js": "./node_modules/moment/lang/es.js",
-	"./eu": "./node_modules/moment/lang/eu.js",
-	"./eu.js": "./node_modules/moment/lang/eu.js",
-	"./fr": "./node_modules/moment/lang/fr.js",
-	"./fr.js": "./node_modules/moment/lang/fr.js",
-	"./gl": "./node_modules/moment/lang/gl.js",
-	"./gl.js": "./node_modules/moment/lang/gl.js",
-	"./it": "./node_modules/moment/lang/it.js",
-	"./it.js": "./node_modules/moment/lang/it.js",
-	"./kr": "./node_modules/moment/lang/kr.js",
-	"./kr.js": "./node_modules/moment/lang/kr.js",
-	"./min/all.min": "./node_modules/moment/lang/min/all.min.js",
-	"./min/all.min.js": "./node_modules/moment/lang/min/all.min.js",
-	"./min/de.min": "./node_modules/moment/lang/min/de.min.js",
-	"./min/de.min.js": "./node_modules/moment/lang/min/de.min.js",
-	"./min/en-gb.min": "./node_modules/moment/lang/min/en-gb.min.js",
-	"./min/en-gb.min.js": "./node_modules/moment/lang/min/en-gb.min.js",
-	"./min/es.min": "./node_modules/moment/lang/min/es.min.js",
-	"./min/es.min.js": "./node_modules/moment/lang/min/es.min.js",
-	"./min/eu.min": "./node_modules/moment/lang/min/eu.min.js",
-	"./min/eu.min.js": "./node_modules/moment/lang/min/eu.min.js",
-	"./min/fr.min": "./node_modules/moment/lang/min/fr.min.js",
-	"./min/fr.min.js": "./node_modules/moment/lang/min/fr.min.js",
-	"./min/gl.min": "./node_modules/moment/lang/min/gl.min.js",
-	"./min/gl.min.js": "./node_modules/moment/lang/min/gl.min.js",
-	"./min/it.min": "./node_modules/moment/lang/min/it.min.js",
-	"./min/it.min.js": "./node_modules/moment/lang/min/it.min.js",
-	"./min/kr.min": "./node_modules/moment/lang/min/kr.min.js",
-	"./min/kr.min.js": "./node_modules/moment/lang/min/kr.min.js",
-	"./min/nb.min": "./node_modules/moment/lang/min/nb.min.js",
-	"./min/nb.min.js": "./node_modules/moment/lang/min/nb.min.js",
-	"./min/nl.min": "./node_modules/moment/lang/min/nl.min.js",
-	"./min/nl.min.js": "./node_modules/moment/lang/min/nl.min.js",
-	"./min/pl.min": "./node_modules/moment/lang/min/pl.min.js",
-	"./min/pl.min.js": "./node_modules/moment/lang/min/pl.min.js",
-	"./min/pt.min": "./node_modules/moment/lang/min/pt.min.js",
-	"./min/pt.min.js": "./node_modules/moment/lang/min/pt.min.js",
-	"./min/ru.min": "./node_modules/moment/lang/min/ru.min.js",
-	"./min/ru.min.js": "./node_modules/moment/lang/min/ru.min.js",
-	"./min/sv.min": "./node_modules/moment/lang/min/sv.min.js",
-	"./min/sv.min.js": "./node_modules/moment/lang/min/sv.min.js",
-	"./nb": "./node_modules/moment/lang/nb.js",
-	"./nb.js": "./node_modules/moment/lang/nb.js",
-	"./nl": "./node_modules/moment/lang/nl.js",
-	"./nl.js": "./node_modules/moment/lang/nl.js",
-	"./pl": "./node_modules/moment/lang/pl.js",
-	"./pl.js": "./node_modules/moment/lang/pl.js",
-	"./pt": "./node_modules/moment/lang/pt.js",
-	"./pt.js": "./node_modules/moment/lang/pt.js",
-	"./ru": "./node_modules/moment/lang/ru.js",
-	"./ru.js": "./node_modules/moment/lang/ru.js",
-	"./sv": "./node_modules/moment/lang/sv.js",
-	"./sv.js": "./node_modules/moment/lang/sv.js",
-	"./test/da": "./node_modules/moment/lang/test/da.js",
-	"./test/da.js": "./node_modules/moment/lang/test/da.js",
-	"./test/de": "./node_modules/moment/lang/test/de.js",
-	"./test/de.js": "./node_modules/moment/lang/test/de.js",
-	"./test/en": "./node_modules/moment/lang/test/en.js",
-	"./test/en-gb": "./node_modules/moment/lang/test/en-gb.js",
-	"./test/en-gb.js": "./node_modules/moment/lang/test/en-gb.js",
-	"./test/en.js": "./node_modules/moment/lang/test/en.js",
-	"./test/es": "./node_modules/moment/lang/test/es.js",
-	"./test/es.js": "./node_modules/moment/lang/test/es.js",
-	"./test/eu": "./node_modules/moment/lang/test/eu.js",
-	"./test/eu.js": "./node_modules/moment/lang/test/eu.js",
-	"./test/fr": "./node_modules/moment/lang/test/fr.js",
-	"./test/fr.js": "./node_modules/moment/lang/test/fr.js",
-	"./test/gl": "./node_modules/moment/lang/test/gl.js",
-	"./test/gl.js": "./node_modules/moment/lang/test/gl.js",
-	"./test/it": "./node_modules/moment/lang/test/it.js",
-	"./test/it.js": "./node_modules/moment/lang/test/it.js",
-	"./test/kr": "./node_modules/moment/lang/test/kr.js",
-	"./test/kr.js": "./node_modules/moment/lang/test/kr.js",
-	"./test/nb": "./node_modules/moment/lang/test/nb.js",
-	"./test/nb.js": "./node_modules/moment/lang/test/nb.js",
-	"./test/nl": "./node_modules/moment/lang/test/nl.js",
-	"./test/nl.js": "./node_modules/moment/lang/test/nl.js",
-	"./test/pl": "./node_modules/moment/lang/test/pl.js",
-	"./test/pl.js": "./node_modules/moment/lang/test/pl.js",
-	"./test/pt": "./node_modules/moment/lang/test/pt.js",
-	"./test/pt.js": "./node_modules/moment/lang/test/pt.js",
-	"./test/ru": "./node_modules/moment/lang/test/ru.js",
-	"./test/ru.js": "./node_modules/moment/lang/test/ru.js",
-	"./test/sv": "./node_modules/moment/lang/test/sv.js",
-	"./test/sv.js": "./node_modules/moment/lang/test/sv.js"
-};
-
-
-function webpackContext(req) {
-	var id = webpackContextResolve(req);
-	return __webpack_require__(id);
-}
-function webpackContextResolve(req) {
-	if(!__webpack_require__.o(map, req)) {
-		var e = new Error("Cannot find module '" + req + "'");
-		e.code = 'MODULE_NOT_FOUND';
-		throw e;
-	}
-	return map[req];
-}
-webpackContext.keys = function webpackContextKeys() {
-	return Object.keys(map);
-};
-webpackContext.resolve = webpackContextResolve;
-module.exports = webpackContext;
-webpackContext.id = "./node_modules/moment/lang sync recursive ^\\.\\/.*$";
-
-/***/ }),
-
-/***/ "./node_modules/moment/moment.js":
-/*!***************************************!*\
-  !*** ./node_modules/moment/moment.js ***!
-  \***************************************/
-/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
-
-// Moment.js
-//
-// (c) 2011 Tim Wood
-// Moment.js is freely distributable under the terms of the MIT license.
-//
-// Version 1.3.0
-
-(function (Date, undefined) {
-
-    var moment,
-        round = Math.round,
-        languages = {},
-        hasModule = ("object" !== 'undefined'),
-        paramsToParse = 'months|monthsShort|monthsParse|weekdays|weekdaysShort|longDateFormat|calendar|relativeTime|ordinal|meridiem'.split('|'),
-        i,
-        charactersToReplace = /(\[[^\[]*\])|(\\)?(Mo|MM?M?M?|Do|DDDo|DD?D?D?|dddd?|do?|w[o|w]?|YYYY|YY|a|A|hh?|HH?|mm?|ss?|zz?|ZZ?|LT|LL?L?L?)/g,
-        nonuppercaseLetters = /[^A-Z]/g,
-        timezoneRegex = /\([A-Za-z ]+\)|:[0-9]{2} [A-Z]{3} /g,
-        tokenCharacters = /(\\)?(MM?M?M?|dd?d?d|DD?D?D?|YYYY|YY|a|A|hh?|HH?|mm?|ss?|ZZ?|T)/g,
-        inputCharacters = /(\\)?([0-9]+|([a-zA-Z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])+|([\+\-]\d\d:?\d\d))/gi,
-        timezoneParseRegex = /([\+\-]|\d\d)/gi,
-        VERSION = "1.3.0",
-        shortcuts = 'Month|Date|Hours|Minutes|Seconds|Milliseconds'.split('|');
-
-    // Moment prototype object
-    function Moment(date) {
-        this._d = date;
-    }
-
-    // left zero fill a number
-    // see http://jsperf.com/left-zero-filling for performance comparison
-    function leftZeroFill(number, targetLength) {
-        var output = number + '';
-        while (output.length < targetLength) {
-            output = '0' + output;
-        }
-        return output;
-    }
-
-    // helper function for _.addTime and _.subtractTime
-    function dateAddRemove(date, _input, adding, val) {
-        var isString = (typeof _input === 'string'),
-            input = isString ? {} : _input,
-            ms, d, M, currentDate;
-        if (isString && val) {
-            input[_input] = val;
-        }
-        ms = (input.ms || input.milliseconds || 0) +
-            (input.s || input.seconds || 0) * 1e3 + // 1000
-            (input.m || input.minutes || 0) * 6e4 + // 1000 * 60
-            (input.h || input.hours || 0) * 36e5; // 1000 * 60 * 60
-        d = (input.d || input.days || 0) +
-            (input.w || input.weeks || 0) * 7;
-        M = (input.M || input.months || 0) +
-            (input.y || input.years || 0) * 12;
-        if (ms) {
-            date.setTime(+date + ms * adding);
-        }
-        if (d) {
-            date.setDate(date.getDate() + d * adding);
-        }
-        if (M) {
-            currentDate = date.getDate();
-            date.setDate(1);
-            date.setMonth(date.getMonth() + M * adding);
-            date.setDate(Math.min(new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate(), currentDate));
-        }
-        return date;
-    }
-
-    // check if is an array
-    function isArray(input) {
-        return Object.prototype.toString.call(input) === '[object Array]';
-    }
-
-    // convert an array to a date.
-    // the array should mirror the parameters below
-    // note: all values past the year are optional and will default to the lowest possible value.
-    // [year, month, day , hour, minute, second, millisecond]
-    function dateFromArray(input) {
-        return new Date(input[0], input[1] || 0, input[2] || 1, input[3] || 0, input[4] || 0, input[5] || 0, input[6] || 0);
-    }
-
-    // format date using native date object
-    function formatDate(date, inputString) {
-        var m = new Moment(date),
-            currentMonth = m.month(),
-            currentDate = m.date(),
-            currentYear = m.year(),
-            currentDay = m.day(),
-            currentHours = m.hours(),
-            currentMinutes = m.minutes(),
-            currentSeconds = m.seconds(),
-            currentZone = m.zone(),
-            ordinal = moment.ordinal,
-            meridiem = moment.meridiem;
-        // check if the character is a format
-        // return formatted string or non string.
-        //
-        // uses switch/case instead of an object of named functions (like http://phpjs.org/functions/date:380)
-        // for minification and performance
-        // see http://jsperf.com/object-of-functions-vs-switch for performance comparison
-        function replaceFunction(input) {
-            // create a couple variables to be used later inside one of the cases.
-            var a, b;
-            switch (input) {
-                // MONTH
-            case 'M' :
-                return currentMonth + 1;
-            case 'Mo' :
-                return (currentMonth + 1) + ordinal(currentMonth + 1);
-            case 'MM' :
-                return leftZeroFill(currentMonth + 1, 2);
-            case 'MMM' :
-                return moment.monthsShort[currentMonth];
-            case 'MMMM' :
-                return moment.months[currentMonth];
-            // DAY OF MONTH
-            case 'D' :
-                return currentDate;
-            case 'Do' :
-                return currentDate + ordinal(currentDate);
-            case 'DD' :
-                return leftZeroFill(currentDate, 2);
-            // DAY OF YEAR
-            case 'DDD' :
-                a = new Date(currentYear, currentMonth, currentDate);
-                b = new Date(currentYear, 0, 1);
-                return ~~ (((a - b) / 864e5) + 1.5);
-            case 'DDDo' :
-                a = replaceFunction('DDD');
-                return a + ordinal(a);
-            case 'DDDD' :
-                return leftZeroFill(replaceFunction('DDD'), 3);
-            // WEEKDAY
-            case 'd' :
-                return currentDay;
-            case 'do' :
-                return currentDay + ordinal(currentDay);
-            case 'ddd' :
-                return moment.weekdaysShort[currentDay];
-            case 'dddd' :
-                return moment.weekdays[currentDay];
-            // WEEK OF YEAR
-            case 'w' :
-                a = new Date(currentYear, currentMonth, currentDate - currentDay + 5);
-                b = new Date(a.getFullYear(), 0, 4);
-                return ~~ ((a - b) / 864e5 / 7 + 1.5);
-            case 'wo' :
-                a = replaceFunction('w');
-                return a + ordinal(a);
-            case 'ww' :
-                return leftZeroFill(replaceFunction('w'), 2);
-            // YEAR
-            case 'YY' :
-                return leftZeroFill(currentYear % 100, 2);
-            case 'YYYY' :
-                return currentYear;
-            // AM / PM
-            case 'a' :
-                return currentHours > 11 ? meridiem.pm : meridiem.am;
-            case 'A' :
-                return currentHours > 11 ? meridiem.PM : meridiem.AM;
-            // 24 HOUR
-            case 'H' :
-                return currentHours;
-            case 'HH' :
-                return leftZeroFill(currentHours, 2);
-            // 12 HOUR
-            case 'h' :
-                return currentHours % 12 || 12;
-            case 'hh' :
-                return leftZeroFill(currentHours % 12 || 12, 2);
-            // MINUTE
-            case 'm' :
-                return currentMinutes;
-            case 'mm' :
-                return leftZeroFill(currentMinutes, 2);
-            // SECOND
-            case 's' :
-                return currentSeconds;
-            case 'ss' :
-                return leftZeroFill(currentSeconds, 2);
-            // TIMEZONE
-            case 'zz' :
-                // depreciating 'zz' fall through to 'z'
-            case 'z' :
-                return (date.toString().match(timezoneRegex) || [''])[0].replace(nonuppercaseLetters, '');
-            case 'Z' :
-                return (currentZone > 0 ? '+' : '-') + leftZeroFill(~~(Math.abs(currentZone) / 60), 2) + ':' + leftZeroFill(~~(Math.abs(currentZone) % 60), 2);
-            case 'ZZ' :
-                return (currentZone > 0 ? '+' : '-') + leftZeroFill(~~(10 * Math.abs(currentZone) / 6), 4);
-            // LONG DATES
-            case 'L' :
-            case 'LL' :
-            case 'LLL' :
-            case 'LLLL' :
-            case 'LT' :
-                return formatDate(date, moment.longDateFormat[input]);
-            // DEFAULT
-            default :
-                return input.replace(/(^\[)|(\\)|\]$/g, "");
-            }
-        }
-        return inputString.replace(charactersToReplace, replaceFunction);
-    }
-
-    // date from string and format string
-    function makeDateFromStringAndFormat(string, format) {
-        var inArray = [0, 0, 1, 0, 0, 0, 0],
-            timezoneHours = 0,
-            timezoneMinutes = 0,
-            isUsingUTC = false,
-            inputParts = string.match(inputCharacters),
-            formatParts = format.match(tokenCharacters),
-            i,
-            isPm;
-
-        // function to convert string input to date
-        function addTime(format, input) {
-            var a;
-            switch (format) {
-            // MONTH
-            case 'M' :
-                // fall through to MM
-            case 'MM' :
-                inArray[1] = ~~input - 1;
-                break;
-            case 'MMM' :
-                // fall through to MMMM
-            case 'MMMM' :
-                for (a = 0; a < 12; a++) {
-                    if (moment.monthsParse[a].test(input)) {
-                        inArray[1] = a;
-                        break;
-                    }
-                }
-                break;
-            // DAY OF MONTH
-            case 'D' :
-                // fall through to DDDD
-            case 'DD' :
-                // fall through to DDDD
-            case 'DDD' :
-                // fall through to DDDD
-            case 'DDDD' :
-                inArray[2] = ~~input;
-                break;
-            // YEAR
-            case 'YY' :
-                input = ~~input;
-                inArray[0] = input + (input > 70 ? 1900 : 2000);
-                break;
-            case 'YYYY' :
-                inArray[0] = ~~Math.abs(input);
-                break;
-            // AM / PM
-            case 'a' :
-                // fall through to A
-            case 'A' :
-                isPm = (input.toLowerCase() === 'pm');
-                break;
-            // 24 HOUR
-            case 'H' :
-                // fall through to hh
-            case 'HH' :
-                // fall through to hh
-            case 'h' :
-                // fall through to hh
-            case 'hh' :
-                inArray[3] = ~~input;
-                break;
-            // MINUTE
-            case 'm' :
-                // fall through to mm
-            case 'mm' :
-                inArray[4] = ~~input;
-                break;
-            // SECOND
-            case 's' :
-                // fall through to ss
-            case 'ss' :
-                inArray[5] = ~~input;
-                break;
-            // TIMEZONE
-            case 'Z' :
-                // fall through to ZZ
-            case 'ZZ' :
-                isUsingUTC = true;
-                a = input.match(timezoneParseRegex);
-                if (a[1]) {
-                    timezoneHours = ~~a[1];
-                }
-                if (a[2]) {
-                    timezoneMinutes = ~~a[2];
-                }
-                // reverse offsets
-                if (a[0] === '-') {
-                    timezoneHours = -timezoneHours;
-                    timezoneMinutes = -timezoneMinutes;
-                }
-                break;
-            }
-        }
-        for (i = 0; i < formatParts.length; i++) {
-            addTime(formatParts[i], inputParts[i]);
-        }
-        // handle am pm
-        if (isPm && inArray[3] < 12) {
-            inArray[3] += 12;
-        }
-        // if is 12 am, change hours to 0
-        if (isPm === false && inArray[3] === 12) {
-            inArray[3] = 0;
-        }
-        // handle timezone
-        inArray[3] += timezoneHours;
-        inArray[4] += timezoneMinutes;
-        // return
-        return isUsingUTC ? new Date(Date.UTC.apply({}, inArray)) : dateFromArray(inArray);
-    }
-
-    // compare two arrays, return the number of differences
-    function compareArrays(array1, array2) {
-        var len = Math.min(array1.length, array2.length),
-            lengthDiff = Math.abs(array1.length - array2.length),
-            diffs = 0,
-            i;
-        for (i = 0; i < len; i++) {
-            if (~~array1[i] !== ~~array2[i]) {
-                diffs++;
-            }
-        }
-        return diffs + lengthDiff;
-    }
-
-    // date from string and array of format strings
-    function makeDateFromStringAndArray(string, formats) {
-        var output,
-            inputParts = string.match(inputCharacters),
-            scores = [],
-            scoreToBeat = 99,
-            i,
-            curDate,
-            curScore;
-        for (i = 0; i < formats.length; i++) {
-            curDate = makeDateFromStringAndFormat(string, formats[i]);
-            curScore = compareArrays(inputParts, formatDate(curDate, formats[i]).match(inputCharacters));
-            if (curScore < scoreToBeat) {
-                scoreToBeat = curScore;
-                output = curDate;
-            }
-        }
-        return output;
-    }
-
-    moment = function (input, format) {
-        if (input === null) {
-            return null;
-        }
-        var date;
-        // parse UnderscoreDate object
-        if (input && input._d instanceof Date) {
-            date = new Date(+input._d);
-        // parse string and format
-        } else if (format) {
-            if (isArray(format)) {
-                date = makeDateFromStringAndArray(input, format);
-            } else {
-                date = makeDateFromStringAndFormat(input, format);
-            }
-        // parse everything else
-        } else {
-            date = input === undefined ? new Date() :
-                input instanceof Date ? input :
-                isArray(input) ? dateFromArray(input) :
-                new Date(input);
-        }
-        return new Moment(date);
-    };
-
-    // version number
-    moment.version = VERSION;
-
-    // language switching and caching
-    moment.lang = function (key, values) {
-        var i,
-            param,
-            req,
-            parse = [];
-        if (values) {
-            for (i = 0; i < 12; i++) {
-                parse[i] = new RegExp('^' + values.months[i] + '|^' + values.monthsShort[i].replace('.', ''), 'i');
-            }
-            values.monthsParse = values.monthsParse || parse;
-            languages[key] = values;
-        }
-        if (languages[key]) {
-            for (i = 0; i < paramsToParse.length; i++) {
-                param = paramsToParse[i];
-                moment[param] = languages[key][param] || moment[param];
-            }
-        } else {
-            if (hasModule) {
-                req = __webpack_require__("./node_modules/moment/lang sync recursive ^\\.\\/.*$")("./" + key);
-                moment.lang(key, req);
-            }
-        }
-    };
-
-    // set default language
-    moment.lang('en', {
-        months : "January_February_March_April_May_June_July_August_September_October_November_December".split("_"),
-        monthsShort : "Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec".split("_"),
-        weekdays : "Sunday_Monday_Tuesday_Wednesday_Thursday_Friday_Saturday".split("_"),
-        weekdaysShort : "Sun_Mon_Tue_Wed_Thu_Fri_Sat".split("_"),
-        longDateFormat : {
-            LT : "h:mm A",
-            L : "MM/DD/YYYY",
-            LL : "MMMM D YYYY",
-            LLL : "MMMM D YYYY LT",
-            LLLL : "dddd, MMMM D YYYY LT"
-        },
-        meridiem : {
-            AM : 'AM',
-            am : 'am',
-            PM : 'PM',
-            pm : 'pm'
-        },
-        calendar : {
-            sameDay : '[Today at] LT',
-            nextDay : '[Tomorrow at] LT',
-            nextWeek : 'dddd [at] LT',
-            lastDay : '[Yesterday at] LT',
-            lastWeek : '[last] dddd [at] LT',
-            sameElse : 'L'
-        },
-        relativeTime : {
-            future : "in %s",
-            past : "%s ago",
-            s : "a few seconds",
-            m : "a minute",
-            mm : "%d minutes",
-            h : "an hour",
-            hh : "%d hours",
-            d : "a day",
-            dd : "%d days",
-            M : "a month",
-            MM : "%d months",
-            y : "a year",
-            yy : "%d years"
-        },
-        ordinal : function (number) {
-            var b = number % 10;
-            return (~~ (number % 100 / 10) === 1) ? 'th' :
-                (b === 1) ? 'st' :
-                (b === 2) ? 'nd' :
-                (b === 3) ? 'rd' : 'th';
-        }
-    });
-
-    // helper function for _date.from() and _date.fromNow()
-    function substituteTimeAgo(string, number, withoutSuffix) {
-        var rt = moment.relativeTime[string];
-        return (typeof rt === 'function') ?
-            rt(number || 1, !!withoutSuffix, string) :
-            rt.replace(/%d/i, number || 1);
-    }
-
-    function relativeTime(milliseconds, withoutSuffix) {
-        var seconds = round(Math.abs(milliseconds) / 1000),
-            minutes = round(seconds / 60),
-            hours = round(minutes / 60),
-            days = round(hours / 24),
-            years = round(days / 365),
-            args = seconds < 45 && ['s', seconds] ||
-                minutes === 1 && ['m'] ||
-                minutes < 45 && ['mm', minutes] ||
-                hours === 1 && ['h'] ||
-                hours < 22 && ['hh', hours] ||
-                days === 1 && ['d'] ||
-                days <= 25 && ['dd', days] ||
-                days <= 45 && ['M'] ||
-                days < 345 && ['MM', round(days / 30)] ||
-                years === 1 && ['y'] || ['yy', years];
-        args[2] = withoutSuffix;
-        return substituteTimeAgo.apply({}, args);
-    }
-
-    // shortcut for prototype
-    moment.fn = Moment.prototype = {
-
-        clone : function () {
-            return moment(this);
-        },
-
-        valueOf : function () {
-            return +this._d;
-        },
-
-        'native' : function () {
-            return this._d;
-        },
-
-        toString : function () {
-            return this._d.toString();
-        },
-
-        toDate : function () {
-            return this._d;
-        },
-
-        format : function (inputString) {
-            return formatDate(this._d, inputString);
-        },
-
-        add : function (input, val) {
-            this._d = dateAddRemove(this._d, input, 1, val);
-            return this;
-        },
-
-        subtract : function (input, val) {
-            this._d = dateAddRemove(this._d, input, -1, val);
-            return this;
-        },
-
-        diff : function (input, val, asFloat) {
-            var inputMoment = moment(input),
-                diff = this._d - inputMoment._d,
-                year = this.year() - inputMoment.year(),
-                month = this.month() - inputMoment.month(),
-                day = this.day() - inputMoment.day(),
-                output;
-            if (val === 'months') {
-                output = year * 12 + month + day / 30;
-            } else if (val === 'years') {
-                output = year + month / 12;
-            } else {
-                output = val === 'seconds' ? diff / 1e3 : // 1000
-                    val === 'minutes' ? diff / 6e4 : // 1000 * 60
-                    val === 'hours' ? diff / 36e5 : // 1000 * 60 * 60
-                    val === 'days' ? diff / 864e5 : // 1000 * 60 * 60 * 24
-                    val === 'weeks' ? diff / 6048e5 : // 1000 * 60 * 60 * 24 * 7
-                    val === 'days' ? diff / 3600 : diff;
-            }
-            return asFloat ? output : round(output);
-        },
-
-        from : function (time, withoutSuffix) {
-            var difference = this.diff(time),
-                rel = moment.relativeTime,
-                output = relativeTime(difference, withoutSuffix);
-            return withoutSuffix ? output : (difference <= 0 ? rel.past : rel.future).replace(/%s/i, output);
-        },
-
-        fromNow : function (withoutSuffix) {
-            return this.from(moment(), withoutSuffix);
-        },
-
-        calendar : function () {
-            var today = moment(),
-                todayAtZeroHour = moment([today.year(), today.month(), today.date()]),
-                diff = this.diff(todayAtZeroHour, 'days', true),
-                calendar = moment.calendar,
-                allElse = calendar.sameElse,
-                format = diff < -6 ? allElse :
-                diff < -1 ? calendar.lastWeek :
-                diff < 0 ? calendar.lastDay :
-                diff < 1 ? calendar.sameDay :
-                diff < 2 ? calendar.nextDay :
-                diff < 7 ? calendar.nextWeek : allElse;
-            return this.format(typeof format === 'function' ? format.apply(this) : format);
-        },
-
-        isLeapYear : function () {
-            var year = this.year();
-            return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
-        },
-
-        isDST : function () {
-            return this.zone() !== moment([this.year()]).zone();
-        },
-
-        day : function (input) {
-            var day = this._d.getDay();
-            return input == null ? day :
-                this.add({ d : input - day });
-        }
-    };
-
-    // helper for adding shortcuts
-    function makeShortcut(name, key) {
-        moment.fn[name] = function (input) {
-            if (input != null) {
-                this._d['set' + key](input);
-                return this;
-            } else {
-                return this._d['get' + key]();
-            }
-        };
-    }
-
-    // loop through and add shortcuts (Month, Date, Hours, Minutes, Seconds, Milliseconds)
-    for (i = 0; i < shortcuts.length; i ++) {
-        makeShortcut(shortcuts[i].toLowerCase(), shortcuts[i]);
-    }
-
-    // add shortcut for year (uses different syntax than the getter/setter 'year' == 'FullYear')
-    makeShortcut('year', 'FullYear');
-
-    // add shortcut for timezone offset (no setter)
-    moment.fn.zone = function () {
-        return this._d.getTimezoneOffset();
-    };
-
-    // CommonJS module is defined
-    if (hasModule) {
-        module.exports = moment;
-    }
-    if (typeof window !== 'undefined') {
-        window.moment = moment;
-    }
-
-})(Date);
-
-
-/***/ }),
-
-/***/ "./node_modules/process/browser.js":
-/*!*****************************************!*\
-  !*** ./node_modules/process/browser.js ***!
-  \*****************************************/
-/***/ ((module) => {
-
-// shim for using process in browser
-var process = module.exports = {};
-
-// cached from whatever global is present so that test runners that stub it
-// don't break things.  But we need to wrap it in a try catch in case it is
-// wrapped in strict mode code which doesn't define any globals.  It's inside a
-// function because try/catches deoptimize in certain engines.
-
-var cachedSetTimeout;
-var cachedClearTimeout;
-
-function defaultSetTimout() {
-    throw new Error('setTimeout has not been defined');
-}
-function defaultClearTimeout () {
-    throw new Error('clearTimeout has not been defined');
-}
-(function () {
-    try {
-        if (typeof setTimeout === 'function') {
-            cachedSetTimeout = setTimeout;
-        } else {
-            cachedSetTimeout = defaultSetTimout;
-        }
-    } catch (e) {
-        cachedSetTimeout = defaultSetTimout;
-    }
-    try {
-        if (typeof clearTimeout === 'function') {
-            cachedClearTimeout = clearTimeout;
-        } else {
-            cachedClearTimeout = defaultClearTimeout;
-        }
-    } catch (e) {
-        cachedClearTimeout = defaultClearTimeout;
-    }
-} ())
-function runTimeout(fun) {
-    if (cachedSetTimeout === setTimeout) {
-        //normal enviroments in sane situations
-        return setTimeout(fun, 0);
-    }
-    // if setTimeout wasn't available but was latter defined
-    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-        cachedSetTimeout = setTimeout;
-        return setTimeout(fun, 0);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedSetTimeout(fun, 0);
-    } catch(e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-            return cachedSetTimeout.call(null, fun, 0);
-        } catch(e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-            return cachedSetTimeout.call(this, fun, 0);
-        }
-    }
-
-
-}
-function runClearTimeout(marker) {
-    if (cachedClearTimeout === clearTimeout) {
-        //normal enviroments in sane situations
-        return clearTimeout(marker);
-    }
-    // if clearTimeout wasn't available but was latter defined
-    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-        cachedClearTimeout = clearTimeout;
-        return clearTimeout(marker);
-    }
-    try {
-        // when when somebody has screwed with setTimeout but no I.E. maddness
-        return cachedClearTimeout(marker);
-    } catch (e){
-        try {
-            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-            return cachedClearTimeout.call(null, marker);
-        } catch (e){
-            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-            return cachedClearTimeout.call(this, marker);
-        }
-    }
-
-
-
-}
-var queue = [];
-var draining = false;
-var currentQueue;
-var queueIndex = -1;
-
-function cleanUpNextTick() {
-    if (!draining || !currentQueue) {
-        return;
-    }
-    draining = false;
-    if (currentQueue.length) {
-        queue = currentQueue.concat(queue);
-    } else {
-        queueIndex = -1;
-    }
-    if (queue.length) {
-        drainQueue();
-    }
-}
-
-function drainQueue() {
-    if (draining) {
-        return;
-    }
-    var timeout = runTimeout(cleanUpNextTick);
-    draining = true;
-
-    var len = queue.length;
-    while(len) {
-        currentQueue = queue;
-        queue = [];
-        while (++queueIndex < len) {
-            if (currentQueue) {
-                currentQueue[queueIndex].run();
-            }
-        }
-        queueIndex = -1;
-        len = queue.length;
-    }
-    currentQueue = null;
-    draining = false;
-    runClearTimeout(timeout);
-}
-
-process.nextTick = function (fun) {
-    var args = new Array(arguments.length - 1);
-    if (arguments.length > 1) {
-        for (var i = 1; i < arguments.length; i++) {
-            args[i - 1] = arguments[i];
-        }
-    }
-    queue.push(new Item(fun, args));
-    if (queue.length === 1 && !draining) {
-        runTimeout(drainQueue);
-    }
-};
-
-// v8 likes predictible objects
-function Item(fun, array) {
-    this.fun = fun;
-    this.array = array;
-}
-Item.prototype.run = function () {
-    this.fun.apply(null, this.array);
-};
-process.title = 'browser';
-process.browser = true;
-process.env = {};
-process.argv = [];
-process.version = ''; // empty string to avoid regexp issues
-process.versions = {};
-
-function noop() {}
-
-process.on = noop;
-process.addListener = noop;
-process.once = noop;
-process.off = noop;
-process.removeListener = noop;
-process.removeAllListeners = noop;
-process.emit = noop;
-process.prependListener = noop;
-process.prependOnceListener = noop;
-
-process.listeners = function (name) { return [] }
-
-process.binding = function (name) {
-    throw new Error('process.binding is not supported');
-};
-
-process.cwd = function () { return '/' };
-process.chdir = function (dir) {
-    throw new Error('process.chdir is not supported');
-};
-process.umask = function() { return 0; };
-
-
-/***/ }),
-
-/***/ "./node_modules/util/node_modules/inherits/inherits_browser.js":
-/*!*********************************************************************!*\
-  !*** ./node_modules/util/node_modules/inherits/inherits_browser.js ***!
-  \*********************************************************************/
-/***/ ((module) => {
-
-if (typeof Object.create === 'function') {
-  // implementation from standard node.js 'util' module
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    ctor.prototype = Object.create(superCtor.prototype, {
-      constructor: {
-        value: ctor,
-        enumerable: false,
-        writable: true,
-        configurable: true
-      }
-    });
-  };
-} else {
-  // old school shim for old browsers
-  module.exports = function inherits(ctor, superCtor) {
-    ctor.super_ = superCtor
-    var TempCtor = function () {}
-    TempCtor.prototype = superCtor.prototype
-    ctor.prototype = new TempCtor()
-    ctor.prototype.constructor = ctor
-  }
-}
-
-
-/***/ }),
-
-/***/ "./node_modules/util/support/isBufferBrowser.js":
-/*!******************************************************!*\
-  !*** ./node_modules/util/support/isBufferBrowser.js ***!
-  \******************************************************/
-/***/ ((module) => {
-
-module.exports = function isBuffer(arg) {
-  return arg && typeof arg === 'object'
-    && typeof arg.copy === 'function'
-    && typeof arg.fill === 'function'
-    && typeof arg.readUInt8 === 'function';
-}
-
-/***/ }),
-
-/***/ "./node_modules/util/util.js":
-/*!***********************************!*\
-  !*** ./node_modules/util/util.js ***!
-  \***********************************/
-/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
-
-/* provided dependency */ var process = __webpack_require__(/*! process/browser */ "./node_modules/process/browser.js");
-// Copyright Joyent, Inc. and other Node contributors.
-//
-// Permission is hereby granted, free of charge, to any person obtaining a
-// copy of this software and associated documentation files (the
-// "Software"), to deal in the Software without restriction, including
-// without limitation the rights to use, copy, modify, merge, publish,
-// distribute, sublicense, and/or sell copies of the Software, and to permit
-// persons to whom the Software is furnished to do so, subject to the
-// following conditions:
-//
-// The above copyright notice and this permission notice shall be included
-// in all copies or substantial portions of the Software.
-//
-// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
-// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
-// NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM,
-// DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR
-// OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE
-// USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-var getOwnPropertyDescriptors = Object.getOwnPropertyDescriptors ||
-  function getOwnPropertyDescriptors(obj) {
-    var keys = Object.keys(obj);
-    var descriptors = {};
-    for (var i = 0; i < keys.length; i++) {
-      descriptors[keys[i]] = Object.getOwnPropertyDescriptor(obj, keys[i]);
-    }
-    return descriptors;
-  };
-
-var formatRegExp = /%[sdj%]/g;
-exports.format = function(f) {
-  if (!isString(f)) {
-    var objects = [];
-    for (var i = 0; i < arguments.length; i++) {
-      objects.push(inspect(arguments[i]));
-    }
-    return objects.join(' ');
-  }
-
-  var i = 1;
-  var args = arguments;
-  var len = args.length;
-  var str = String(f).replace(formatRegExp, function(x) {
-    if (x === '%%') return '%';
-    if (i >= len) return x;
-    switch (x) {
-      case '%s': return String(args[i++]);
-      case '%d': return Number(args[i++]);
-      case '%j':
-        try {
-          return JSON.stringify(args[i++]);
-        } catch (_) {
-          return '[Circular]';
-        }
-      default:
-        return x;
-    }
-  });
-  for (var x = args[i]; i < len; x = args[++i]) {
-    if (isNull(x) || !isObject(x)) {
-      str += ' ' + x;
-    } else {
-      str += ' ' + inspect(x);
-    }
-  }
-  return str;
-};
-
-
-// Mark that a method should not be used.
-// Returns a modified function which warns once by default.
-// If --no-deprecation is set, then it is a no-op.
-exports.deprecate = function(fn, msg) {
-  if (typeof process !== 'undefined' && process.noDeprecation === true) {
-    return fn;
-  }
-
-  // Allow for deprecating things in the process of starting up.
-  if (typeof process === 'undefined') {
-    return function() {
-      return exports.deprecate(fn, msg).apply(this, arguments);
-    };
-  }
-
-  var warned = false;
-  function deprecated() {
-    if (!warned) {
-      if (process.throwDeprecation) {
-        throw new Error(msg);
-      } else if (process.traceDeprecation) {
-        console.trace(msg);
-      } else {
-        console.error(msg);
-      }
-      warned = true;
-    }
-    return fn.apply(this, arguments);
-  }
-
-  return deprecated;
-};
-
-
-var debugs = {};
-var debugEnviron;
-exports.debuglog = function(set) {
-  if (isUndefined(debugEnviron))
-    debugEnviron = process.env.NODE_DEBUG || '';
-  set = set.toUpperCase();
-  if (!debugs[set]) {
-    if (new RegExp('\\b' + set + '\\b', 'i').test(debugEnviron)) {
-      var pid = process.pid;
-      debugs[set] = function() {
-        var msg = exports.format.apply(exports, arguments);
-        console.error('%s %d: %s', set, pid, msg);
-      };
-    } else {
-      debugs[set] = function() {};
-    }
-  }
-  return debugs[set];
-};
-
-
-/**
- * Echos the value of a value. Trys to print the value out
- * in the best way possible given the different types.
- *
- * @param {Object} obj The object to print out.
- * @param {Object} opts Optional options object that alters the output.
- */
-/* legacy: obj, showHidden, depth, colors*/
-function inspect(obj, opts) {
-  // default options
-  var ctx = {
-    seen: [],
-    stylize: stylizeNoColor
-  };
-  // legacy...
-  if (arguments.length >= 3) ctx.depth = arguments[2];
-  if (arguments.length >= 4) ctx.colors = arguments[3];
-  if (isBoolean(opts)) {
-    // legacy...
-    ctx.showHidden = opts;
-  } else if (opts) {
-    // got an "options" object
-    exports._extend(ctx, opts);
-  }
-  // set default options
-  if (isUndefined(ctx.showHidden)) ctx.showHidden = false;
-  if (isUndefined(ctx.depth)) ctx.depth = 2;
-  if (isUndefined(ctx.colors)) ctx.colors = false;
-  if (isUndefined(ctx.customInspect)) ctx.customInspect = true;
-  if (ctx.colors) ctx.stylize = stylizeWithColor;
-  return formatValue(ctx, obj, ctx.depth);
-}
-exports.inspect = inspect;
-
-
-// http://en.wikipedia.org/wiki/ANSI_escape_code#graphics
-inspect.colors = {
-  'bold' : [1, 22],
-  'italic' : [3, 23],
-  'underline' : [4, 24],
-  'inverse' : [7, 27],
-  'white' : [37, 39],
-  'grey' : [90, 39],
-  'black' : [30, 39],
-  'blue' : [34, 39],
-  'cyan' : [36, 39],
-  'green' : [32, 39],
-  'magenta' : [35, 39],
-  'red' : [31, 39],
-  'yellow' : [33, 39]
-};
-
-// Don't use 'blue' not visible on cmd.exe
-inspect.styles = {
-  'special': 'cyan',
-  'number': 'yellow',
-  'boolean': 'yellow',
-  'undefined': 'grey',
-  'null': 'bold',
-  'string': 'green',
-  'date': 'magenta',
-  // "name": intentionally not styling
-  'regexp': 'red'
-};
-
-
-function stylizeWithColor(str, styleType) {
-  var style = inspect.styles[styleType];
-
-  if (style) {
-    return '\u001b[' + inspect.colors[style][0] + 'm' + str +
-           '\u001b[' + inspect.colors[style][1] + 'm';
-  } else {
-    return str;
-  }
-}
-
-
-function stylizeNoColor(str, styleType) {
-  return str;
-}
-
-
-function arrayToHash(array) {
-  var hash = {};
-
-  array.forEach(function(val, idx) {
-    hash[val] = true;
-  });
-
-  return hash;
-}
-
-
-function formatValue(ctx, value, recurseTimes) {
-  // Provide a hook for user-specified inspect functions.
-  // Check that value is an object with an inspect function on it
-  if (ctx.customInspect &&
-      value &&
-      isFunction(value.inspect) &&
-      // Filter out the util module, it's inspect function is special
-      value.inspect !== exports.inspect &&
-      // Also filter out any prototype objects using the circular check.
-      !(value.constructor && value.constructor.prototype === value)) {
-    var ret = value.inspect(recurseTimes, ctx);
-    if (!isString(ret)) {
-      ret = formatValue(ctx, ret, recurseTimes);
-    }
-    return ret;
-  }
-
-  // Primitive types cannot have properties
-  var primitive = formatPrimitive(ctx, value);
-  if (primitive) {
-    return primitive;
-  }
-
-  // Look up the keys of the object.
-  var keys = Object.keys(value);
-  var visibleKeys = arrayToHash(keys);
-
-  if (ctx.showHidden) {
-    keys = Object.getOwnPropertyNames(value);
-  }
-
-  // IE doesn't make error fields non-enumerable
-  // http://msdn.microsoft.com/en-us/library/ie/dww52sbt(v=vs.94).aspx
-  if (isError(value)
-      && (keys.indexOf('message') >= 0 || keys.indexOf('description') >= 0)) {
-    return formatError(value);
-  }
-
-  // Some type of object without properties can be shortcutted.
-  if (keys.length === 0) {
-    if (isFunction(value)) {
-      var name = value.name ? ': ' + value.name : '';
-      return ctx.stylize('[Function' + name + ']', 'special');
-    }
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    }
-    if (isDate(value)) {
-      return ctx.stylize(Date.prototype.toString.call(value), 'date');
-    }
-    if (isError(value)) {
-      return formatError(value);
-    }
-  }
-
-  var base = '', array = false, braces = ['{', '}'];
-
-  // Make Array say that they are Array
-  if (isArray(value)) {
-    array = true;
-    braces = ['[', ']'];
-  }
-
-  // Make functions say that they are functions
-  if (isFunction(value)) {
-    var n = value.name ? ': ' + value.name : '';
-    base = ' [Function' + n + ']';
-  }
-
-  // Make RegExps say that they are RegExps
-  if (isRegExp(value)) {
-    base = ' ' + RegExp.prototype.toString.call(value);
-  }
-
-  // Make dates with properties first say the date
-  if (isDate(value)) {
-    base = ' ' + Date.prototype.toUTCString.call(value);
-  }
-
-  // Make error with message first say the error
-  if (isError(value)) {
-    base = ' ' + formatError(value);
-  }
-
-  if (keys.length === 0 && (!array || value.length == 0)) {
-    return braces[0] + base + braces[1];
-  }
-
-  if (recurseTimes < 0) {
-    if (isRegExp(value)) {
-      return ctx.stylize(RegExp.prototype.toString.call(value), 'regexp');
-    } else {
-      return ctx.stylize('[Object]', 'special');
-    }
-  }
-
-  ctx.seen.push(value);
-
-  var output;
-  if (array) {
-    output = formatArray(ctx, value, recurseTimes, visibleKeys, keys);
-  } else {
-    output = keys.map(function(key) {
-      return formatProperty(ctx, value, recurseTimes, visibleKeys, key, array);
-    });
-  }
-
-  ctx.seen.pop();
-
-  return reduceToSingleString(output, base, braces);
-}
-
-
-function formatPrimitive(ctx, value) {
-  if (isUndefined(value))
-    return ctx.stylize('undefined', 'undefined');
-  if (isString(value)) {
-    var simple = '\'' + JSON.stringify(value).replace(/^"|"$/g, '')
-                                             .replace(/'/g, "\\'")
-                                             .replace(/\\"/g, '"') + '\'';
-    return ctx.stylize(simple, 'string');
-  }
-  if (isNumber(value))
-    return ctx.stylize('' + value, 'number');
-  if (isBoolean(value))
-    return ctx.stylize('' + value, 'boolean');
-  // For some reason typeof null is "object", so special case here.
-  if (isNull(value))
-    return ctx.stylize('null', 'null');
-}
-
-
-function formatError(value) {
-  return '[' + Error.prototype.toString.call(value) + ']';
-}
-
-
-function formatArray(ctx, value, recurseTimes, visibleKeys, keys) {
-  var output = [];
-  for (var i = 0, l = value.length; i < l; ++i) {
-    if (hasOwnProperty(value, String(i))) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          String(i), true));
-    } else {
-      output.push('');
-    }
-  }
-  keys.forEach(function(key) {
-    if (!key.match(/^\d+$/)) {
-      output.push(formatProperty(ctx, value, recurseTimes, visibleKeys,
-          key, true));
-    }
-  });
-  return output;
-}
-
-
-function formatProperty(ctx, value, recurseTimes, visibleKeys, key, array) {
-  var name, str, desc;
-  desc = Object.getOwnPropertyDescriptor(value, key) || { value: value[key] };
-  if (desc.get) {
-    if (desc.set) {
-      str = ctx.stylize('[Getter/Setter]', 'special');
-    } else {
-      str = ctx.stylize('[Getter]', 'special');
-    }
-  } else {
-    if (desc.set) {
-      str = ctx.stylize('[Setter]', 'special');
-    }
-  }
-  if (!hasOwnProperty(visibleKeys, key)) {
-    name = '[' + key + ']';
-  }
-  if (!str) {
-    if (ctx.seen.indexOf(desc.value) < 0) {
-      if (isNull(recurseTimes)) {
-        str = formatValue(ctx, desc.value, null);
-      } else {
-        str = formatValue(ctx, desc.value, recurseTimes - 1);
-      }
-      if (str.indexOf('\n') > -1) {
-        if (array) {
-          str = str.split('\n').map(function(line) {
-            return '  ' + line;
-          }).join('\n').substr(2);
-        } else {
-          str = '\n' + str.split('\n').map(function(line) {
-            return '   ' + line;
-          }).join('\n');
-        }
-      }
-    } else {
-      str = ctx.stylize('[Circular]', 'special');
-    }
-  }
-  if (isUndefined(name)) {
-    if (array && key.match(/^\d+$/)) {
-      return str;
-    }
-    name = JSON.stringify('' + key);
-    if (name.match(/^"([a-zA-Z_][a-zA-Z_0-9]*)"$/)) {
-      name = name.substr(1, name.length - 2);
-      name = ctx.stylize(name, 'name');
-    } else {
-      name = name.replace(/'/g, "\\'")
-                 .replace(/\\"/g, '"')
-                 .replace(/(^"|"$)/g, "'");
-      name = ctx.stylize(name, 'string');
-    }
-  }
-
-  return name + ': ' + str;
-}
-
-
-function reduceToSingleString(output, base, braces) {
-  var numLinesEst = 0;
-  var length = output.reduce(function(prev, cur) {
-    numLinesEst++;
-    if (cur.indexOf('\n') >= 0) numLinesEst++;
-    return prev + cur.replace(/\u001b\[\d\d?m/g, '').length + 1;
-  }, 0);
-
-  if (length > 60) {
-    return braces[0] +
-           (base === '' ? '' : base + '\n ') +
-           ' ' +
-           output.join(',\n  ') +
-           ' ' +
-           braces[1];
-  }
-
-  return braces[0] + base + ' ' + output.join(', ') + ' ' + braces[1];
-}
-
-
-// NOTE: These type checking functions intentionally don't use `instanceof`
-// because it is fragile and can be easily faked with `Object.create()`.
-function isArray(ar) {
-  return Array.isArray(ar);
-}
-exports.isArray = isArray;
-
-function isBoolean(arg) {
-  return typeof arg === 'boolean';
-}
-exports.isBoolean = isBoolean;
-
-function isNull(arg) {
-  return arg === null;
-}
-exports.isNull = isNull;
-
-function isNullOrUndefined(arg) {
-  return arg == null;
-}
-exports.isNullOrUndefined = isNullOrUndefined;
-
-function isNumber(arg) {
-  return typeof arg === 'number';
-}
-exports.isNumber = isNumber;
-
-function isString(arg) {
-  return typeof arg === 'string';
-}
-exports.isString = isString;
-
-function isSymbol(arg) {
-  return typeof arg === 'symbol';
-}
-exports.isSymbol = isSymbol;
-
-function isUndefined(arg) {
-  return arg === void 0;
-}
-exports.isUndefined = isUndefined;
-
-function isRegExp(re) {
-  return isObject(re) && objectToString(re) === '[object RegExp]';
-}
-exports.isRegExp = isRegExp;
-
-function isObject(arg) {
-  return typeof arg === 'object' && arg !== null;
-}
-exports.isObject = isObject;
-
-function isDate(d) {
-  return isObject(d) && objectToString(d) === '[object Date]';
-}
-exports.isDate = isDate;
-
-function isError(e) {
-  return isObject(e) &&
-      (objectToString(e) === '[object Error]' || e instanceof Error);
-}
-exports.isError = isError;
-
-function isFunction(arg) {
-  return typeof arg === 'function';
-}
-exports.isFunction = isFunction;
-
-function isPrimitive(arg) {
-  return arg === null ||
-         typeof arg === 'boolean' ||
-         typeof arg === 'number' ||
-         typeof arg === 'string' ||
-         typeof arg === 'symbol' ||  // ES6 symbol
-         typeof arg === 'undefined';
-}
-exports.isPrimitive = isPrimitive;
-
-exports.isBuffer = __webpack_require__(/*! ./support/isBuffer */ "./node_modules/util/support/isBufferBrowser.js");
-
-function objectToString(o) {
-  return Object.prototype.toString.call(o);
-}
-
-
-function pad(n) {
-  return n < 10 ? '0' + n.toString(10) : n.toString(10);
-}
-
-
-var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep',
-              'Oct', 'Nov', 'Dec'];
-
-// 26 Feb 16:19:34
-function timestamp() {
-  var d = new Date();
-  var time = [pad(d.getHours()),
-              pad(d.getMinutes()),
-              pad(d.getSeconds())].join(':');
-  return [d.getDate(), months[d.getMonth()], time].join(' ');
-}
-
-
-// log is just a thin wrapper to console.log that prepends a timestamp
-exports.log = function() {
-  console.log('%s - %s', timestamp(), exports.format.apply(exports, arguments));
-};
-
-
-/**
- * Inherit the prototype methods from one constructor into another.
- *
- * The Function.prototype.inherits from lang.js rewritten as a standalone
- * function (not on Function.prototype). NOTE: If this file is to be loaded
- * during bootstrapping this function needs to be rewritten using some native
- * functions as prototype setup using normal JavaScript does not work as
- * expected during bootstrapping (see mirror.js in r114903).
- *
- * @param {function} ctor Constructor function which needs to inherit the
- *     prototype.
- * @param {function} superCtor Constructor function to inherit prototype from.
- */
-exports.inherits = __webpack_require__(/*! inherits */ "./node_modules/util/node_modules/inherits/inherits_browser.js");
-
-exports._extend = function(origin, add) {
-  // Don't do anything if add isn't an object
-  if (!add || !isObject(add)) return origin;
-
-  var keys = Object.keys(add);
-  var i = keys.length;
-  while (i--) {
-    origin[keys[i]] = add[keys[i]];
-  }
-  return origin;
-};
-
-function hasOwnProperty(obj, prop) {
-  return Object.prototype.hasOwnProperty.call(obj, prop);
-}
-
-var kCustomPromisifiedSymbol = typeof Symbol !== 'undefined' ? Symbol('util.promisify.custom') : undefined;
-
-exports.promisify = function promisify(original) {
-  if (typeof original !== 'function')
-    throw new TypeError('The "original" argument must be of type Function');
-
-  if (kCustomPromisifiedSymbol && original[kCustomPromisifiedSymbol]) {
-    var fn = original[kCustomPromisifiedSymbol];
-    if (typeof fn !== 'function') {
-      throw new TypeError('The "util.promisify.custom" argument must be of type Function');
-    }
-    Object.defineProperty(fn, kCustomPromisifiedSymbol, {
-      value: fn, enumerable: false, writable: false, configurable: true
-    });
-    return fn;
-  }
-
-  function fn() {
-    var promiseResolve, promiseReject;
-    var promise = new Promise(function (resolve, reject) {
-      promiseResolve = resolve;
-      promiseReject = reject;
-    });
-
-    var args = [];
-    for (var i = 0; i < arguments.length; i++) {
-      args.push(arguments[i]);
-    }
-    args.push(function (err, value) {
-      if (err) {
-        promiseReject(err);
-      } else {
-        promiseResolve(value);
-      }
-    });
-
-    try {
-      original.apply(this, args);
-    } catch (err) {
-      promiseReject(err);
-    }
-
-    return promise;
-  }
-
-  Object.setPrototypeOf(fn, Object.getPrototypeOf(original));
-
-  if (kCustomPromisifiedSymbol) Object.defineProperty(fn, kCustomPromisifiedSymbol, {
-    value: fn, enumerable: false, writable: false, configurable: true
-  });
-  return Object.defineProperties(
-    fn,
-    getOwnPropertyDescriptors(original)
-  );
-}
-
-exports.promisify.custom = kCustomPromisifiedSymbol
-
-function callbackifyOnRejected(reason, cb) {
-  // `!reason` guard inspired by bluebird (Ref: https://goo.gl/t5IS6M).
-  // Because `null` is a special error value in callbacks which means "no error
-  // occurred", we error-wrap so the callback consumer can distinguish between
-  // "the promise rejected with null" or "the promise fulfilled with undefined".
-  if (!reason) {
-    var newReason = new Error('Promise was rejected with a falsy value');
-    newReason.reason = reason;
-    reason = newReason;
-  }
-  return cb(reason);
-}
-
-function callbackify(original) {
-  if (typeof original !== 'function') {
-    throw new TypeError('The "original" argument must be of type Function');
-  }
-
-  // We DO NOT return the promise as it gives the user a false sense that
-  // the promise is actually somehow related to the callback's execution
-  // and that the callback throwing will reject the promise.
-  function callbackified() {
-    var args = [];
-    for (var i = 0; i < arguments.length; i++) {
-      args.push(arguments[i]);
-    }
-
-    var maybeCb = args.pop();
-    if (typeof maybeCb !== 'function') {
-      throw new TypeError('The last argument must be of type Function');
-    }
-    var self = this;
-    var cb = function() {
-      return maybeCb.apply(self, arguments);
-    };
-    // In true node style we process the callback on `nextTick` with all the
-    // implications (stack, `uncaughtException`, `async_hooks`)
-    original.apply(this, args)
-      .then(function(ret) { process.nextTick(cb, null, ret) },
-            function(rej) { process.nextTick(callbackifyOnRejected, rej, cb) });
-  }
-
-  Object.setPrototypeOf(callbackified, Object.getPrototypeOf(original));
-  Object.defineProperties(callbackified,
-                          getOwnPropertyDescriptors(original));
-  return callbackified;
-}
-exports.callbackify = callbackify;
-
-
 /***/ })
 
 /******/ 	});
@@ -30656,16 +27722,13 @@ exports.callbackify = callbackify;
 /******/ 		}
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			id: moduleId,
-/******/ 			loaded: false,
+/******/ 			// no module.id needed
+/******/ 			// no module.loaded needed
 /******/ 			exports: {}
 /******/ 		};
 /******/ 	
 /******/ 		// Execute the module function
 /******/ 		__webpack_modules__[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Flag the module as loaded
-/******/ 		module.loaded = true;
 /******/ 	
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
@@ -30731,15 +27794,6 @@ exports.callbackify = callbackify;
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/node module decorator */
-/******/ 	(() => {
-/******/ 		__webpack_require__.nmd = (module) => {
-/******/ 			module.paths = [];
-/******/ 			if (!module.children) module.children = [];
-/******/ 			return module;
 /******/ 		};
 /******/ 	})();
 /******/ 	

@@ -69,9 +69,12 @@ class UserSettingController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit(User $user, $id)
     {
-        //
+        $user = $user->get()->where('id', $id);
+        $position = Level::select('id', 'name')->get();
+        $department = Department::select('id', 'name')->get();
+        return view('settings.users.edit')->with(compact('user', 'position', 'department'));
     }
 
     /**

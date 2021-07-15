@@ -51,11 +51,11 @@
                                                 <td>{{ Str::limit($user->phone_number, 40) }}</td>
                                                 <td>
                                                     <div class="tab-pane tab-example-design fade show active" id="pills-button-icon-fixed-design" role="tabpanel" aria-labelledby="pills-button-icon-fixed-design-tab">
-                                                        <button type="button" class="btn btn-warning btn-icon">
-                                                            <a href="{{ route('admin.setting.user.edit', ['id' => $user->id]) }}"><i data-feather="edit" class="nav-icon icon-xs me-2"></i></a>
+                                                        <button type="button" class="btn btn-warning rounded">
+                                                            <a href="{{ route('admin.setting.user.edit', ['id' => $user->id]) }}"><i data-feather="edit" class="icon-xxs text-white"></i></a>
                                                         </button>
-                                                        <button type="button" class="btn btn-danger btn-icon">
-                                                            <a href="{{ route('admin.setting.user.destroy', ['id' => $user->id]) }}"><i data-feather="delete" class="nav-icon icon-xs me-2"></i></a>
+                                                        <button type="button" class="btn btn-danger rounded">
+                                                            <a href="{{ route('admin.setting.user.destroy', ['id' => $user->id]) }}"><i data-feather="delete" class="icon-xxs text-white"></i></a>
                                                         </button>
                                                     </div>
                                                 </td>

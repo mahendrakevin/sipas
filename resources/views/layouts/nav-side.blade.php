@@ -71,7 +71,7 @@
                 <li class="nav-item">
                     <a class="nav-link has-arrow {{ (Request::routeIs('admin.setting.*')) ? 'collapsed' : '' }}" href="#setting" data-bs-toggle="collapse" data-bs-target="#navUtilities" aria-expanded="false" aria-controls="navUtilities">
                         <i data-feather="user-check" class="nav-icon icon-xs me-2" >
-                        </i> Pengaturan Jabatan
+                        </i> Pengaturan Admin
                     </a>
                     <div id="navUtilities" class="collapse {{ (Request::routeIs('admin.setting.*')) ? 'show' : '' }}" data-bs-parent="#sideNavbar">
                         <ul class="nav flex-column">
@@ -88,7 +88,7 @@
                             <li class="nav-item">
                                 <a class="nav-link {{ (Request::routeIs('admin.setting.mail.attribute.index')) ? 'active' : '' }}"
                                    href="{{ route('admin.setting.mail.attribute.index') }}" aria-expanded="false">
-                                    Jenis Surat
+                                    Atribut Surat
                                 </a>
                             </li>
                         </ul>

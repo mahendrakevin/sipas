@@ -34,7 +34,4 @@
         </div>
     </div>
 </body>
-<script src="https://unpkg.com/feather-icons"></script>
-<script>
-</script>
 </html>

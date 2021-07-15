@@ -21,7 +21,6 @@ mix.js("resources/js/app.js", "public/js")
         require("autoprefixer"),
     ]
 )
-    .postCss('node_modules/bootstrap-select/dist/css/bootstrap-select.min.css', 'public/css')
     .autoload({
         jquery: ['$', 'window.jQuery', 'jQuery'],
     })

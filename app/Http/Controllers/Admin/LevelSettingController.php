@@ -48,9 +48,10 @@ class LevelSettingController extends Controller
      * @param  \App\Models\Level  $level
      * @return \Illuminate\Http\Response
      */
-    public function show(Level $level)
+    public function show(Level $level, $id)
     {
-        //
+        $level = $level->get()->where('id', $id);
+        return view('settings.level.edit')->with(compact('level'));
     }
 
     /**

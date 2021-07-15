@@ -19,10 +19,10 @@
                                 <form class="row g-3" method="POST" action="{{ route('admin.setting.user.store') }}">
                                     @csrf
                                     @method('POST')
-                                    <div class="col-md-8">
+                                    <div class="col-md-6">
                                         <x-input type="text" label="Nama" name="nama" placeholder="Nama"></x-input>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-6">
                                         <x-input type="text" label="NIP" name="nip" placeholder="NIP"></x-input>
                                     </div>
                                     <div class="col-md-6">

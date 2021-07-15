@@ -28,11 +28,19 @@
                                         <h6 class="text-uppercase fs-5 ls-2">Judul Surat </h6>
                                         <p class="mb-0">{{ $mail->title }}</p>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 mb-5">
                                         <h6 class="text-uppercase fs-5 ls-2">Instansi</h6>
                                         <p class="mb-0">{{ $mail->instance }}</p>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-6 mb-5">
+                                        <h6 class="text-uppercase fs-5 ls-2">Jenis Surat</h6>
+                                        <p class="mb-0">{{ $mail->instance }}</p>
+                                    </div>
+                                    <div class="col-6 mb-5">
+                                        <h6 class="text-uppercase fs-5 ls-2">Instansi</h6>
+                                        <p class="mb-0">{{ $mail->instance }}</p>
+                                    </div>
+                                    <div class="col-6 mb-5">
                                         <h6 class="text-uppercase fs-5 ls-2">Instansi</h6>
                                         <p class="mb-0">{{ $mail->instance }}</p>
                                     </div>

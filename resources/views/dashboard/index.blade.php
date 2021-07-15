@@ -9,19 +9,7 @@
     <div class="bg-primary pt-10 pb-21"></div>
     <div class="container-fluid mt-n22 px-6">
         <div class="row">
-            <div class="col-lg-12 col-md-12 col-12">
-                <!-- Page header -->
-                <div>
-                    <div class="d-flex justify-content-between align-items-center">
-                        <div class="mb-2 mb-lg-0">
-                            <h3 class="mb-0 fw-bold text-white">Dashboard</h3>
-                        </div>
-                        <div>
-                            <a href="#" class="btn btn-white">Detail</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <x-page-title page="Dashboard" icon="bi-house"></x-page-title>
             <div class="col-xl-4 col-lg-6 col-md-12 col-12 mt-6">
                 <!-- card -->
                 <div class="card rounded-3">

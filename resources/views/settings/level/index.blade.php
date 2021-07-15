@@ -4,16 +4,17 @@
             Dashboard
         </h2>
     </x-slot>
-    <div class="container-fluid px-6 py-4">
+    <div class="bg-primary pt-10 pb-21"></div>
+    <div class="container-fluid mt-n22 px-6">
         <div class="py-6">
             <!-- Responsive tables -->
             <div cass="row mb-6">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div id="responsive-tables" class="mb-4">
-                        <h2>{{ $page }}</h2>
-                    </div>
+                    <x-page-title page="{{ $page }}" icon="bi-house"></x-page-title>
                     <!-- Card -->
-                    <div class="card">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-12 mt-6">
+                    <!-- Card -->
+                        <div class="card">
                         <!-- Content -->
                         <div class="tab-content p-4"
                              id="pills-tabContent-responsive-tables">
@@ -57,6 +58,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>

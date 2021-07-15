@@ -4,16 +4,17 @@
             Dashboard
         </h2>
     </x-slot>
-    <div class="container-fluid px-6 py-4">
+    <div class="bg-primary pt-10 pb-21"></div>
+    <div class="container-fluid mt-n22 px-6">
         <div class="py-6">
             <!-- Responsive tables -->
             <div cass="row mb-6">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div id="responsive-tables" class="mb-4">
-                        <h2>Edit Atribut Surat</h2>
-                    </div>
+                    <x-page-title page="Edit Atribut Surat" icon="bi-house"></x-page-title>
                     <!-- Card -->
-                    <div class="card">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-12 mt-6">
+                    <!-- Card -->
+                        <div class="card">
                         <div class="tab-content p-4" id="pills-tabContent-basic-forms">
                             <div class="tab-pane tab-example-design fade show active" id="pills-basic-forms-design" role="tabpanel" aria-labelledby="pills-basic-forms-design-tab">
                                 <form class="row g-3" method="POST" action="{{ route('admin.setting.mail.attribute.store') }}">
@@ -38,6 +39,7 @@
                                 </form>
                             </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>

@@ -36,16 +36,16 @@
                                         </x-select>
                                     </div>
                                     <div class="col-md-6">
-                                        <x-input type="text" label="Username" name="username" placeholder="Username"></x-input>
+                                        <x-input type="text" label="Email" name="email" placeholder="Email"></x-input>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <x-input type="text" label="Kontak" name="kontak" placeholder="Kontak WA"></x-input>
                                     </div>
                                     <div class="col-md-6">
                                         <x-input type="text" label="Password" name="password" placeholder="Password"></x-input>
                                     </div>
                                     <div class="col-md-6">
-                                        <x-input type="text" label="Email" name="email" placeholder="Email"></x-input>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <x-input type="text" label="Kontak" name="kontak" placeholder="Kontak WA"></x-input>
+                                        <x-input type="text" label="Konfirmasi Password" name="konfirmasi_password" placeholder="Konfirmasi Password"></x-input>
                                     </div>
                                     <div class="col-12">
                                         <button class="btn btn-success" type="submit">Tambah Pengguna</button>

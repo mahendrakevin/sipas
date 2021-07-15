@@ -10,7 +10,7 @@
             <div cass="row mb-6">
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div id="responsive-tables" class="mb-4">
-                        <h2>Tambah Pengguna</h2>
+                        <h2>Edit Pengguna</h2>
                     </div>
                     <!-- Card -->
                     <div class="card">
@@ -20,10 +20,10 @@
                                     <form class="row g-3" method="POST" action="{{ route('admin.setting.user.update', ['id' => $user_data->id]) }}">
                                         @csrf
                                         @method('POST')
-                                        <div class="col-md-8">
+                                        <div class="col-md-6">
                                             <x-input type="text" value="{{$user_data->name}}" label="Nama" name="nama" placeholder="Nama"></x-input>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <x-input type="text" value="{{$user_data->nip}}" label="NIP" name="nip" placeholder="NIP"></x-input>
                                         </div>
                                         <div class="col-md-6">
@@ -37,16 +37,16 @@
                                             </x-select>
                                         </div>
                                         <div class="col-md-6">
-                                            <x-input type="text" value="{{$user_data->username}}" label="Username" name="username" placeholder="Username"></x-input>
+                                            <x-input type="text" value="{{$user_data->email}}" label="Email" name="email" placeholder="Email"></x-input>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <x-input type="text" value="{{$user_data->phone_number}}" label="Kontak" name="kontak" placeholder="Kontak WA"></x-input>
                                         </div>
                                         <div class="col-md-6">
                                             <x-input type="text" label="Password" name="password" placeholder="Password"></x-input>
                                         </div>
                                         <div class="col-md-6">
-                                            <x-input type="text" value="{{$user_data->email}}" label="Email" name="email" placeholder="Email"></x-input>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <x-input type="text" value="{{$user_data->phone_number}}" label="Kontak" name="kontak" placeholder="Kontak WA"></x-input>
+                                            <x-input type="text" label="Konfirmasi Password" name="konfirmasi_password" placeholder="Konfirmasi Password"></x-input>
                                         </div>
                                         <div class="col-12">
                                             <button class="btn btn-success" type="submit">Edit Pengguna</button>

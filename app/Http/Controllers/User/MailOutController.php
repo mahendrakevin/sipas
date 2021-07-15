@@ -45,6 +45,7 @@ class MailOutController extends Controller
     public function edit(Mail $mail)
     {
         abort_if(!MailServices::mailActionGate($mail, Auth::user()), 404);
+        return view('mails.partials.correction');
     }
 
     public function update(MailOutRequest $request, Mail $mail)

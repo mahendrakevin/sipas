@@ -15,7 +15,7 @@
                 <div class="card">
                     <div class="tab-content p-4" id="pills-tabContent-basic-forms">
                         <div class="tab-pane tab-example-design fade show active" id="pills-basic-forms-design" role="tabpanel" aria-labelledby="pills-basic-forms-design-tab">
-                            <form class="row g-3" method="POST" action="{{ route('tu.mail.in.create') }}">
+                            <form class="row g-3" method="POST" action="{{ route('tu.mail.out.update') }}">
                                 @csrf
                                 @method('POST')
                                 <div class="col-md-6">

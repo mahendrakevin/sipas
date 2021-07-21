@@ -48,9 +48,6 @@
                                 <h4>Tidak ada surat.</h4>
                             @endforelse
                         </div>
-                        <div class="d-grid gap-2">
-                            <button class="btn btn-success" type="button">Teruskan</button>
-                        </div>
                     </div>
                 </div>
             </div>
